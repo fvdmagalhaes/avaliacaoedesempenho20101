@@ -13,9 +13,9 @@ public class Evento implements Comparable<Evento> {
 	public static int ESTACAO3;
 	public static int ESTACAO4;
 
-	public Double tempoInicial;
-	public int tipoEvento;
-	public int estacao;
+	private Double tempoInicial;
+	private int tipoEvento;
+	private int estacao;
 	
 	public Double getTempoInicial() {
 		return tempoInicial;
