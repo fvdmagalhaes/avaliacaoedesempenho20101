@@ -1,6 +1,8 @@
-package br.ufrj.ad20101;
+package br.ufrj.ad20101.src;
 
 import java.util.Scanner;
+
+import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class Principal {
 

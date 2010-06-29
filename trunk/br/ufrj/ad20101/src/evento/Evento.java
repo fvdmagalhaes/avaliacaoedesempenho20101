@@ -1,4 +1,6 @@
-package br.ufrj.ad20101;
+package br.ufrj.ad20101.src.evento;
+
+import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class Evento implements Comparable<Evento> {
 
@@ -6,16 +8,21 @@ public class Evento implements Comparable<Evento> {
 	public static int PRONTO_TRANSMITIR;
 	public static int INICIA_TRANSMISSAO;
 	public static int FIM_TRANSMISSAO;
+	public static int INICIA_RECEPCAO;
+	public static int FIM_RECEPCAO;
 	public static int COLISAO;
+	public static int DESCARTA_QUADRO;
 	
-	public static int ESTACAO1;
+	// Eu acho melhor fazer a variável 'estacao' ser do tipo 'Estacao', creio qe vá nos facilitar em algumas coisas
+	// Nesse caso, as contantes abaixo serão desnecessárias.
+	/*public static int ESTACAO1;
 	public static int ESTACAO2;
 	public static int ESTACAO3;
-	public static int ESTACAO4;
+	public static int ESTACAO4;*/
 
 	private Double tempoInicial;
 	private int tipoEvento;
-	private int estacao;
+	private Estacao estacao;
 	
 	public Double getTempoInicial() {
 		return tempoInicial;
@@ -33,11 +40,11 @@ public class Evento implements Comparable<Evento> {
 		this.tipoEvento = tipoEvento;
 	}
 
-	public int getEstacao() {
+	public Estacao getEstacao() {
 		return estacao;
 	}
 
-	public void setEstacao(int estacao) {
+	public void setEstacao(Estacao estacao) {
 		this.estacao = estacao;
 	}
 
@@ -48,5 +55,8 @@ public class Evento implements Comparable<Evento> {
 			return 1;
 		else
 			return 0;
+	}
+	
+	public void acao(){
 	}
 }
