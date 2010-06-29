@@ -10,6 +10,8 @@ public class Evento implements Comparable<Evento> {
 	public static int FIM_TRANSMISSAO;
 	public static int INICIA_RECEPCAO;
 	public static int FIM_RECEPCAO;
+	public static int CHEGA_MENSAGEM;
+	public static int FIM_MENSAGEM;
 	public static int COLISAO;
 	public static int DESCARTA_QUADRO;
 	

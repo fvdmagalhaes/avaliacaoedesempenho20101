@@ -14,32 +14,45 @@ public class Principal {
 		int opcaoInt;
 		String opcaoChar;
 		Double opcaoDouble;
+		Estacao[] estacoes = new Estacao[4];
 		
 		System.out.println("Simulador de Avaliação e Desempenho");
 		System.out.println("Grupo: Fernando, Peter, Victor, Zaedy\n");		
 		System.out.println("Favor entrar com os dados para a inicialização do simulador");
-		
-		System.out.print("Estação 1 - Sem tráfego (0) ou Com tráfego (1) ? ");
-		opcaoInt = leTeclado.nextInt();
-		if(opcaoInt == 1)
-		{
-			Estacao estacao1 = new Estacao();
-			System.out.println("Para a estação 1:");
-			System.out.println("Tráfego determinístico (D) ou exponencial (E) ? ");
-			opcaoChar = leTeclado.next();
-			if(opcaoChar.equals("D"))
-				estacao1.setTipoChegada(Estacao.DETERMINISTICO);
-			else if(opcaoChar.equals("E"))
-				estacao1.setTipoChegada(Estacao.EXPONENCIAL);
-			else
-			{
-				System.out.println("Opção inválida. O simulador irá terminar");
-				System.exit(1);
-			}
-			System.out.println("Digite o intervalo entre chegada das mensagens (A1): ");
-			opcaoDouble = leTeclado.nextDouble();
-			estacao1.setIntervaloEntreChegadas(opcaoDouble);
+		for(int i = 0; i < 4; i++){
+			estacoes[i] = new Estacao();
+			System.out.print("Estação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
+			do{
+				opcaoInt = leTeclado.nextInt();
+				if(opcaoInt == 1){
+					System.out.println("Para a estação "+ (i+1) + ":");
+					System.out.println("Tráfego determinístico (D) ou exponencial (E) ?");
+					do{
+						opcaoChar = leTeclado.next();
+						if(opcaoChar.equalsIgnoreCase("D")){
+							estacoes[i].setTipoChegada(Estacao.DETERMINISTICO);
+						}else if(opcaoChar.equalsIgnoreCase("E")){
+							estacoes[i].setTipoChegada(Estacao.EXPONENCIAL);
+						}else {
+							System.out.println("Opção inválida.\nTráfego determinístico (D) ou exponencial (E) ?");
+							opcaoChar = "Erro";
+						}
+					}while(opcaoChar.equalsIgnoreCase("Erro"));
+					System.out.println("Digite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
+					do{
+						try{
+							opcaoDouble = Double.parseDouble(leTeclado.next());
+							estacoes[i].setIntervaloEntreChegadas(opcaoDouble);
+						}catch(Exception e){
+							System.out.println("Tempo inválido.\nDigite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
+							opcaoDouble = -1.0;
+						}
+					}while(opcaoDouble.equals(-1.0));
+				}else if(opcaoInt != 0){
+					System.out.print("Opção inválida.\nEstação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
+					opcaoInt = -1;
+				}
+			}while (opcaoInt == -1);
 		}
 	}
-
 }
