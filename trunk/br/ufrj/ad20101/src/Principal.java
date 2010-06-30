@@ -1,8 +1,13 @@
 package br.ufrj.ad20101.src;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
+import br.ufrj.ad20101.src.evento.Evento;
+import br.ufrj.ad20101.src.servicos.Servicos;
+import br.ufrj.ad20101.src.simulador.Simulador;
 
 public class Principal {
 
@@ -10,17 +15,21 @@ public class Principal {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Scanner leTeclado = new Scanner(System.in);
+		
 		int opcaoInt;
 		String opcaoChar;
 		Double opcaoDouble;
+		Servicos servicos = new Servicos();
 		Estacao[] estacoes = new Estacao[4];
+		Simulador simulador = new Simulador();
+		Scanner leTeclado = new Scanner(System.in);
+		ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 		
 		System.out.println("Simulador de Avaliação e Desempenho");
 		System.out.println("Grupo: Fernando, Peter, Victor, Zaedy\n");		
 		System.out.println("Favor entrar com os dados para a inicialização do simulador");
 		for(int i = 0; i < 4; i++){
-			estacoes[i] = new Estacao();
+			estacoes[i] = new Estacao(i+1);
 			System.out.print("Estação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 			do{
 				opcaoInt = leTeclado.nextInt();
@@ -48,11 +57,14 @@ public class Principal {
 							opcaoDouble = -1.0;
 						}
 					}while(opcaoDouble.equals(-1.0));
+					listaEventos.add(servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(estacoes[i], 0.0), estacoes[i]));
 				}else if(opcaoInt != 0){
 					System.out.print("Opção inválida.\nEstação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 					opcaoInt = -1;
 				}
 			}while (opcaoInt == -1);
 		}
+		Collections.sort(listaEventos);
+		simulador.start(listaEventos);
 	}
 }

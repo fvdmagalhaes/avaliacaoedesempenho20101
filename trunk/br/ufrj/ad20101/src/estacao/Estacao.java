@@ -3,20 +3,20 @@ package br.ufrj.ad20101.src.estacao;
 public class Estacao {
 	
 	// Constantes com o tipo de chegada das mensagens
-	public static int DETERMINISTICO;
-	public static int EXPONENCIAL;
+	public static int DETERMINISTICO = 1;
+	public static int EXPONENCIAL = 2;
 	
 	// Constantes com o estado que a Estação está no momento
-	public static int ESTADO_TRANSFERINDO;
-	public static int ESTADO_RECEBENDO;
-	public static int ESTADO_OCIOSO;
-	public static int ESTADO_TRATANDO_COLISAO;
+	public static int ESTADO_TRANSFERINDO = 1;
+	public static int ESTADO_RECEBENDO = 2;
+	public static int ESTADO_OCIOSO = 3;
+	public static int ESTADO_TRATANDO_COLISAO = 4;
 	
 	// Constantes com o identificador de cada Estação
-	public static int ESTACAO1;
-	public static int ESTACAO2;
-	public static int ESTACAO3;
-	public static int ESTACAO4;
+	public static int ESTACAO1 = 1;
+	public static int ESTACAO2 = 2;
+	public static int ESTACAO3 = 3;
+	public static int ESTACAO4 = 4;
 	
 	
 	private int tipoChegada;
@@ -26,7 +26,21 @@ public class Estacao {
 	private int estado; //Indica em que estado a Estação se encontra
 	
 	
-	public Estacao(){	
+	public Estacao(int identificador){
+		this.identificador = identificador;
+		this.estado = ESTADO_OCIOSO;
+		if(identificador == ESTACAO1){
+			this.distancia = 100;
+		}else if(identificador == ESTACAO2){
+			this.distancia = 80;
+		}else if(identificador == ESTACAO3){
+			this.distancia = 60;
+		}else if(identificador == ESTACAO4){
+			this.distancia = 40;
+		}else{
+			System.out.println("ERRO: Estação com identificador incorreto");
+			System.exit(0);
+		}
 	}
 	
 	public Estacao(int tipoChegada, Double intervaloEntreChegadas, int distancia, int identificador){
@@ -35,6 +49,18 @@ public class Estacao {
 		this.distancia = distancia;
 		this.identificador = identificador;
 		this.estado = ESTADO_OCIOSO;
+		if(identificador == ESTACAO1){
+			this.distancia = 100;
+		}else if(identificador == ESTACAO2){
+			this.distancia = 80;
+		}else if(identificador == ESTACAO3){
+			this.distancia = 60;
+		}else if(identificador == ESTACAO4){
+			this.distancia = 40;
+		}else{
+			System.out.println("ERRO: Estação com identificador incorreto");
+			System.exit(0);
+		}
 	}
 
 	public int getTipoChegada() {

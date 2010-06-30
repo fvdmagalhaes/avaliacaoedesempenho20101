@@ -5,23 +5,17 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 public class Evento implements Comparable<Evento> {
 
 	// Define a lista de eventos
-	public static int PRONTO_TRANSMITIR;
-	public static int INICIA_TRANSMISSAO;
-	public static int FIM_TRANSMISSAO;
-	public static int INICIA_RECEPCAO;
-	public static int FIM_RECEPCAO;
-	public static int CHEGA_MENSAGEM;
-	public static int FIM_MENSAGEM;
-	public static int COLISAO;
-	public static int DESCARTA_QUADRO;
-	
-	// Eu acho melhor fazer a variável 'estacao' ser do tipo 'Estacao', creio qe vá nos facilitar em algumas coisas
-	// Nesse caso, as contantes abaixo serão desnecessárias.
-	/*public static int ESTACAO1;
-	public static int ESTACAO2;
-	public static int ESTACAO3;
-	public static int ESTACAO4;*/
+	public static int PRONTO_TRANSMITIR = 1;
+	public static int INICIA_TRANSMISSAO = 2;
+	public static int FIM_TRANSMISSAO = 3;
+	public static int INICIA_RECEPCAO = 4;
+	public static int FIM_RECEPCAO = 5;
+	public static int CHEGA_MENSAGEM = 6;
+	public static int FIM_MENSAGEM = 7;
+	public static int COLISAO = 8;
+	public static int DESCARTA_QUADRO = 9;
 
+	
 	private Double tempoInicial;
 	private int tipoEvento;
 	private Estacao estacao;
