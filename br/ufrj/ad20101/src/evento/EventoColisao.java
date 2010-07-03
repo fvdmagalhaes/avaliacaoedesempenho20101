@@ -1,5 +1,7 @@
 package br.ufrj.ad20101.src.evento;
 
+import java.util.ArrayList;
+
 import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class EventoColisao extends Evento {
@@ -10,7 +12,7 @@ public class EventoColisao extends Evento {
 	}
 	
 	@Override
-	public void acao(){
-		
+	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		return listaEventos;
 	}
 }

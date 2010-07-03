@@ -1,5 +1,8 @@
 package br.ufrj.ad20101.src.estacao;
 
+import java.util.ArrayList;
+import br.ufrj.ad20101.src.evento.Evento;
+
 public class Estacao {
 	
 	// Constantes com o tipo de chegada das mensagens
@@ -24,7 +27,7 @@ public class Estacao {
 	private int distancia; //distancia entra a Estação e o HUB em metros
 	private int identificador; //Número da Estação (1, 2, 3 ou 4)
 	private int estado; //Indica em que estado a Estação se encontra
-	
+	private ArrayList<Evento> mensagensPendentes;
 	
 	public Estacao(int identificador){
 		this.identificador = identificador;
@@ -101,5 +104,13 @@ public class Estacao {
 
 	public int getEstado() {
 		return estado;
+	}
+
+	public void setMensagensPendentes(ArrayList<Evento> mensagensPendentes) {
+		this.mensagensPendentes = mensagensPendentes;
+	}
+
+	public ArrayList<Evento> getMensagensPendentes() {
+		return mensagensPendentes;
 	}
 }

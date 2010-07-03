@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.evento.Evento;
+import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.Simulador;
 
@@ -32,7 +33,11 @@ public class Principal {
 			estacoes[i] = new Estacao(i+1);
 			System.out.print("Estação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 			do{
-				opcaoInt = leTeclado.nextInt();
+				try{
+					opcaoInt = Integer.parseInt(leTeclado.next());
+				}catch(Exception e){
+					opcaoInt = -1;
+				}
 				if(opcaoInt == 1){
 					System.out.println("Para a estação "+ (i+1) + ":");
 					System.out.println("Tráfego determinístico (D) ou exponencial (E) ?");
@@ -51,7 +56,7 @@ public class Principal {
 					do{
 						try{
 							opcaoDouble = Double.parseDouble(leTeclado.next());
-							estacoes[i].setIntervaloEntreChegadas(opcaoDouble);
+							estacoes[i].setIntervaloEntreChegadas(opcaoDouble*Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 						}catch(Exception e){
 							System.out.println("Tempo inválido.\nDigite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
 							opcaoDouble = -1.0;
