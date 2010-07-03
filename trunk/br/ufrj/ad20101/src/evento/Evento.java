@@ -1,5 +1,7 @@
 package br.ufrj.ad20101.src.evento;
 
+import java.util.ArrayList;
+
 import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class Evento implements Comparable<Evento> {
@@ -53,6 +55,7 @@ public class Evento implements Comparable<Evento> {
 			return 0;
 	}
 	
-	public void acao(){
+	public ArrayList<Evento> acao(ArrayList<Evento> listaEvento){
+		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package br.ufrj.ad20101.src.evento;
 
+import java.util.ArrayList;
+
 import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class EventoProntoTransmitir extends Evento{
@@ -11,6 +13,7 @@ public class EventoProntoTransmitir extends Evento{
 	}
 	
 	@Override
-	public void acao(){
+	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		return listaEventos;
 	}
 }
