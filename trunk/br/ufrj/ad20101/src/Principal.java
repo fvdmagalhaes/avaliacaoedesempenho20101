@@ -1,7 +1,6 @@
 package br.ufrj.ad20101.src;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
@@ -21,7 +20,7 @@ public class Principal {
 		String opcaoChar;
 		Double opcaoDouble;
 		Servicos servicos = new Servicos();
-		Estacao[] estacoes = new Estacao[4];
+		ArrayList <Estacao> estacoes = new ArrayList<Estacao>(4);
 		Simulador simulador = new Simulador();
 		Scanner leTeclado = new Scanner(System.in);
 		ArrayList<Evento> listaEventos = new ArrayList<Evento>();
@@ -30,7 +29,7 @@ public class Principal {
 		System.out.println("Grupo: Fernando, Peter, Victor, Zaedy\n");		
 		System.out.println("Favor entrar com os dados para a inicialização do simulador");
 		for(int i = 0; i < 4; i++){
-			estacoes[i] = new Estacao(i+1);
+			estacoes.add(i,new Estacao(i+1));
 			System.out.print("Estação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 			do{
 				try{
@@ -44,9 +43,9 @@ public class Principal {
 					do{
 						opcaoChar = leTeclado.next();
 						if(opcaoChar.equalsIgnoreCase("D")){
-							estacoes[i].setTipoChegada(Estacao.DETERMINISTICO);
+							estacoes.get(i).setTipoChegada(Estacao.DETERMINISTICO);
 						}else if(opcaoChar.equalsIgnoreCase("E")){
-							estacoes[i].setTipoChegada(Estacao.EXPONENCIAL);
+							estacoes.get(i).setTipoChegada(Estacao.EXPONENCIAL);
 						}else {
 							System.out.println("Opção inválida.\nTráfego determinístico (D) ou exponencial (E) ?");
 							opcaoChar = "Erro";
@@ -56,20 +55,30 @@ public class Principal {
 					do{
 						try{
 							opcaoDouble = Double.parseDouble(leTeclado.next());
-							estacoes[i].setIntervaloEntreChegadas(opcaoDouble*Constantes.SEGUNDO_EM_MILISSEGUNDOS);
+							estacoes.get(i).setIntervaloEntreChegadas(opcaoDouble*Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 						}catch(Exception e){
 							System.out.println("Tempo inválido.\nDigite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
 							opcaoDouble = -1.0;
 						}
 					}while(opcaoDouble.equals(-1.0));
-					listaEventos.add(servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(estacoes[i], 0.0), estacoes[i]));
+					System.out.println("Digite o quantidade de quadros das mensagens na Estação " + (i+1) + ":");
+					do{
+						try{
+							opcaoDouble = Double.parseDouble(leTeclado.next());
+							estacoes.get(i).setQuantidadeQuadros(opcaoDouble);
+						}catch(Exception e){
+							System.out.println("Tempo inválido.\nDigite o quantidade de quadros das mensagens na Estação " + (i+1) + ":");
+							opcaoDouble = -1.0;
+						}
+					}while(opcaoDouble.equals(-1.0));
+					listaEventos.add(servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(estacoes.get(i), 0.0), estacoes.get(i), estacoes));
 				}else if(opcaoInt != 0){
 					System.out.print("Opção inválida.\nEstação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 					opcaoInt = -1;
 				}
 			}while (opcaoInt == -1);
 		}
-		Collections.sort(listaEventos);
-		simulador.start(listaEventos);
+		simulador.setListaEventos(listaEventos);
+		simulador.start();
 	}
 }

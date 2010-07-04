@@ -23,10 +23,11 @@ public class Estacao {
 	
 	
 	private int tipoChegada;
-	private Double intervaloEntreChegadas;
 	private int distancia; //distancia entra a Estação e o HUB em metros
 	private int identificador; //Número da Estação (1, 2, 3 ou 4)
 	private int estado; //Indica em que estado a Estação se encontra
+	private Double intervaloEntreChegadas;
+	private Double quantidadeQuadros;
 	private ArrayList<Evento> mensagensPendentes;
 	
 	public Estacao(int identificador){
@@ -112,5 +113,13 @@ public class Estacao {
 
 	public ArrayList<Evento> getMensagensPendentes() {
 		return mensagensPendentes;
+	}
+
+	public void setQuantidadeQuadros(Double quantidadeQuadros) {
+		this.quantidadeQuadros = quantidadeQuadros;
+	}
+
+	public Double getQuantidadeQuadros() {
+		return quantidadeQuadros;
 	}
 }
