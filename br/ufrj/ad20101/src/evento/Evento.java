@@ -21,6 +21,7 @@ public class Evento implements Comparable<Evento> {
 	private Double tempoInicial;
 	private int tipoEvento;
 	private Estacao estacao;
+	private ArrayList<Estacao> estacoes;
 	
 	public Double getTempoInicial() {
 		return tempoInicial;
@@ -44,6 +45,14 @@ public class Evento implements Comparable<Evento> {
 
 	public void setEstacao(Estacao estacao) {
 		this.estacao = estacao;
+	}
+	
+	public void setEstacoes(ArrayList<Estacao> estacoes) {
+		this.estacoes = estacoes;
+	}
+
+	public ArrayList<Estacao> getEstacoes() {
+		return estacoes;
 	}
 
 	public int compareTo(Evento ev) {

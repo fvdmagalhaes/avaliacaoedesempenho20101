@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class EventoFimRecepcao extends Evento{
-	public EventoFimRecepcao(Double tempoInicio, Estacao estacao){
+	public EventoFimRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
+		this.setEstacoes(estacoes);
 		this.setTipoEvento(FIM_RECEPCAO);
 	}
 	
