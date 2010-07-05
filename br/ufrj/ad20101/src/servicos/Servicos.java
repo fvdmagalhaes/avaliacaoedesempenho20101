@@ -16,6 +16,31 @@ import br.ufrj.ad20101.src.evento.EventoProntoTransmitir;
 
 public class Servicos {
 	
+	// Este método deleta um determinado evento da lista de eventos
+	public ArrayList<Evento> deletaEvento(ArrayList<Evento> listaEventos, int tipoEvento, Estacao estacao){
+		for(int i = 0; i < listaEventos.size(); i++){
+			if(listaEventos.get(i).getTipoEvento() == tipoEvento && listaEventos.get(i).getEstacao().getIdentificador() == estacao.getIdentificador()){
+				listaEventos.remove(i);
+				return listaEventos;
+			}
+		}
+		System.out.println("ERRO: Não foi possível encontrar o Evento especificado.");
+		System.exit(0);
+		return null;
+	}
+	
+	// Este método retorna o evento especificado da lista de eventos
+	public Evento retornaEvento(ArrayList<Evento> listaEventos, int tipoEvento, Estacao estacao){
+		for(int i = 0; i < listaEventos.size(); i++){
+			if(listaEventos.get(i).getTipoEvento() == tipoEvento && listaEventos.get(i).getEstacao().getIdentificador() == estacao.getIdentificador()){
+				return listaEventos.get(i);
+			}
+		}
+		System.out.println("ERRO: Não foi possível encontrar o Evento especificado.");
+		System.exit(0);
+		return null;
+	}
+	
 	// Este método gera a quantidade de quadros paras as mensagens de uma determinada Estação
 	public int geraQuantidadeQuadros(Estacao estacao){
 		if(estacao.getQuantidadeQuadros() >=1 ){

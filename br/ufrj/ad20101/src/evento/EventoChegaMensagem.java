@@ -15,7 +15,7 @@ public class EventoChegaMensagem extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Chegada de Mensagem;",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
+		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Chegada de Mensagem;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		Servicos servicos = new Servicos();
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			System.out.println("Meio está Ocupado! Evento será resolvido quando o meio estiver livre.");

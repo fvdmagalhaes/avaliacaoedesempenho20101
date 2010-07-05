@@ -28,7 +28,7 @@ public class Estacao {
 	private int estado; //Indica em que estado a Estação se encontra
 	private Double intervaloEntreChegadas;
 	private Double quantidadeQuadros;
-	private ArrayList<Evento> mensagensPendentes;
+	private ArrayList<Evento> mensagensPendentes = new ArrayList<Evento>();
 	
 	public Estacao(int identificador){
 		this.identificador = identificador;
