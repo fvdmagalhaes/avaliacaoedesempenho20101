@@ -25,7 +25,7 @@ public class EventoFimTransmissao extends Evento{
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_OCIOSO);
 			if(this.quantidadeQuadro > 0){
 				System.out.println("Meio Livre! Mensagem começará a ser transmitida dentro de 9,6 micro-segundos");
-				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, (this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS)/Constantes.SEGUNDO_EM_MILISSEGUNDOS, this.getEstacoes().get(this.getEstacao().getIdentificador() -1), this.getEstacoes());
+				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacoes().get(this.getEstacao().getIdentificador() -1), this.getEstacoes());
 				eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 				listaEventos.add(eventoIniciaTransmissao);
 			}else{
