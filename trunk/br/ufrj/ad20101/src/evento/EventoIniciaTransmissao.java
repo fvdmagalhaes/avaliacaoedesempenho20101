@@ -26,8 +26,9 @@ public class EventoIniciaTransmissao extends Evento{
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRANSFERINDO);
 			for(int i = 0; i < 4; i++){
 				if(i + 1 != this.getEstacao().getIdentificador()){
-					if(this.getEstacao().getTipoChegada() != 0)
+					if(this.getEstacoes().get(i).getTipoChegada() != 0){
 						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes()));
+					}
 				}else{
 					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacoes().get(this.getEstacao().getIdentificador()-1), this.getEstacoes());
 					eventoFimTransmissao.setQuantidadeQuadro(this.quantidadeQuadro -1);
