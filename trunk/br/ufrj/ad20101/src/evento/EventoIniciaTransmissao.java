@@ -26,7 +26,7 @@ public class EventoIniciaTransmissao extends Evento{
 			this.quantidadeTentativas = 1;
 		}
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
-			System.out.println("Estação " + this.getEstacao().getIdentificador() + " inicia a transmissão!");
+			//System.out.println("Estação " + this.getEstacao().getIdentificador() + " inicia a transmissão!");
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRANSFERINDO);
 			for(int i = 0; i < 4; i++){
 				if(i + 1 != this.getEstacao().getIdentificador()){
