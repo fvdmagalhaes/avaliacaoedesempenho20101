@@ -12,9 +12,17 @@ import br.ufrj.ad20101.src.evento.EventoFimRecepcao;
 import br.ufrj.ad20101.src.evento.EventoFimTransmissao;
 import br.ufrj.ad20101.src.evento.EventoIniciaRecepcao;
 import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
-import br.ufrj.ad20101.src.evento.EventoProntoTransmitir;
+import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
 public class Servicos {
+	
+	// Este método efetua o algoritmo binary backoff
+	public Double binaryBackoff(int quantidadeColisoes){
+		Double random = Math.random();
+		int i=1;
+		for(; random > i/Math.pow(2,quantidadeColisoes); i++);
+		return (i-1)*Constantes.TEMPO_BINARY_BACKOFF;
+	}
 	
 	// Este método deleta um determinado evento da lista de eventos
 	public ArrayList<Evento> deletaEvento(ArrayList<Evento> listaEventos, int tipoEvento, Estacao estacao){
@@ -36,8 +44,6 @@ public class Servicos {
 				return listaEventos.get(i);
 			}
 		}
-		System.out.println("ERRO: Não foi possível encontrar o Evento especificado.");
-		System.exit(0);
 		return null;
 	}
 	
@@ -85,8 +91,8 @@ public class Servicos {
 	
 	//Este método gera um evento de qualquer tipo
 	public Evento geraEvento(int tipoEvento, Double tempoInicial, Estacao estacao, ArrayList<Estacao> estacoes){
-		if(tipoEvento == Evento.PRONTO_TRANSMITIR){
-			return new EventoProntoTransmitir(tempoInicial,estacoes, estacao);
+		if(tipoEvento == Evento.RETRANSMITIR){
+			return new EventoRetransmitir(tempoInicial,estacoes, estacao);
 		}else if(tipoEvento == Evento.INICIA_TRANSMISSAO){
 			return new EventoIniciaTransmissao(tempoInicial,estacoes, estacao);
 		}else if(tipoEvento == Evento.FIM_TRANSMISSAO){

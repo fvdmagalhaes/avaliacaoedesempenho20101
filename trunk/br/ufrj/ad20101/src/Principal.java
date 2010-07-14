@@ -24,7 +24,7 @@ public class Principal {
 		Simulador simulador = new Simulador();
 		Scanner leTeclado = new Scanner(System.in);
 		ArrayList<Evento> listaEventos = new ArrayList<Evento>();
-		
+
 		System.out.println("Simulador de Avaliação e Desempenho");
 		System.out.println("Grupo: Fernando, Peter, Victor, Zaedy\n");		
 		System.out.println("Favor entrar com os dados para a inicialização do simulador");

@@ -13,7 +13,9 @@ public class Estacao {
 	public static int ESTADO_TRANSFERINDO = 1;
 	public static int ESTADO_RECEBENDO = 2;
 	public static int ESTADO_OCIOSO = 3;
-	public static int ESTADO_TRATANDO_COLISAO = 4;
+	public static int ESTADO_TRATANDO_COLISAO_OCIOSO = 4;
+	public static int ESTADO_TRATANDO_COLISAO_OCUPADO = 5;
+	public static int ESTADO_PREPARANDO_TRANSFERIR = 6;
 	
 	// Constantes com o identificador de cada Estação
 	public static int ESTACAO1 = 1;
@@ -29,6 +31,7 @@ public class Estacao {
 	private Double intervaloEntreChegadas;
 	private Double quantidadeQuadros;
 	private ArrayList<Evento> mensagensPendentes = new ArrayList<Evento>();
+	private ArrayList<Evento> quadrosPendentes = new ArrayList<Evento>();
 	
 	public Estacao(int identificador){
 		this.identificador = identificador;
@@ -121,5 +124,13 @@ public class Estacao {
 
 	public Double getQuantidadeQuadros() {
 		return quantidadeQuadros;
+	}
+
+	public void setQuadrosPendentes(ArrayList<Evento> quadrosPendentes) {
+		this.quadrosPendentes = quadrosPendentes;
+	}
+
+	public ArrayList<Evento> getQuadrosPendentes() {
+		return quadrosPendentes;
 	}
 }
