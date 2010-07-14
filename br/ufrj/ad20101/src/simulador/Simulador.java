@@ -10,11 +10,12 @@ public class Simulador {
 	private ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 	
 	public void start(){
-		while(!listaEventos.isEmpty()){
+		while(listaEventos.size()>3){
 			Collections.sort(this.listaEventos);
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 			this.listaEventos.remove(0);
 		}
+		System.out.println("Erro!");
 	}
 
 	public void setListaEventos(ArrayList<Evento> listaEventos) {

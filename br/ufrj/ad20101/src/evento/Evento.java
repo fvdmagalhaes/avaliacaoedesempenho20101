@@ -7,7 +7,7 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 public class Evento implements Comparable<Evento> {
 
 	// Define a lista de eventos
-	public static int PRONTO_TRANSMITIR = 1;
+	public static int RETRANSMITIR = 1;
 	public static int INICIA_TRANSMISSAO = 2;
 	public static int FIM_TRANSMISSAO = 3;
 	public static int INICIA_RECEPCAO = 4;
