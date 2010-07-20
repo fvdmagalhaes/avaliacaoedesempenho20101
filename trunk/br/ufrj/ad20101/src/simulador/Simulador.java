@@ -10,7 +10,8 @@ public class Simulador {
 	private ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 	
 	public void start(){
-		while(listaEventos.size()>3){
+		int quantidadeEstacoes = listaEventos.size();
+		while(listaEventos.size()>= quantidadeEstacoes){
 			Collections.sort(this.listaEventos);
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 			this.listaEventos.remove(0);
