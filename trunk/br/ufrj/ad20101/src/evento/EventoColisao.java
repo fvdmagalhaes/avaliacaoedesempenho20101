@@ -25,7 +25,9 @@ public class EventoColisao extends Evento {
 		if(this.getQuantidadeTentativas()>15){
 			this.setQuantidadeQuadro(getQuantidadeQuadro()-1);
 			this.setQuantidadeTentativas(0);
-			listaEventos.add(servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes()));
+			EventoDescartaQuadro eventoDescartaQuadro = (EventoDescartaQuadro)servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			eventoDescartaQuadro.setQuantidadeQuadro(getQuantidadeQuadro() +1);
+			listaEventos.add(eventoDescartaQuadro);
 		}
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO || this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
 			Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());

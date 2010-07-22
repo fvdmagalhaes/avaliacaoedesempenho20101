@@ -6,6 +6,9 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Constantes;
 
 public class EventoDescartaQuadro extends Evento{
+	
+	private int quantidadeQuadro;
+	
 	public EventoDescartaQuadro(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
@@ -17,5 +20,13 @@ public class EventoDescartaQuadro extends Evento{
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Descartar Quadro;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		return listaEventos;
+	}
+
+	public void setQuantidadeQuadro(int quantidadeQuadro) {
+		this.quantidadeQuadro = quantidadeQuadro;
+	}
+
+	public int getQuantidadeQuadro() {
+		return quantidadeQuadro;
 	}
 }

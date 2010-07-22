@@ -17,7 +17,7 @@ public class EventoFimRecepcao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Fim da Recepção;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO || this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
 			if(this.getEstacao().getMensagensPendentes().isEmpty() && this.getEstacao().getQuadrosPendentes().isEmpty()){
 				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_OCIOSO);
 			}else{
