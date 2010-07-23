@@ -20,7 +20,6 @@ public class EventoColisao extends Evento {
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Detectou Colisão;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		Servicos servicos = new Servicos();
 		if(this.getQuantidadeTentativas()>15){
 			this.setQuantidadeQuadro(getQuantidadeQuadro()-1);

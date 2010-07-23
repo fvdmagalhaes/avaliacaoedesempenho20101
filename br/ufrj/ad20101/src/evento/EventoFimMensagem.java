@@ -16,7 +16,6 @@ public class EventoFimMensagem extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Fim da Mensagem;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		Servicos servicos = new Servicos();
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
 			this.setEstacao(this.getEstacoes().get(this.getEstacao().getIdentificador()-1));

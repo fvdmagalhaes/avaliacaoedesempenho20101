@@ -125,7 +125,7 @@ public class Simulador {
 				//UTILIZACAO
 				utilSoma = 0.0;
 			}
-			while(quantidadeMensagens < 50){
+			while(quantidadeMensagens < 500){
 				Collections.sort(this.listaEventos);
 				this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 				indiceEstacao = this.listaEventos.get(0).getEstacao().getIdentificador() -1;
@@ -312,7 +312,20 @@ public class Simulador {
 			numRodada ++;
 			tempoInicialRodada = tempoFinal;
 		}
-		//System.out.println("Erro!");
+		System.out.printf(">>Estatisticas:\n\n");
+		System.out.printf("Utilização Médio: %.10f\n", utilMedia);
+		System.out.printf("Utilização Intervalo: (%.10f , %.10f)\n\n", utilMedia+(utilLarguraIC/2), utilMedia-(utilLarguraIC/2));
+		for(int i = 0; i < 4; i++){
+			System.out.printf("Estação " + (i+1) +":\n");
+			System.out.printf("TAp Médio: %.10f\n", tapMedia[i]);
+			System.out.printf("TAp Intervalo: (%.10f , %.10f)\n\n", tapMedia[i]+(tapLarguraIC[i]/2), tapMedia[i]-(tapLarguraIC[i]/2));
+			System.out.printf("TAm Médio: %.10f\n", tamMedia[i]);
+			System.out.printf("TAm Intervalo: (%.10f , %.10f)\n\n", tamMedia[i]+(tamLarguraIC[i]/2), tamMedia[i]-(tamLarguraIC[i]/2));
+			System.out.printf("NCm Médio: %.10f\n", ncmMedia[i]);
+			System.out.printf("NCm Intervalo: (%.10f , %.10f)\n\n", ncmMedia[i]+(ncmLarguraIC[i]/2), ncmMedia[i]-(ncmLarguraIC[i]/2));
+			System.out.printf("Vazão Médio: %.10f\n", vazMedia[i]);
+			System.out.printf("Vazão Intervalo: (%.10f , %.10f)\n\n", vazMedia[i]+(vazLarguraIC[i]/2), vazMedia[i]-(vazLarguraIC[i]/2));
+		}
 	}
 
 	public void setListaEventos(ArrayList<Evento> listaEventos) {
