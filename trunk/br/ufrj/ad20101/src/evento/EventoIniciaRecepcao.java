@@ -20,11 +20,6 @@ public class EventoIniciaRecepcao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		Servicos servicos = new Servicos();
-		if(this.tempoRecepcao == null){
-			System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Início da Recepção de um Quadro;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
-		}else{
-			System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Início da Recepção do Refeorço de Colisão;\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
-		}
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO || this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR){
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_RECEBENDO);
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){

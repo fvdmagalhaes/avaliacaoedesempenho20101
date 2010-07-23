@@ -21,7 +21,6 @@ public class EventoIniciaTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		Servicos servicos = new Servicos();
-		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Início de Transmissão de um Quadro " + this.getQuantidadeQuadro() + ";\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		if(this.quantidadeTentativas == 0){
 			this.quantidadeTentativas = 1;
 		}

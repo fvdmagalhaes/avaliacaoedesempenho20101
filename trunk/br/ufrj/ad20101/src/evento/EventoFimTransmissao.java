@@ -21,7 +21,6 @@ public class EventoFimTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		Servicos servicos = new Servicos();
-		System.out.printf("TEMPO: " + "%.10f" + " segundos; ESTAÇÃO: Estação " + this.getEstacao().getIdentificador() + "; EVENTO: Fim da Transmissão de um Quadro " + (this.getQuantidadeQuadro()+1) + ";\n",this.getTempoInicial()/Constantes.SEGUNDO_EM_MILISSEGUNDOS);
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
 			for(int i = 0; i < 4; i++){
 				if(i + 1 != this.getEstacao().getIdentificador()){
