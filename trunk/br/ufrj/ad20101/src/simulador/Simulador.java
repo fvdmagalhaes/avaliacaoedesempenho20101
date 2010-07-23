@@ -83,7 +83,7 @@ public class Simulador {
 	private double[] vazMedia = new double[4];
 	private double[] vazDP = new double [4];
 	private double[] vazLarguraIC = new double[4];
-	private double[][] vazAmostras = new double[4][100];
+	private double[][] vazAmostras = new double[4][200];
 	
 	private int[] vazQuadro = new int[4];
 	
@@ -125,7 +125,7 @@ public class Simulador {
 				//UTILIZACAO
 				utilSoma = 0.0;
 			}
-			while(quantidadeMensagens < 500){
+			while(quantidadeMensagens < 2000){
 				Collections.sort(this.listaEventos);
 				this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 				indiceEstacao = this.listaEventos.get(0).getEstacao().getIdentificador() -1;
@@ -277,29 +277,29 @@ public class Simulador {
 				if(numRodada >= 30){
 					fimSimulacao = true;
 					utilLarguraIC = 2*1.96*utilDP/Math.sqrt(numRodada);
-					if(utilLarguraIC < 0.1*utilMedia){
+					if(utilLarguraIC < 0.1*utilMedia || utilMedia==0){
 						for(int i = 0; i < 4 && this.getListaEventos().get(0).getEstacoes().get(i).getTipoChegada()!=0; i ++){
 							//CALCULA LARGURA DO INTERVALO TAM
 							tamLarguraIC[i] = 2*(1.96*tamDP[i]/Math.sqrt(numRodada));
-							if(tamLarguraIC[i] >= 0.1*tamMedia[i]){
+							if(tamLarguraIC[i] >= 0.1*tamMedia[i] && tamMedia[i] != 0.0){
 								fimSimulacao = false;
 								break;
 							}
 							//CALCULA LARGURA DO INTERVALO TAP
 							tapLarguraIC[i] = 2*(1.96*tapDP[i]/Math.sqrt(numRodada));
-							if(tapLarguraIC[i] >= 0.1*tapMedia[i]){
+							if(tapLarguraIC[i] >= 0.1*tapMedia[i] && tapMedia[i] != 0.0){
 								fimSimulacao = false;
 								break;
 							}
 							////CALCULA LARGURA DO INTERVALO NCM
 							ncmLarguraIC[i] = 2*(1.96*ncmDP[i]/Math.sqrt(numRodada));
-							if(ncmLarguraIC[i] >= 0.1*ncmMedia[i]){
+							if(ncmLarguraIC[i] >= 0.1*ncmMedia[i] && ncmMedia[i] != 0.0){
 								fimSimulacao = false;
 								break;
 							}
 							//CALCULA LARGURA DO INTERVALO VAZ
 							vazLarguraIC[i] = 2*(1.96*vazDP[i]/Math.sqrt(numRodada));
-							if(vazLarguraIC[i] >= 0.1*vazMedia[i]){
+							if(vazLarguraIC[i] >= 0.1*vazMedia[i] && vazMedia[i] != 0.0){
 								fimSimulacao = false;
 								break;
 							}
