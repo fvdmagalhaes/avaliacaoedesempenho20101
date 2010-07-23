@@ -131,7 +131,7 @@ public class Simulador {
 				indiceEstacao = this.listaEventos.get(0).getEstacao().getIdentificador() -1;
 				indiceTipoEvento = this.listaEventos.get(0).getTipoEvento();
 				if(indiceTipoEvento == Evento.INICIA_TRANSMISSAO){
-					if(flagCor[indiceEstacao]){
+					if(!flagCor[indiceEstacao]){
 						//TAP
 						if(!tapFlag[indiceEstacao]){
 							tapInicial[indiceEstacao] = this.listaEventos.get(0).getTempoInicial();
@@ -159,7 +159,7 @@ public class Simulador {
 						}
 					}
 				}else if(indiceTipoEvento == Evento.FIM_TRANSMISSAO){
-					if(flagCor[indiceEstacao]){
+					if(!flagCor[indiceEstacao]){
 						//TAP
 						if(tapQuadro[indiceEstacao] == ((EventoFimTransmissao)this.listaEventos.get(0)).getQuantidadeQuadro()+1){
 							tapFlag[indiceEstacao] = false;
@@ -174,7 +174,7 @@ public class Simulador {
 						vazQuadro[indiceEstacao] ++;
 					}
 				}else if(indiceTipoEvento == Evento.DESCARTA_QUADRO){
-					if(flagCor[indiceEstacao]){
+					if(!flagCor[indiceEstacao]){
 						//TAP
 						if(tapQuadro[indiceEstacao] == ((EventoDescartaQuadro)this.listaEventos.get(0)).getQuantidadeQuadro()){
 							tapFlag[indiceEstacao] = false;
@@ -201,14 +201,14 @@ public class Simulador {
 						ncmFlag[indiceEstacao] = true;
 					}
 				}else if(indiceTipoEvento == Evento.COLISAO){
-					if(flagCor[indiceEstacao]){
+					if(!flagCor[indiceEstacao]){
 						//NCM
 						if(ncmFlag[indiceEstacao]){
 							ncmColisoes[indiceEstacao] ++;
 						}
 					}
 				}else if(indiceTipoEvento == Evento.FIM_MENSAGEM){
-					if(flagCor[indiceEstacao]){
+					if(!flagCor[indiceEstacao]){
 						//NCM
 						if(ncmFlag[indiceEstacao]){
 							ncmFlag[indiceEstacao] = false;
