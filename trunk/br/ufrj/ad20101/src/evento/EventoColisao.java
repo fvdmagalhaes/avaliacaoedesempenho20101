@@ -47,6 +47,7 @@ public class EventoColisao extends Evento {
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO || this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());
 			if(tempoRetransmissao.equals(0.0)){
+				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_RECEBENDO);
 				ArrayList<Evento> quadrosPendentes = this.getEstacao().getQuadrosPendentes();
 				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + servicos.binaryBackoff(this.getQuantidadeTentativas()), this.getEstacao(),this.getEstacoes());
 				eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);

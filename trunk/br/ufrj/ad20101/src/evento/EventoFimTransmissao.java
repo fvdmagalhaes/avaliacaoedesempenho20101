@@ -40,8 +40,6 @@ public class EventoFimTransmissao extends Evento{
 				}
 			}
 		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		return listaEventos;
 	}

@@ -28,7 +28,7 @@ public class EventoRetransmitir extends Evento{
 				eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);
 				listaEventos.add(eventoIniciaTransmissao);
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
-			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_RECEBENDO);
+				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_RECEBENDO);
 				ArrayList<Evento> quadrosPendentes = this.getEstacao().getQuadrosPendentes();
 				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacoes().get(this.getEstacao().getIdentificador()-1), getEstacoes());
 				eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);

@@ -24,7 +24,7 @@ public class EventoIniciaTransmissao extends Evento{
 		if(this.quantidadeTentativas == 0){
 			this.quantidadeTentativas = 1;
 		}
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRANSFERINDO);
 			for(int i = 0; i < 4; i++){
 				if(i + 1 != this.getEstacao().getIdentificador()){

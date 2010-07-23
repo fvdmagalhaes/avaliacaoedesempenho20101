@@ -21,84 +21,84 @@ public class Simulador {
 	private boolean fimSimulacao = false;
 	private boolean faseTransiente = true;
 	private boolean[] flagCor = new boolean[4];
-	private double tempoInicialRodada;
-	private double tempoFinalRodada;
+	private Double tempoInicialRodada;
+	private Double tempoFinalRodada;
 	
 	//variaveis para calcular o TAP
 	
-	private double[] tapMedia = new double[4];
-	private double[] tapDP = new double[4];
-	private double[][] tapAmostras = new double[4][100];
-	private double[] tapLarguraIC = new double[4];
+	private Double[] tapMedia = new Double[4];
+	private Double[] tapDP = new Double[4];
+	private Double[][] tapAmostras = new Double[4][200];
+	private Double[] tapLarguraIC = new Double[4];
 	
 	private boolean[] tapFlag = new boolean[4];
-	private double[] tapSoma = new double[4];
-	private double[] tapInicial = new double[4];
-	private double[] tapFinal = new double[4];
+	private Double[] tapSoma = new Double[4];
+	private Double[] tapInicial = new Double[4];
+	private Double[] tapFinal = new Double[4];
 	private int[] tapQuantidade = new int[4];
 	private int[] tapQuadro = new int[4];
 	
 	//variaveis para calcular o TAM
 	
-	private double[] tamMedia = new double[4];
-	private double[] tamDP = new double[4];
-	private double[] tamLarguraIC = new double[4];
-	private double[][] tamAmostras = new double[4][100];
+	private Double[] tamMedia = new Double[4];
+	private Double[] tamDP = new Double[4];
+	private Double[] tamLarguraIC = new Double[4];
+	private Double[][] tamAmostras = new Double[4][200];
 	
 	private boolean[] tamFlag = new boolean[4];
-	private double[] tamSoma = new double[4];
-	private double[] tamInicial = new double[4];
-	private double[] tamFinal = new double[4];
+	private Double[] tamSoma = new Double[4];
+	private Double[] tamInicial = new Double[4];
+	private Double[] tamFinal = new Double[4];
 	private int[] tamQuantidade = new int[4];
 	private int[] tamQuadro = new int[4];
 	
 	//variaveis para calcular o NCM
 	
-	private double[] ncmMedia = new double[4];
-	private double[] ncmDP = new double[4];
-	private double[] ncmLarguraIC = new double[4];
-	private double[][] ncmAmostras = new double[4][100];
+	private Double[] ncmMedia = new Double[4];
+	private Double[] ncmDP = new Double[4];
+	private Double[] ncmLarguraIC = new Double[4];
+	private Double[][] ncmAmostras = new Double[4][200];
 	
 	private boolean[] ncmFlag = new boolean[4];
-	private double[] ncmSoma = new double[4];
+	private Double[] ncmSoma = new Double[4];
 	private int[] ncmColisoes = new int[4];
 	private int[] ncmQuantidade = new int[4];
 	private int[] ncmQuadro = new int[4];
 	
 	//variaveis para calcular a utilização
 	
-	private double utilMedia = 0;
-	private double utilDP = 0;
-	private double utilLarguraIC;
-	private double[] utilAmostras = new double[100];
+	private Double utilMedia = 0.0;
+	private Double utilDP = 0.0;
+	private Double utilLarguraIC;
+	private Double[] utilAmostras = new Double[200];
 	
 	private boolean utilFlag = false;
-	private double utilSoma = 0.0;
-	private double utilAnterior = 0.0;
-	private double utilInicial = 0.0;
-	private double utilFinal = 0.0;
+	private Double utilSoma = 0.0;
+	private Double utilAnterior = 0.0;
+	private Double utilInicial = 0.0;
+	private Double utilFinal = 0.0;
 	
 	//variaveis para calcular a vazao
 	
-	private double[] vazMedia = new double[4];
-	private double[] vazDP = new double [4];
-	private double[] vazLarguraIC = new double[4];
-	private double[][] vazAmostras = new double[4][200];
+	private Double[] vazMedia = new Double[4];
+	private Double[] vazDP = new Double [4];
+	private Double[] vazLarguraIC = new Double[4];
+	private Double[][] vazAmostras = new Double[4][200];
 	
 	private int[] vazQuadro = new int[4];
 	
 	public void start(){
 		Servicos servicos = new Servicos();
-		double tempoFinal = 0;
+		Double tempoFinal = new Double (0.0);
 		for(int i = 0; i < 4; i++){
-			tapMedia[i] = 0;
-			tamMedia[i] = 0;
-			ncmMedia[i] = 0;
-			vazMedia[i] = 0;
-			tapDP[i] = 0;
-			tamDP[i] = 0;
-			ncmDP[i] = 0;
-			vazDP[i] = 0;
+			tapMedia[i] = 0.0;
+			tamMedia[i] = 0.0;
+			ncmMedia[i] = 0.0;
+			vazMedia[i] = 0.0;
+			tapDP[i] = 0.0;
+			tamDP[i] = 0.0;
+			ncmDP[i] = 0.0;
+			vazDP[i] = 0.0;
 		}
 		while(!fimSimulacao){
 			quantidadeMensagens = 0;
@@ -106,17 +106,17 @@ public class Simulador {
 				flagCor[i] = true;
 				//TAP
 				tapFlag[i] = false;
-				tapSoma[i] = 0;
+				tapSoma[i] = 0.0;
 				tapQuantidade[i] = 0;
 				tapQuadro[i] = 0;
 				//TAM
 				tamFlag[i] = false;
-				tamSoma[i] = 0;
+				tamSoma[i] = 0.0;
 				tamQuantidade[i] = 0;
 				tamQuadro[i] = 0;
 				//NCM
 				ncmFlag[i] = false;
-				ncmSoma[i] = 0;
+				ncmSoma[i] = 0.0;
 				ncmColisoes[i] = 0;
 				ncmQuantidade[i] = 0;
 				ncmQuadro[i] = 0;
@@ -125,7 +125,7 @@ public class Simulador {
 				//UTILIZACAO
 				utilSoma = 0.0;
 			}
-			while(quantidadeMensagens < 2000){
+			while(quantidadeMensagens < 20000){
 				Collections.sort(this.listaEventos);
 				this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 				indiceEstacao = this.listaEventos.get(0).getEstacao().getIdentificador() -1;
@@ -250,17 +250,19 @@ public class Simulador {
 			}else{
 				for(int i = 0; i < 4; i++){
 					//TAP MEDIA/DESVIO PADRAO
-					tapAmostras[i][numRodada-1] = tapSoma[i]/tapQuantidade[i];
+					if(tapQuantidade[i] > 0)
+						tapAmostras[i][numRodada-1] = tapSoma[i]/tapQuantidade[i];
 					tapMedia[i] = (tapMedia[i]*(numRodada-1) + tapAmostras[i][numRodada-1])/numRodada;
-					tapDP[i] = servicos.desvioPadrao(tapAmostras[i], numRodada, tapMedia[i]);
 					
 					//TAM MEDIA/DESVIO PADRAO
-					tamAmostras[i][numRodada-1] = tamSoma[i]/tamQuantidade[i];
+					if(tamQuantidade[i] > 0)
+						tamAmostras[i][numRodada-1] = tamSoma[i]/tamQuantidade[i];
 					tamMedia[i] = (tamMedia[i]*(numRodada-1) + tamAmostras[i][numRodada-1])/numRodada;
 					tamDP[i] = servicos.desvioPadrao(tamAmostras[i], numRodada, tamMedia[i]);
 					
 					//NCM MEDIA/DESVIO PADRAO
-					ncmAmostras[i][numRodada-1] = ncmSoma[i]/ncmQuantidade[i];
+					if(ncmQuantidade[i] > 0)
+						ncmAmostras[i][numRodada-1] = ncmSoma[i]/ncmQuantidade[i];
 					ncmMedia[i] = (ncmMedia[i]*(numRodada-1) + ncmAmostras[i][numRodada-1])/numRodada;
 					ncmDP[i] = servicos.desvioPadrao(ncmAmostras[i], numRodada, ncmMedia[i]);
 					
@@ -313,6 +315,7 @@ public class Simulador {
 			tempoInicialRodada = tempoFinal;
 		}
 		System.out.printf(">>Estatisticas:\n\n");
+		System.out.println("Número de Rodadas: " + (numRodada-1));
 		System.out.printf("Utilização Médio: %.10f\n", utilMedia);
 		System.out.printf("Utilização Intervalo: (%.10f , %.10f)\n\n", utilMedia+(utilLarguraIC/2), utilMedia-(utilLarguraIC/2));
 		for(int i = 0; i < 4; i++){
