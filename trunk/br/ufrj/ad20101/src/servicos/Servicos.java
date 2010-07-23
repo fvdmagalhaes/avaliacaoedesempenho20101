@@ -16,6 +16,15 @@ import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
 public class Servicos {
 	
+	//Este metodo calcula o desvio padrao dado a quantidade de elementos, os elementos em um vetor e a media
+	public double desvioPadrao(double[] elementos, int quantidade, double media){
+		double desvioPadrao = 0.0;
+		for(int i = 0; i < quantidade; i++){
+			desvioPadrao += Math.pow(elementos[i] - media, 2);
+		}
+		return Math.sqrt(desvioPadrao/(quantidade-1));
+	}
+	
 	// Este método efetua o algoritmo binary backoff
 	public Double binaryBackoff(int quantidadeColisoes){
 		Double random = Math.random();
@@ -66,7 +75,7 @@ public class Servicos {
 		Double amostraUniforme = Math.random();
 		int i = 0;
 		for(; amostraUniforme > pdfGeometrica; i++){
-			amostraUniforme = Math.pow(1-probabilidade, i)*probabilidade;
+			pdfGeometrica += Math.pow(1-probabilidade, i)*probabilidade;
 		}
 		return i;
 	}
