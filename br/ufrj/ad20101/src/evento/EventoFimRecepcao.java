@@ -39,8 +39,6 @@ public class EventoFimRecepcao extends Evento{
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		return listaEventos;
 	}

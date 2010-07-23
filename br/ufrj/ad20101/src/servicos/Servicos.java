@@ -17,8 +17,8 @@ import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 public class Servicos {
 	
 	//Este metodo calcula o desvio padrao dado a quantidade de elementos, os elementos em um vetor e a media
-	public double desvioPadrao(double[] elementos, int quantidade, double media){
-		double desvioPadrao = 0.0;
+	public double desvioPadrao(Double[] elementos, int quantidade, double media){
+		Double desvioPadrao = 0.0;
 		for(int i = 0; i < quantidade; i++){
 			desvioPadrao += Math.pow(elementos[i] - media, 2);
 		}
