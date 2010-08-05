@@ -2,6 +2,7 @@ package br.ufrj.ad20101.src.estacao;
 
 import java.util.ArrayList;
 import br.ufrj.ad20101.src.evento.Evento;
+import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
 
 public class Estacao {
 	
@@ -30,8 +31,9 @@ public class Estacao {
 	private int estado; //Indica em que estado a Estação se encontra
 	private Double intervaloEntreChegadas;
 	private Double quantidadeQuadros;
-	private ArrayList<Evento> mensagensPendentes = new ArrayList<Evento>();
-	private ArrayList<Evento> quadrosPendentes = new ArrayList<Evento>();
+	private ArrayList<Evento> mensagensPendentes = new ArrayList<Evento>(); //mensagens na fila de espera
+	private ArrayList<Evento> quadrosPendentes = new ArrayList<Evento>(); //quadro que será retransmitido após colisão
+	private EventoIniciaTransmissao quadroSentindoMeio; //quadro aguardando o meio desocupar; 'get' alterado para tornar null depois que retornar o evento
 	
 	public Estacao(int identificador){
 		this.identificador = identificador;
@@ -132,5 +134,15 @@ public class Estacao {
 
 	public ArrayList<Evento> getQuadrosPendentes() {
 		return quadrosPendentes;
+	}
+
+	public void setQuadroSentindoMeio(EventoIniciaTransmissao quadroSentindoMeio) {
+		this.quadroSentindoMeio = quadroSentindoMeio;
+	}
+
+	public EventoIniciaTransmissao getQuadroSentindoMeio() {
+		EventoIniciaTransmissao eventoIniciaTransmissao = quadroSentindoMeio;
+		this.setQuadroSentindoMeio(null);
+		return eventoIniciaTransmissao;
 	}
 }
