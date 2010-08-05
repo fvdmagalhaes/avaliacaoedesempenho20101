@@ -43,12 +43,12 @@ public class EventoIniciaTransmissao extends Evento{
 					//testa se a Estação está ou não participando da simulação
 					if(this.getEstacoes().get(i).getTipoChegada() != 0){
 						//adiciona à lista de Eventos o início da recepção de um quadro da Estação selecionada
-						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacao(), this.getEstacoes()));
+						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes()));
 					}
 				}else{
 					//gera um Evento de fim de transmissão e o adiciona à lista de Eventos
-					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacoes().get(i), this.getEstacoes());
-					eventoFimTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro() -1);
+					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacao(), this.getEstacoes());
+					eventoFimTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro());
 					eventoFimTransmissao.setQuantidadeTentativas(this.getQuantidadeTentativas());
 					listaEventos.add(eventoFimTransmissao);
 				}
