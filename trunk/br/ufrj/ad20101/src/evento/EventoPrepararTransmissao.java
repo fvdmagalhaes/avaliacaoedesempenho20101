@@ -34,6 +34,7 @@ public class EventoPrepararTransmissao extends Evento{
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera um Evento que prepara a mensagem para transmissão e o adiona à lista de Eventos
 			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+			//chama um serviço para gerar a quantidade desejada de quadros por mensagem
 			eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 			//1 pois será a primeira tentativa de enviar o primeiro quadro
 			//tentativa é importante para saber se o quadro deve ou não ser descartado
