@@ -18,20 +18,35 @@ public class EventoIniciaTransmissao extends Evento{
 		this.setTipoEvento(INICIA_TRANSMISSAO);
 	}
 	
+	/*
+	 * Esta classe simula a transmissão de um quadro, depois do intervalo entre quadros terminado
+	 * Caso esteja no Estado Preparando para transferir, transmissão inicia normalmente e o estado muda para transmitindo
+	 * Caso esteja no Estado Recebendo, significa que foi detectada uma colisão
+	 * 
+	 */
+	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		//criando a classe de serviço
 		Servicos servicos = new Servicos();
-		if(this.quantidadeTentativas == 0){
-			this.quantidadeTentativas = 1;
-		}
+		
+		//testa o estado em que se encontra a Estação
+		//TODO as condições deste if devem ser revistas
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
+			//não foi detectada colisão, portanto o estado muda para transmitindo
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRANSFERINDO);
+			
+			//gera o Evento de inicio de recepção para cada Estação
 			for(int i = 0; i < 4; i++){
+				//testa se é a Estação não é a corrente
 				if(i + 1 != this.getEstacao().getIdentificador()){
+					//testa se a Estação está ou não participando da simulação
 					if(this.getEstacoes().get(i).getTipoChegada() != 0){
-						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes()));
+						//adiciona à lista de Eventos o início da recepção de um quadro da Estação selecionada
+						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacao(), this.getEstacoes()));
 					}
 				}else{
+					//gera um Evento de fim de transmissão e o adiciona à lista de Eventos
 					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacoes().get(i), this.getEstacoes());
 					eventoFimTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro() -1);
 					eventoFimTransmissao.setQuantidadeTentativas(this.getQuantidadeTentativas());
@@ -39,16 +54,23 @@ public class EventoIniciaTransmissao extends Evento{
 				}
 			}
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+			//colisão foi detectada
+			//altera Estado da Estação para Tratando Colisão Ocupado
 			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
-			for(int i = 0; i < 4; i++){
+			//gera reforço de colisão para todas as Estações
+			for(int i = 0; i < 4; i++){				
 				if(i + 1 != this.getEstacao().getIdentificador()){
+					//as demais Estações receberão o reforço de colisão
+					//TODO Rever esta parte
 					if(this.getEstacoes().get(i).getTipoChegada() != 0){
 						EventoIniciaRecepcao eventoIniciaRecepcao = (EventoIniciaRecepcao) servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes());
 						eventoIniciaRecepcao.setTempoRecepcao(Constantes.TEMPO_REFORCO_ENLACE);
 						listaEventos.add(servicos.geraEvento(FIM_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacoes().get(i), this.getEstacoes()));
 						listaEventos.add(eventoIniciaRecepcao);
 					}
+					//TODO Até aqui
 				}else{
+					//gera o Evento de Colisão
 					EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_COLISAO, this.getEstacoes().get(i), this.getEstacoes());
 					eventoColisao.setQuantidadeQuadro(this.quantidadeQuadro);
 					eventoColisao.setQuantidadeTentativas(this.quantidadeTentativas);
