@@ -39,11 +39,11 @@ public class EventoFimTransmissao extends Evento{
 					}
 				}else{
 					//testa se ainda existem quadros da mensagem corrente para enviar 
-					if(this.quantidadeQuadro > 0){
+					if(this.quantidadeQuadro > 1){
 						//caso haja, aguardar o intervalo entre quadros e começar a transmitir
 						this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
-						EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacoes().get(this.getEstacao().getIdentificador() -1), this.getEstacoes());
-						eventoIniciaTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro());
+						EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+						eventoIniciaTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro()-1);
 						listaEventos.add(eventoIniciaTransmissao);
 					}else{
 						//caso não haja mais quadros chama o Evento que indica o fim da transmissão de uma mensagem
