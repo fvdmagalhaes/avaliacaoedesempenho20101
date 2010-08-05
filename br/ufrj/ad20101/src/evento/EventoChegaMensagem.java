@@ -5,7 +5,15 @@ import java.util.ArrayList;
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Servicos;
 
+/* 
+ * 
+ * */
 public class EventoChegaMensagem extends Evento{
+	
+	/* Cria um novo evento do tipo Chegada de Mensagem
+	 * Recebe como parâmetro a estação em que ocorre o evento. 
+	 * A necessidade da lista de estações do segundo parâmetro apenas auxilia a geração de eventos futuros.
+	 *  																									*/
 	public EventoChegaMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
