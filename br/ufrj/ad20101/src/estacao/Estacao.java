@@ -35,6 +35,7 @@ public class Estacao {
 	private ArrayList<Evento> quadrosPendentes = new ArrayList<Evento>(); //quadro que será retransmitido após colisão
 	private EventoIniciaTransmissao quadroSentindoMeio; //quadro aguardando o meio desocupar; 'get' alterado para tornar null depois que retornar o evento
 	
+	// Estabelece a distância entre cada estação e o HUB de acordo com o enunciado do trabalho de simulação
 	public Estacao(int identificador){
 		this.identificador = identificador;
 		this.estado = ESTADO_OCIOSO;
@@ -46,32 +47,12 @@ public class Estacao {
 			this.distancia = 60;
 		}else if(identificador == ESTACAO4){
 			this.distancia = 40;
-		}else{
+		}else{ // Nunca vai entrar neste else, serve apenas para identificar um possível erro de forma mais fácil
 			System.out.println("ERRO: Estação com identificador incorreto");
 			System.exit(0);
 		}
 	}
 	
-	public Estacao(int tipoChegada, Double intervaloEntreChegadas, int distancia, int identificador){
-		this.tipoChegada = tipoChegada;
-		this.intervaloEntreChegadas = intervaloEntreChegadas;
-		this.distancia = distancia;
-		this.identificador = identificador;
-		this.estado = ESTADO_OCIOSO;
-		if(identificador == ESTACAO1){
-			this.distancia = 100;
-		}else if(identificador == ESTACAO2){
-			this.distancia = 80;
-		}else if(identificador == ESTACAO3){
-			this.distancia = 60;
-		}else if(identificador == ESTACAO4){
-			this.distancia = 40;
-		}else{
-			System.out.println("ERRO: Estação com identificador incorreto");
-			System.exit(0);
-		}
-	}
-
 	public int getTipoChegada() {
 		return tipoChegada;
 	}
@@ -138,8 +119,10 @@ public class Estacao {
 
 	public void setQuadroSentindoMeio(EventoIniciaTransmissao quadroSentindoMeio) {
 		this.quadroSentindoMeio = quadroSentindoMeio;
-	}
-
+	}	
+	
+	/* Pega o evento que está aguardando o início da transmissão assim que o meio é detectado
+	   livre e limpa a variável para ser usado por um próximo evento */
 	public EventoIniciaTransmissao getQuadroSentindoMeio() {
 		EventoIniciaTransmissao eventoIniciaTransmissao = quadroSentindoMeio;
 		this.setQuadroSentindoMeio(null);
