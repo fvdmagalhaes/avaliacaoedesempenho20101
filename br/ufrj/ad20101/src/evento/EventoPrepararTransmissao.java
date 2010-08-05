@@ -18,8 +18,9 @@ public class EventoPrepararTransmissao extends Evento{
 	/*
 	 * Esta classe simula a chegada do primeiro quadro de uma mensagem em uma determinada Estação
 	 * Caso a Estação esteja ociosa, o quadro poderá começar a ser transmitido em 9.6 microSegundos
-	 * Caso esteja recebendo, o quadro deve continuar observando o meio
-	 * Caso contrário, a mensagem entrará na fila de espera de mensagens da Estação
+	 * Caso esteja recebendo, a estação deve continuar observando o meio
+	 * Caso contrário, se estiver ainda transmitindo a mensagem anterior ou tratando uma possível colisão, 
+	 * a mensagem entrará na fila de espera de mensagens da Estação
 	 * */
 	
 	@Override
@@ -47,6 +48,7 @@ public class EventoPrepararTransmissao extends Evento{
 		}else{
 			//adiciona a mensagem à lista de espera da Estação
 			ArrayList<Evento> mensagensPendentes = this.getEstacao().getMensagensPendentes();
+			// Tempo do evento criado é nulo pois só será setado de fato ao sair da lista de espera  
 			mensagensPendentes.add(servicos.geraEvento(PREPARA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes()));
 			this.getEstacao().setMensagensPendentes(mensagensPendentes);
 		}
