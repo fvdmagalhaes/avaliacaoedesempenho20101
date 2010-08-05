@@ -6,7 +6,7 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 
 public class Evento implements Comparable<Evento> {
 
-	// Define a lista de eventos
+	// Define a lista de eventos com todos os eventos possíveis na simulação
 	public static int RETRANSMITIR = 1;
 	public static int INICIA_TRANSMISSAO = 2;
 	public static int FIM_TRANSMISSAO = 3;
@@ -18,7 +18,13 @@ public class Evento implements Comparable<Evento> {
 	public static int DESCARTA_QUADRO = 9;
 	public static int PREPARA_TRANSMISSAO = 10;
 
-	
+	/* Declara variáveis comuns a todos os eventos existentes na simulação.
+	 *  - Tempo em que ocorre o evento
+	 *  - Tipo do evento que ocorreu
+	 *  - Estação em que ocorreu o evento
+	 *  - Lista de Estações (passado como parâmetro caso alguma informação de uma estação seja necessária para o 
+	 *  						tratamento do evento)
+	 */
 	private Double tempoInicial;
 	private int tipoEvento;
 	private Estacao estacao;
@@ -56,6 +62,9 @@ public class Evento implements Comparable<Evento> {
 		return estacoes;
 	}
 
+	/* Método responsável por ordenar a lista de eventos. Executado a cada inserção na lista de eventos para ordenar
+	 * os eventos por ordem cronológica. Tempo inicial = tempo em que ocorre o evento 
+	 * */
 	public int compareTo(Evento ev) {
 		if(this.getTempoInicial() < ev.getTempoInicial())
 			return -1;
@@ -65,6 +74,10 @@ public class Evento implements Comparable<Evento> {
 			return 0;
 	}
 	
+	/* Define um método ação que será implementado nas classes filhas da classe principal Evento.
+	 * Este método identifica a ação que será tomada ao processar cada um dos eventos específicos. No caso da classe pai
+	 * evento, nenhuma ação será tomada. Os filhos da classe Evento herdam o método e têm sua implementação específica.
+	 * */
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEvento){
 		return null;
 	}
