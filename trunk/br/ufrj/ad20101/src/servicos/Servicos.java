@@ -12,6 +12,7 @@ import br.ufrj.ad20101.src.evento.EventoFimRecepcao;
 import br.ufrj.ad20101.src.evento.EventoFimTransmissao;
 import br.ufrj.ad20101.src.evento.EventoIniciaRecepcao;
 import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
+import br.ufrj.ad20101.src.evento.EventoPrepararTransmissao;
 import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
 public class Servicos {
@@ -118,6 +119,8 @@ public class Servicos {
 			return new EventoColisao(tempoInicial,estacoes, estacao);
 		}else if(tipoEvento == Evento.DESCARTA_QUADRO){
 			return new EventoDescartaQuadro(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.PREPARA_TRANSMISSAO){
+			return new EventoPrepararTransmissao(tempoInicial,estacoes, estacao);
 		}else{
 			System.out.println("ERRO: O tipo de evento especificado para geração não existe.");
 			System.exit(0);
