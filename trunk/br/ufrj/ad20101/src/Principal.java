@@ -15,19 +15,37 @@ public class Principal {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
+		// Declaração das variáveis que receberão as entradas digitadas pelo usuário 
 		int opcaoInt;
 		String opcaoChar;
 		Double opcaoDouble;
+		
+		/* Instancia um objeto do tipo Serviço que tem por objetivo gerar um evento do tipo Chegada de Mensagem,
+		   que será o primeiro evento da lista de eventos, a partir do qual os outros eventos serão gerados */
 		Servicos servicos = new Servicos();
+
+		// Cria uma lista com as quatro estações participantes do ambiente de simulação
 		ArrayList <Estacao> estacoes = new ArrayList<Estacao>(4);
+		
+		// Cria um objeto da classe simulador, responsável pelo loop principal de envio de mensagens 
+		// pelas estações e pela coleta das estatísticas
 		Simulador simulador = new Simulador();
+		
+		// Cria a variável leTeclado para ler os dados fornecidos pelo usuário no inicio da simulação
 		Scanner leTeclado = new Scanner(System.in);
+		
+		// Cria a lista de eventos inicialmente vazia
 		ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 
 		System.out.println("Simulador de Avaliação e Desempenho");
 		System.out.println("Grupo: Fernando, Peter, Victor, Zaedy\n");		
 		System.out.println("Favor entrar com os dados para a inicialização do simulador");
+		
+		/* Este trecho de código apenas faz a leitura via console dos parâmetros necessários para iniciar a simulação. Dentre esses
+		 * parâmetros, temos por exemplo a participação ou não de cada estação com tráfego, se o tipo de chegada das mensagens é 
+		 * determinística ou exponencial, qual o intervalo (médio no caso da chegada exponencial) entre a chegada das mensagens e 
+		 * o número de quadros que uma mensagem de uma estação conterá															*/
 		for(int i = 0; i < 4; i++){
 			estacoes.add(i,new Estacao(i+1));
 			System.out.print("Estação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
@@ -78,6 +96,10 @@ public class Principal {
 				}
 			}while (opcaoInt == -1);
 		}
+		
+		/* Envia para o objeto simulador a lista de eventos montada com o primeiro evento apenas, que é a chegada da primeira mensagem
+		 * programada dependendo do tipo de chegada (determinística ou exponencial) e inicia a simulação. Novos eventos serão gerados
+		 * e adicionados a lista de eventos conforme necessário																		*/
 		simulador.setListaEventos(listaEventos);
 		simulador.start();
 	}
