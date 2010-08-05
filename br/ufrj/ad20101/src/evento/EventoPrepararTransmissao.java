@@ -18,6 +18,7 @@ public class EventoPrepararTransmissao extends Evento{
 	/*
 	 * Esta classe simula a chegada do primeiro quadro de uma mensagem em uma determinada Estação
 	 * Caso a Estação esteja ociosa, o quadro poderá começar a ser transmitido em 9.6 microSegundos
+	 * Caso esteja recebendo, o quadro deve continuar observando o meio
 	 * Caso contrário, a mensagem entrará na fila de espera de mensagens da Estação
 	 * */
 	
@@ -28,6 +29,8 @@ public class EventoPrepararTransmissao extends Evento{
 		
 		//testa o estado em que se encontra a Estação
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
+			//Estação muda para Estado "Preparando para transmitir"
+			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera um Evento que prepara a mensagem para transmissão e o adiona à lista de Eventos
 			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
 			eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
