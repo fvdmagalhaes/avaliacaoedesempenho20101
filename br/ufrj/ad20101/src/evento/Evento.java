@@ -16,6 +16,7 @@ public class Evento implements Comparable<Evento> {
 	public static int FIM_MENSAGEM = 7;
 	public static int COLISAO = 8;
 	public static int DESCARTA_QUADRO = 9;
+	public static int PREPARA_TRANSMISSAO = 10;
 
 	
 	private Double tempoInicial;
