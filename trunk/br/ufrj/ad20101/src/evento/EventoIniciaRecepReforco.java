@@ -13,12 +13,21 @@ public class EventoIniciaRecepReforco extends Evento{
 	}
 	
 	/*TODO
-	 * Esta classe simula o início da transmissão do reforço de colisão por uma Estação
-	 * que acabou de detectar colisão.
+	 * Este evento simplesmente trata a recepção de um reforço de colisão por uma estação da rede.
 	 * */
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO ||
+				this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO)
+		{ // Se estiver em um dos estados acima, retorna a lista de eventos sem fazer nada			
+		}
+		else
+		{
+			System.out.println("ERRO: Estação se encontra em um estado inexistente!");
+		}
+		
 		return listaEventos;
 	}
 }
