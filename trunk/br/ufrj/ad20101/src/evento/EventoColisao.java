@@ -18,52 +18,133 @@ public class EventoColisao extends Evento {
 		this.setTipoEvento(COLISAO);
 	}
 	
+	/*
+	 * Esta classe simula o tratamento de uma Colisão.
+	 * Este Evento apenas aplica o algoritmo Binary Backoff para retransmitir o quadro
+	 * que colidiu.
+	 * */
+	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		//criando a classe de serviço
 		Servicos servicos = new Servicos();
-		if(this.getQuantidadeTentativas()>15){
-			this.setQuantidadeQuadro(getQuantidadeQuadro()-1);
-			this.setQuantidadeTentativas(0);
-			EventoDescartaQuadro eventoDescartaQuadro = (EventoDescartaQuadro)servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
-			eventoDescartaQuadro.setQuantidadeQuadro(getQuantidadeQuadro() +1);
-			listaEventos.add(eventoDescartaQuadro);
-		}
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO || this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
-			Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());
-			if(tempoRetransmissao.equals(0.0)){
-				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
-				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(),this.getEstacoes());
-				eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
-				eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas+1);
-				eventoIniciaTransmissao.setTempoInicial(this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS);
-				listaEventos.add(eventoIniciaTransmissao);
+		
+		//testa se o quadro deve ser descartado
+		if(this.getQuantidadeTentativas()<=15){
+			//caso não seja descartado, ele testa o Estado da Estação
+			if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
+				//aplica o Algoritmo Binary Backoff
+				Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());
+				//testa se deve ser transmitido neste instante ou não
+				if(tempoRetransmissao.equals(0.0)){
+					//altera o Estado para preparando transmissão
+					this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
+					//gera o evento de início de transmissão do quadro que colidiu
+					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(),this.getEstacoes());
+					//o quadro deve ser exatamente o mesmo, pois não houve descarte
+					eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
+					//incrementa o número de tentativas
+					eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas+1);
+					//adiciona à lista de Eventos
+					listaEventos.add(eventoIniciaTransmissao);
+				}else{
+					//caso o quadro seja retransmitido no futuro:
+					//um Evento de retransmissão é gerado
+					//o Estado se mantém em Tratando Colisão, pois ele não pode transmitir nada antes de retransmitir este quadro
+					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
+					//o quadro deve ser exatamente o mesmo, pois não houve descarte
+					eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
+					//incrementa o número de tentativas
+					eventoRetransmitir.setQuantidadeTentativas(this.getQuantidadeTentativas()+1);
+					//adiciona à lista de Eventos
+					listaEventos.add(eventoRetransmitir);
+				}
+			}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
+				//neste caso o meio está ocupado, portanto independente do que resultar do 
+				//Algoritmo Binary Backoff, o quadro deverá aguardar o meio desocupar para transmitir
+				//aplica o Algoritmo Binary Backoff
+				Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());
+				//testa se deve ser transmitido neste instante ou não
+				if(tempoRetransmissao.equals(0.0)){
+					//nesta situação o quadro a ser retransmitido vai ficar aguardando o meio ficar livre
+					//o Estado da Estação muda para recebendo e ao fim da recepção retransmitirá este quadro
+					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
+					//gera o evento de início de transmissão do quadro que colidiu
+					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes());
+					//o quadro deve ser exatamente o mesmo, pois não houve descarte
+					eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
+					//incrementa o número de tentativas
+					eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas+1);
+					//quadro passa a sentir o meio até que desocupe
+					this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
+				}else{
+					//nessa situação o tratamento será exatamente o mesmo que se o meio estivesse ocioso:
+					//um Evento de retransmissão é gerado
+					//o Estado se mantém em Tratando Colisão, pois ele não pode transmitir nada antes de retransmitir este quadro
+					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
+					//o quadro deve ser exatamente o mesmo, pois não houve descarte
+					eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
+					//incrementa o número de tentativas
+					eventoRetransmitir.setQuantidadeTentativas(this.getQuantidadeTentativas()+1);
+					//adiciona à lista de Eventos
+					listaEventos.add(eventoRetransmitir);
+				}
 			}else{
-				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
-				EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
-				eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
-				eventoRetransmitir.setQuantidadeTentativas(this.getQuantidadeTentativas()+1);
-				listaEventos.add(eventoRetransmitir);
-			}
-		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO || this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
-			Double tempoRetransmissao = servicos.binaryBackoff(this.getQuantidadeTentativas());
-			if(tempoRetransmissao.equals(0.0)){
-				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_RECEBENDO);
-				ArrayList<Evento> quadrosPendentes = this.getEstacao().getQuadrosPendentes();
-				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + servicos.binaryBackoff(this.getQuantidadeTentativas()), this.getEstacao(),this.getEstacoes());
-				eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
-				eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas+1);
-				quadrosPendentes.add(eventoIniciaTransmissao);
-				this.getEstacao().setQuadrosPendentes(quadrosPendentes);
-			}else{
-				this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
-				EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
-				eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
-				eventoRetransmitir.setQuantidadeTentativas(this.getQuantidadeTentativas()+1);
-				listaEventos.add(eventoRetransmitir);
+				System.out.println("ERRO: Estação se encontra num estado não existente");
+				System.exit(0);
 			}
 		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
+			//cria o evento que descarta quadro
+			EventoDescartaQuadro eventoDescartaQuadro = (EventoDescartaQuadro)servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			//informa o quadro que foi descartado
+			eventoDescartaQuadro.setQuantidadeQuadro(this.getQuantidadeQuadro());
+			//adiciona Evento à lista de Eventos
+			listaEventos.add(eventoDescartaQuadro);
+			
+			//testa se o quadro é o último da mensagem
+			if(this.quantidadeQuadro > 1){	
+				//gera o evento de transmissão do próximo quadro
+				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+				//pega o próximo quadro
+				eventoIniciaTransmissao.setQuantidadeQuadro(getQuantidadeQuadro()-1);
+				//número de tentativas volta para 1, pois este já é um novo quadro
+				eventoIniciaTransmissao.setQuantidadeTentativas(1);
+				//testa se o meio está ocupado ou não
+				if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
+					//se o meio estiver livre, mude o estado para preparando trasmissao e transmita o quadro
+					this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
+					listaEventos.add(eventoIniciaTransmissao);
+				}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
+					//caso contrário, o estado será recebendo e continua sentindo o meio
+					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
+					this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
+				}else{
+					System.out.println("ERRO: Estação se encontra num estado não existente");
+					System.exit(0);
+				}
+			}else{
+				if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
+					/*Deve-se testar se há mensagens na fila de espera, porém
+					 *não é necessário testar se há quadros aguardando o meio desocupar, pois ele seria
+					 *transmitido antes de qualquer outro quadro ou mensagem
+					 */
+					//Estado será alterado para Ocioso, pois o tratamento da Colisão já terminou e não há retransmissões pendentes
+					this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
+					if(!this.getEstacao().getMensagensPendentes().isEmpty()){
+						//caso existam mensagens pendentes, Estação começa a transmitir a próxima mensagem da fila
+						EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao) this.getEstacao().getMensagensPendentes().get(0);
+						//seta o tempo inicial do Evento para o tempo atual, pois ele deve começar a ser tratado imediatamente
+						eventoPrepararTransmissao.setTempoInicial(this.getTempoInicial());
+						//remove a mensagem da lista de mensagens pendentes
+						this.getEstacao().getMensagensPendentes().remove(0);
+						//adiciona a mensagem à lista de Eventos
+						listaEventos.add(eventoPrepararTransmissao);
+					}
+				}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
+					//Estado será alterado para Recebendo, pois o tratamento da Colisão já terminou e não há retransmissões pendentes
+					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
+				}
+			}
 		}
 		return listaEventos;
 	}

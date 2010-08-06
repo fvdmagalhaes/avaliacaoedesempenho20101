@@ -10,7 +10,7 @@ public class EventoInterrompeTransmissao extends Evento{
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
-		this.setTipoEvento(INICIA_RECEPCAO); //TODO
+		this.setTipoEvento(INTERROMPE_TRANSMISSAO);
 	}
 	
 	/*

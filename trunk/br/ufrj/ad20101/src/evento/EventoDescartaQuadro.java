@@ -15,6 +15,13 @@ public class EventoDescartaQuadro extends Evento{
 		this.setTipoEvento(DESCARTA_QUADRO);
 	}
 	
+	/*
+	 * Esta classe simula o descarte de um quadro
+	 * Este Evento não faz nada, pois o tratamento de quadros descartados não está
+	 * incluindo neste simulador, portanto esta classe existe apenas para representar
+	 * o quadro que está sendo descartado.
+	 * */
+	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		return listaEventos;

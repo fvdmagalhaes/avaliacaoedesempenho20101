@@ -31,10 +31,9 @@ public class EventoIniciaTransmissao extends Evento{
 		Servicos servicos = new Servicos();
 		
 		//testa o estado em que se encontra a Estação
-		//TODO as condições deste if devem ser revistas
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR){
 			//não foi detectada colisão, portanto o estado muda para transmitindo
-			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRANSFERINDO);
+			this.getEstacao().setEstado(Estacao.ESTADO_TRANSFERINDO);
 			
 			//gera o Evento de inicio de recepção para cada Estação
 			for(int i = 0; i < 4; i++){
