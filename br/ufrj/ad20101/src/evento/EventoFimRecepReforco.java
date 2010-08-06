@@ -20,42 +20,61 @@ public class EventoFimRecepReforco extends Evento{
 	}
 	
 	/*
-	 * Esta classe simula o final da transmissão do reforço de colisão por uma Estação
-	 * que acabou de receber o reforço de colisão
+	 * Esta classe simula o final da recepção do Reforço de colisão por uma Estação
+	 * Este Evento representa a detecção do fim do sinal de Reforço no meio
+	 * Se a Estação estiver em Estado de tratamento de Colisão, o tratramento de fato
+	 * começa agora. Caso contrário, poderá transmitir alguma pendencia, caso exista.
 	 * */
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		
+		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		
+		//testa o estado em que se encontra a Estação
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO)
 		{
+			//Pelo Estado da Estação, nota-se que ela não tem colisões para tratar, então
+			//resta ver se há alguma transmissão pendente
 			EventoIniciaTransmissao eventoIniciaTransmissão = this.getEstacao().getQuadroSentindoMeio();
 			if(eventoIniciaTransmissão != null)
 			{
+				//caso a Estação esteja aguardando o meio ficar livre para transmitir um quadro
+				//será transmitido agora
+				//setando o tempo
 				eventoIniciaTransmissão.setTempoInicial(this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS);
+				//adiciona à lista de Eventos
 				listaEventos.add(eventoIniciaTransmissão);
+				//altera o Estado da Estação
 				this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			}
 			else if(!this.getEstacao().getMensagensPendentes().isEmpty())
 			{
+				//caso contrário, se houver uma mensagem na fila de mensagens, ela será transmitida
+				//recupera a mensagem da lista
 				EventoPrepararTransmissao pegaEvPrepTransm = (EventoPrepararTransmissao)this.getEstacao().getMensagensPendentes().get(0);
+				//seta o tempo
 				pegaEvPrepTransm.setTempoInicial(this.getTempoInicial());
+				//remove da fila
 				this.getEstacao().getMensagensPendentes().remove(0);
+				//adiciona à lista de Eventos
 				listaEventos.add(pegaEvPrepTransm);
+				//altera o Estado da Estação
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
 			else
 			{
+				//Caso não haja nada para ser transmitido, Estação vai apra o Estado Ocioso e aguarda novos eventos
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
 			
 		}
 		else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO)
 		{
-			if(isColisaoPendente()) //TODO pensar sobre o caso de mais de duas estações lançarem reforço
+			//testa se a geração do Evento de Colisão está pendente ou não
+			if(isColisaoPendente())
 			{
+				//Caso haja:
 				//Gera o Evento de Colisão, que começará a ser tratado neste instante
 				EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
 
@@ -68,6 +87,8 @@ public class EventoFimRecepReforco extends Evento{
 			}
 			else
 			{
+				//caso contrário, apenas muda para o Estado Ocioso e Tratando Colisão, pois o Evento
+				//de Colisão será tratado logo
 				this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 			}
 		}
