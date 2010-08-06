@@ -17,6 +17,12 @@ public class Evento implements Comparable<Evento> {
 	public static int COLISAO = 8;
 	public static int DESCARTA_QUADRO = 9;
 	public static int PREPARA_TRANSMISSAO = 10;
+	public static int INTERROMPE_TRANSMISSAO = 11;
+	public static int INICIA_TRANS_REFORCO = 12;
+	public static int FIM_TRANS_REFORCO = 13;
+	public static int INICIA_RECEP_REFORCO = 14;
+	public static int FIM_RECEP_REFORCO = 15;
+	
 
 	/* Declara variáveis comuns a todos os eventos existentes na simulação.
 	 *  - Tempo em que ocorre o evento

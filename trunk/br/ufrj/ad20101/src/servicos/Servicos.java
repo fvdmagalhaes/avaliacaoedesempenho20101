@@ -8,10 +8,15 @@ import br.ufrj.ad20101.src.evento.EventoChegaMensagem;
 import br.ufrj.ad20101.src.evento.EventoColisao;
 import br.ufrj.ad20101.src.evento.EventoDescartaQuadro;
 import br.ufrj.ad20101.src.evento.EventoFimMensagem;
+import br.ufrj.ad20101.src.evento.EventoFimRecepReforco;
 import br.ufrj.ad20101.src.evento.EventoFimRecepcao;
+import br.ufrj.ad20101.src.evento.EventoFimTransReforco;
 import br.ufrj.ad20101.src.evento.EventoFimTransmissao;
+import br.ufrj.ad20101.src.evento.EventoIniciaRecepReforco;
 import br.ufrj.ad20101.src.evento.EventoIniciaRecepcao;
+import br.ufrj.ad20101.src.evento.EventoIniciaTransReforco;
 import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
+import br.ufrj.ad20101.src.evento.EventoInterrompeTransmissao;
 import br.ufrj.ad20101.src.evento.EventoPrepararTransmissao;
 import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
@@ -121,6 +126,16 @@ public class Servicos {
 			return new EventoDescartaQuadro(tempoInicial,estacoes, estacao);
 		}else if(tipoEvento == Evento.PREPARA_TRANSMISSAO){
 			return new EventoPrepararTransmissao(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.INTERROMPE_TRANSMISSAO){
+			return new EventoInterrompeTransmissao(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.INICIA_TRANS_REFORCO){
+			return new EventoIniciaTransReforco(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.FIM_TRANS_REFORCO){
+			return new EventoFimTransReforco(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.INICIA_RECEP_REFORCO){
+			return new EventoIniciaRecepReforco(tempoInicial,estacoes, estacao);
+		}else if(tipoEvento == Evento.FIM_RECEP_REFORCO){
+			return new EventoFimRecepReforco(tempoInicial,estacoes, estacao);
 		}else{
 			System.out.println("ERRO: O tipo de evento especificado para geração não existe.");
 			System.exit(0);

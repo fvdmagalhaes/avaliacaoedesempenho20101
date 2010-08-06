@@ -56,7 +56,7 @@ public class EventoIniciaTransmissao extends Evento{
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//colisão foi detectada
 			//altera Estado da Estação para Tratando Colisão Ocupado
-			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
+			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
 			//gera reforço de colisão para todas as Estações
 			for(int i = 0; i < 4; i++){				
 				if(i + 1 != this.getEstacao().getIdentificador()){
