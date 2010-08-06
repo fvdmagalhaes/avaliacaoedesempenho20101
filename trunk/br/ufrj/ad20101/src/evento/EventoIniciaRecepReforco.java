@@ -2,8 +2,6 @@ package br.ufrj.ad20101.src.evento;
 
 import java.util.ArrayList;
 
-import com.sun.media.sound.MidiUtils.TempoCache;
-
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
@@ -40,7 +38,7 @@ public class EventoIniciaRecepReforco extends Evento{
 			novoEvFimRecepRef.setQuantidadeQuadro(evFimTransmissao.getQuantidadeQuadro());
 			novoEvFimRecepRef.setQuantidadeTentativas(evFimTransmissao.getQuantidadeTentativas());
 			novoEvFimRecepRef.setColisaoPendente(true);
-			servicos.deletaEvento(listaEventos,Evento.FIM_TRANSMISSAO,this.getEstacao());
+			listaEventos = servicos.deletaEvento(listaEventos,Evento.FIM_TRANSMISSAO,this.getEstacao());
 			listaEventos.add(novoEvFimRecepRef);
 		}
 		else
