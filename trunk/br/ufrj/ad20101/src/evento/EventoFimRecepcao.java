@@ -25,7 +25,7 @@ public class EventoFimRecepcao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		simulador.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//testa o estado em que se encontra a Estação
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){

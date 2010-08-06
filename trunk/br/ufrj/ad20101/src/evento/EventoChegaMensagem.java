@@ -30,7 +30,7 @@ public class EventoChegaMensagem extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO CHEGA MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		simulador.escreveLog("EVENTO CHEGA MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();

@@ -29,7 +29,7 @@ public class EventoRetransmitir extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		simulador.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//cria a classe de serviço
 		Servicos servicos = new Servicos();

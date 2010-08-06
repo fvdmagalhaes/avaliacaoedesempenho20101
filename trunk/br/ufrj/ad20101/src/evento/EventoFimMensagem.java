@@ -21,7 +21,7 @@ public class EventoFimMensagem extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO FIM MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		simulador.escreveLog("EVENTO FIM MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		// testa o estado em que se encontra a Estação
 		/* TODO Esta condição não deve existir, se ele chegar com outro estado aqui,
