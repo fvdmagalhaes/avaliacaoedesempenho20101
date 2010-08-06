@@ -19,7 +19,7 @@ public class EventoFimRecepReforco extends Evento{
 		this.setTipoEvento(FIM_RECEP_REFORCO);
 	}
 	
-	/*TODO
+	/*
 	 * Esta classe simula o final da transmissão do reforço de colisão por uma Estação
 	 * que acabou de receber o reforço de colisão
 	 * */
