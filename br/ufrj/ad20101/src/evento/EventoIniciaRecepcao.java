@@ -22,7 +22,6 @@ public class EventoIniciaRecepcao extends Evento{
 	 * Caso esteja tratando colisao, então ela passará para trantando colisão ocupado, que indica que o meio está ocupado
 	 * Caso esteja recebendo algum quadro, significa que houve uma colisão, mas ela não está envolvida, portanto nada deve ser feito
 	 * Caso esteja ocioso ou preparando para transmitir, receberá a mensagem normalmente
-	 * TODO acho que é melhor diferenciar os tipos de recepção, pois ele pode receber um quadro ou um reforço de colisão. Talvez seja melhor criar um novo evento para tratar isso
 	 */
 	
 	@Override

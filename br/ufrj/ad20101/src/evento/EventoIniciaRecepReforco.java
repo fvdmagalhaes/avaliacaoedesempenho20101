@@ -83,6 +83,7 @@ public class EventoIniciaRecepReforco extends Evento{
 		else
 		{
 			System.out.println("ERRO: Estação se encontra em um estado inexistente!");
+			System.exit(0);
 		}
 		
 		return listaEventos;

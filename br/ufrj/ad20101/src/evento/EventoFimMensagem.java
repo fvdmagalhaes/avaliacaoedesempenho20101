@@ -23,6 +23,7 @@ public class EventoFimMensagem extends Evento{
 		/* TODO Esta condição não deve existir, se ele chegar com outro estado aqui,
 		 * significa que os Eventos ocorreram no mesmo instante e por esse motivo 
 		 * a mensagem pode ser encerrada sem qualquer problema
+		 * EDITADO: esta condição vai ficar por enquanto para ajudar no debug;
 		 */
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
 			/*Deve-se testar se há mensagens na fila de espera, porém
