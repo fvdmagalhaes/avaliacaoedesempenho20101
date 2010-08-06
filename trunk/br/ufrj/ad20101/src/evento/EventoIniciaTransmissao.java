@@ -57,26 +57,13 @@ public class EventoIniciaTransmissao extends Evento{
 			//colisão foi detectada
 			//altera Estado da Estação para Tratando Colisão Ocupado
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
-			//gera reforço de colisão para todas as Estações
-			for(int i = 0; i < 4; i++){				
-				if(i + 1 != this.getEstacao().getIdentificador()){
-					//as demais Estações receberão o reforço de colisão
-					//TODO Rever esta parte
-					if(this.getEstacoes().get(i).getTipoChegada() != 0){
-						EventoIniciaRecepcao eventoIniciaRecepcao = (EventoIniciaRecepcao) servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes());
-						eventoIniciaRecepcao.setTempoRecepcao(Constantes.TEMPO_REFORCO_ENLACE);
-						listaEventos.add(servicos.geraEvento(FIM_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacoes().get(i), this.getEstacoes()));
-						listaEventos.add(eventoIniciaRecepcao);
-					}
-					//TODO Até aqui
-				}else{
-					//gera o Evento de Colisão
-					EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_COLISAO, this.getEstacoes().get(i), this.getEstacoes());
-					eventoColisao.setQuantidadeQuadro(this.quantidadeQuadro);
-					eventoColisao.setQuantidadeTentativas(this.quantidadeTentativas);
-					listaEventos.add(eventoColisao);
-				}
-			}
+			//gera Evento que inicia transmissao do reforço de colisão
+			EventoIniciaTransReforco eventoIniciaTransReforco = (EventoIniciaTransReforco)servicos.geraEvento(INICIA_TRANS_REFORCO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			//guarda as informações que serão necessárias para o Evento de Colisão 
+			eventoIniciaTransReforco.setQuantidadeQuadro(this.quantidadeQuadro);
+			eventoIniciaTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);
+			//adiciona à lista de Eventos
+			listaEventos.add(eventoIniciaTransReforco);
 		}else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
