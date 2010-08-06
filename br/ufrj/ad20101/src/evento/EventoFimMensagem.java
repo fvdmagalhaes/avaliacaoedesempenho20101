@@ -3,6 +3,7 @@ package br.ufrj.ad20101.src.evento;
 import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
+import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoFimMensagem extends Evento{
 	public EventoFimMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
@@ -19,6 +20,9 @@ public class EventoFimMensagem extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		SimuladorDebug simulador = new SimuladorDebug();
+		simulador.escreveLog("EVENTO FIM MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		
 		// testa o estado em que se encontra a Estação
 		/* TODO Esta condição não deve existir, se ele chegar com outro estado aqui,
 		 * significa que os Eventos ocorreram no mesmo instante e por esse motivo 

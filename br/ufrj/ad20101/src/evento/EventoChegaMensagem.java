@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Servicos;
+import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 /* 
  * 
@@ -28,6 +29,9 @@ public class EventoChegaMensagem extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		SimuladorDebug simulador = new SimuladorDebug();
+		simulador.escreveLog("EVENTO CHEGA MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+		
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		

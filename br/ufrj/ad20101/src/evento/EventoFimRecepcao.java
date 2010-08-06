@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Constantes;
+import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoFimRecepcao extends Evento{
 	public EventoFimRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
@@ -23,6 +24,9 @@ public class EventoFimRecepcao extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		SimuladorDebug simulador = new SimuladorDebug();
+		simulador.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
+
 		//testa o estado em que se encontra a Estação
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//testa se há alguma transmissão pendente
