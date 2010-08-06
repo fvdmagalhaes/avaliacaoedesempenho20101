@@ -7,7 +7,7 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.evento.Evento;
 import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
-import br.ufrj.ad20101.src.simulador.Simulador;
+import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class Principal {
 
@@ -30,7 +30,7 @@ public class Principal {
 		
 		// Cria um objeto da classe simulador, responsável pelo loop principal de envio de mensagens 
 		// pelas estações e pela coleta das estatísticas
-		Simulador simulador = new Simulador();
+		SimuladorDebug simulador = new SimuladorDebug();//TODO lembrar de voltar para o original depois
 		
 		// Cria a variável leTeclado para ler os dados fornecidos pelo usuário no inicio da simulação
 		Scanner leTeclado = new Scanner(System.in);
