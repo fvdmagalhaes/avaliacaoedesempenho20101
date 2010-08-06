@@ -11,30 +11,6 @@ public class EventoFimRecepReforco extends Evento{
 	 private int quantidadeQuadro;
 	 private int quantidadeTentativas;
 	 private boolean colisaoPendente=false;
-	
-	public int getQuantidadeQuadro() {
-		return quantidadeQuadro;
-	}
-
-	public void setQuantidadeQuadro(int quantidadeQuadro) {
-		this.quantidadeQuadro = quantidadeQuadro;
-	}
-
-	public int getQuantidadeTentativas() {
-		return quantidadeTentativas;
-	}
-
-	public void setQuantidadeTentativas(int quantidadeTentativas) {
-		this.quantidadeTentativas = quantidadeTentativas;
-	}
-
-	public boolean isColisaoPendente() {
-		return colisaoPendente;
-	}
-
-	public void setColisaoPendente(boolean colisaoPendente) {
-		this.colisaoPendente = colisaoPendente;
-	}
 
 	public EventoFimRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
 		this.setTempoInicial(tempoInicio);
@@ -101,5 +77,29 @@ public class EventoFimRecepReforco extends Evento{
 		}
 		
 		return listaEventos;
+	}
+	
+	public int getQuantidadeQuadro() {
+		return quantidadeQuadro;
+	}
+
+	public void setQuantidadeQuadro(int quantidadeQuadro) {
+		this.quantidadeQuadro = quantidadeQuadro;
+	}
+
+	public int getQuantidadeTentativas() {
+		return quantidadeTentativas;
+	}
+
+	public void setQuantidadeTentativas(int quantidadeTentativas) {
+		this.quantidadeTentativas = quantidadeTentativas;
+	}
+
+	public boolean isColisaoPendente() {
+		return colisaoPendente;
+	}
+
+	public void setColisaoPendente(boolean colisaoPendente) {
+		this.colisaoPendente = colisaoPendente;
 	}
 }

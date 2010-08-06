@@ -21,6 +21,8 @@ public class EventoIniciaTransReforco extends Evento{
 	/*
 	 * Esta classe simula o início da transmissão do reforço de colisão por uma Estação
 	 * que acabou de detectar colisão.
+	 * Este Evento gera o início da recepção do reforço nas demais Estações
+	 * e o fim da transmissão do reforço para esta Estação
 	 * */
 	
 	@Override
