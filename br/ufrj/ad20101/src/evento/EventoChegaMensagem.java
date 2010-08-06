@@ -34,7 +34,10 @@ public class EventoChegaMensagem extends Evento{
 		
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
-		
+		//gerando o início da transmissão da mensagem
+		EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao)servicos.geraEvento(PREPARA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+		//adiciona a lista de Eventos
+		listaEventos.add(eventoPrepararTransmissao);
 		//gerando a chegada da próxima mensagem para esta Estação
 		EventoChegaMensagem eventoChegaMensagem = (EventoChegaMensagem) servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(this.getEstacao(), this.getTempoInicial()), this.getEstacao(), this.getEstacoes());
 		//adicionando a nova chegada à lista de Eventos
