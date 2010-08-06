@@ -3,7 +3,6 @@ package br.ufrj.ad20101.src.evento;
 import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
-import br.ufrj.ad20101.src.servicos.Constantes;
 
 public class EventoDescartaQuadro extends Evento{
 	
