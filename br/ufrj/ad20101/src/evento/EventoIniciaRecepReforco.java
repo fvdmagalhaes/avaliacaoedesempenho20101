@@ -14,8 +14,11 @@ public class EventoIniciaRecepReforco extends Evento{
 		this.setTipoEvento(INICIA_RECEP_REFORCO);
 	}
 	
-	/*TODO
+	/*
 	 * Este evento simplesmente trata a recepção de um reforço de colisão por uma estação da rede.
+	 * Estação gera um evento de Fim de Reforço de Colisão e adiciona a lista de eventos. Se a estação
+	 * estiver transmitindo na chegada deste evento, o evento Fim de Transmissão também é cancelado da lista
+	 * de eventos.
 	 * */
 	
 	@Override
@@ -26,7 +29,7 @@ public class EventoIniciaRecepReforco extends Evento{
 		
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO ||
 				this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO)
-		{ // Se estiver em um dos estados acima, retorna a lista de eventos sem fazer nada
+		{ 
 			EventoFimRecepReforco novoEvFimRecepRef = (EventoFimRecepReforco)servicos.geraEvento(FIM_RECEP_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes());
 			listaEventos.add(novoEvFimRecepRef);
 		}
