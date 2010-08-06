@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
+import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoIniciaRecepReforco extends Evento{
 	public EventoIniciaRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
@@ -23,6 +24,8 @@ public class EventoIniciaRecepReforco extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
+		SimuladorDebug simulador = new SimuladorDebug();
+		simulador.escreveLog("EVENTO INICIA RECEPÇÃO REFORÇO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador());
 		
 		//Criando a classe de serviço
 		Servicos servicos = new Servicos();
