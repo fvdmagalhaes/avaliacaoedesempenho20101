@@ -37,20 +37,25 @@ public class EventoPrepararTransmissao extends Evento{
 			//Estação muda para Estado "Preparando para transmitir"
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera um Evento que prepara a mensagem para transmissão e o adiona à lista de Eventos
-			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			//antes deve-se testar se o intervalo entre quadros já foi respeitado ou não
+			if(this.getTempoInicial() - this.getEstacao().getTempoUltimaRecepcao() < Constantes.INTERVALO_ENTRE_QUADROS){
+				//caso ainda nao tenha terminado o tempo, aguardar até o final
+				eventoIniciaTransmissao.setTempoInicial(this.getEstacao().getTempoUltimaRecepcao() + Constantes.INTERVALO_ENTRE_QUADROS);
+			}
 			//chama um serviço para gerar a quantidade desejada de quadros por mensagem
 			eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 			//1 pois será a primeira tentativa de enviar o primeiro quadro
 			//tentativa é importante para saber se o quadro deve ou não ser descartado
 			eventoIniciaTransmissao.setQuantidadeTentativas(1);
 			listaEventos.add(eventoIniciaTransmissao);
-		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+		}/*else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){ TODO isso é só um teste, não é definitivo 
 			//indica que o quadro está aguardando o meio ficar ocioso para transmitir
 			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
 			eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 			eventoIniciaTransmissao.setQuantidadeTentativas(1);
 			this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
-		}else{
+		}*/else{
 			//adiciona a mensagem à lista de espera da Estação
 			ArrayList<Evento> mensagensPendentes = this.getEstacao().getMensagensPendentes();
 			// Tempo do evento criado é nulo pois só será setado de fato ao sair da lista de espera  

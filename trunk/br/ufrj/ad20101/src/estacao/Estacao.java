@@ -29,10 +29,10 @@ public class Estacao {
 	private int distancia; //distancia entra a Estação e o HUB em metros
 	private int identificador; //Número da Estação (1, 2, 3 ou 4)
 	private int estado; //Indica em que estado a Estação se encontra
+	private Double tempoUltimaRecepcao = 0.0; //Indica quando foi que o meio ficou livre pela última vez
 	private Double intervaloEntreChegadas;
 	private Double quantidadeQuadros;
 	private ArrayList<Evento> mensagensPendentes = new ArrayList<Evento>(); //mensagens na fila de espera
-	private ArrayList<Evento> quadrosPendentes = new ArrayList<Evento>(); //quadro que será retransmitido após colisão
 	private EventoIniciaTransmissao quadroSentindoMeio; //quadro aguardando o meio desocupar; 'get' alterado para tornar null depois que retornar o evento
 	
 	// Estabelece a distância entre cada estação e o HUB de acordo com o enunciado do trabalho de simulação
@@ -59,6 +59,14 @@ public class Estacao {
 
 	public void setTipoChegada(int tipoChegada) {
 		this.tipoChegada = tipoChegada;
+	}
+
+	public void setTempoUltimaRecepcao(Double tempoUltimaRecepcao) {
+		this.tempoUltimaRecepcao = tempoUltimaRecepcao;
+	}
+
+	public Double getTempoUltimaRecepcao() {
+		return tempoUltimaRecepcao;
 	}
 
 	public Double getIntervaloEntreChegadas() {
@@ -107,14 +115,6 @@ public class Estacao {
 
 	public Double getQuantidadeQuadros() {
 		return quantidadeQuadros;
-	}
-
-	public void setQuadrosPendentes(ArrayList<Evento> quadrosPendentes) {
-		this.quadrosPendentes = quadrosPendentes;
-	}
-
-	public ArrayList<Evento> getQuadrosPendentes() {
-		return quadrosPendentes;
 	}
 
 	public void setQuadroSentindoMeio(EventoIniciaTransmissao quadroSentindoMeio) {

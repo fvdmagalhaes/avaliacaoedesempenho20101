@@ -128,26 +128,16 @@ public class EventoColisao extends Evento {
 				}
 			}else{
 				if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
-					/*Deve-se testar se há mensagens na fila de espera, porém
-					 *não é necessário testar se há quadros aguardando o meio desocupar, pois ele seria
-					 *transmitido antes de qualquer outro quadro ou mensagem
-					 */
 					//Estado será alterado para Ocioso, pois o tratamento da Colisão já terminou e não há retransmissões pendentes
 					this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
-					if(!this.getEstacao().getMensagensPendentes().isEmpty()){
-						//caso existam mensagens pendentes, Estação começa a transmitir a próxima mensagem da fila
-						EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao) this.getEstacao().getMensagensPendentes().get(0);
-						//seta o tempo inicial do Evento para o tempo atual, pois ele deve começar a ser tratado imediatamente
-						eventoPrepararTransmissao.setTempoInicial(this.getTempoInicial());
-						//remove a mensagem da lista de mensagens pendentes
-						this.getEstacao().getMensagensPendentes().remove(0);
-						//adiciona a mensagem à lista de Eventos
-						listaEventos.add(eventoPrepararTransmissao);
-					}
 				}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 					//Estado será alterado para Recebendo, pois o tratamento da Colisão já terminou e não há retransmissões pendentes
 					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 				}
+				//o quadro descartado foi o último da mensage, portanto a mensagem acabou 
+				EventoFimMensagem eventoFimMensagem = (EventoFimMensagem)servicos.geraEvento(FIM_MENSAGEM, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+				//adicionar o Evento à lista de Eventos
+				listaEventos.add(eventoFimMensagem);
 			}
 		}
 		return listaEventos;

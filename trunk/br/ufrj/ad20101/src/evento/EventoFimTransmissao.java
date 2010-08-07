@@ -27,10 +27,13 @@ public class EventoFimTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
+		simulador.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
+		
+		//Com o fim da recepção o meio foi detectado livre, portanto este tempo deve ser setado na Estação
+		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
 		
 		//testa o estado em que se encontra a Estação
 		//TODO este if não deveria ser necessário

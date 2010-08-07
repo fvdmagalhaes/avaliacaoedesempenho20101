@@ -62,6 +62,17 @@ public class EventoIniciaRecepReforco extends Evento{
 				//adiciona o fim da recepção à lista de Eventos
 				listaEventos.add(novoEvFimRecepRef);
 			}
+			//Agora deve-se testar se a Estação estava preparada para transmitir algum quadro
+			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.retornaEvento(listaEventos, INICIA_TRANSMISSAO, this.getEstacao());
+			//testa se a Estação estava programada para transmitir algum quadro
+			if(eventoIniciaTransmissao != null){
+				//altera o tempo do início da transmissão do quadro, que será após o fim do Reforço e somado ao tempo de intervalo entre quadros
+				eventoIniciaTransmissao.setTempoInicial(this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE + Constantes.INTERVALO_ENTRE_QUADROS);
+				//deletando o antigo da lista de eventos
+				listaEventos = servicos.deletaEvento(listaEventos, INICIA_TRANSMISSAO, this.getEstacao());
+				//adiciona Evento alterado à lista de Eventos
+				listaEventos.add(eventoIniciaTransmissao);
+			}
 		}
 		else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO)
 		{

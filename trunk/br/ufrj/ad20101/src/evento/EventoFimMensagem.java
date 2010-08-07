@@ -44,6 +44,9 @@ public class EventoFimMensagem extends Evento{
 				//adiciona a mensagem à lista de Eventos
 				listaEventos.add(eventoPrepararTransmissao);
 			}
+		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+			//nessa situação o último quadro desta mensagem foi descartado e o meio está ocupado
+			//daí este Evento não faz nada
 		}else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
