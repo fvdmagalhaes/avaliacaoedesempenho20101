@@ -29,8 +29,8 @@ public class EventoFimRecepReforco extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO FIM RECEPCAO REFORCO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
+		if(SimuladorDebug.isDebbuging())
+			SimuladorDebug.escreveLog("EVENTO FIM RECEPCAO REFORCO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
