@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import br.ufrj.ad20101.src.estatisticas.ColetaEstatistica;
 import br.ufrj.ad20101.src.evento.Evento;
 
 /*
@@ -41,12 +42,16 @@ public class SimuladorDebug {
 	
 	//Método que inicia o simulador
 	public void start(){
+		//TODO ISSO NÂO VAI FICAR AQUI!!!!
+		ColetaEstatistica coletaEstatistica = new ColetaEstatistica();
 		//Simulador funcionará por um determinado tempo indicado na variável "tempoSimulacao"
 		while(this.listaEventos.get(0).getTempoInicial() < tempoSimulacao){
 			//A lista de Eventos é ordenada por tempo do menor para o maior
 			Collections.sort(this.listaEventos);
 			//O primeiro Evento da lista, ou seja, aquele que deve acontecer antes de todos os outros é executado
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
+			//TODO ISSO NÂO VAI FICAR AQUI!!!!
+			coletaEstatistica.coletar(listaEventos.get(0));
 			//em seguida ele é retirado da lista de Eventos
 			this.listaEventos.remove(0);
 		}

@@ -21,6 +21,16 @@ public class ColetaEstatistica {
 	
 	int indice; //indica a estação que ocorreu o evento
 	
+	//editar o construtor para inicializar todos os vetores
+	public ColetaEstatistica (){
+		for(int i = 0; i < 4; i++){
+			ncm[i] = new Ncm();
+			tam[i] = new Tam();
+			tap[i] = new Tap();
+			vazao[i] = new Vazao();
+		}
+	}
+	
 	//Este método pega o Evento do parâmetro e retira as informações necessárias para coletar as estatísticas
 	public void coletar (Evento evento){
 		indice = evento.getEstacao().getIdentificador()-1;
