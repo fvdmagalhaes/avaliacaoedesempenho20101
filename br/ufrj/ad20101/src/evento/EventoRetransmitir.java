@@ -40,7 +40,12 @@ public class EventoRetransmitir extends Evento{
 			//altera Estado da Estação, pois este é o fim do tratamento da Colisão
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera o Evento que inicia a transmissão do quadro pendente 
-			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacoes().get(this.getEstacao().getIdentificador()-1), getEstacoes());
+			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, getTempoInicial(), this.getEstacoes().get(this.getEstacao().getIdentificador()-1), getEstacoes());
+			//antes deve-se testar se o intervalo entre quadros já foi respeitado ou não
+			if(this.getTempoInicial() - this.getEstacao().getTempoUltimaRecepcao() < Constantes.INTERVALO_ENTRE_QUADROS){
+				//caso ainda nao tenha terminado o tempo, aguardar até o final
+				eventoIniciaTransmissao.setTempoInicial(this.getEstacao().getTempoUltimaRecepcao() + Constantes.INTERVALO_ENTRE_QUADROS);
+			}
 			//seta as informações deste quadro
 			eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 			eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);

@@ -17,11 +17,12 @@ public class SimuladorDebug {
 	private ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 	
 	public void start(){
-		while(true){
+		while(this.listaEventos.get(0).getTempoInicial() < 15000){
 			Collections.sort(this.listaEventos);
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
 			this.listaEventos.remove(0);
 		}
+		System.out.println("Fim da simulação");
 	}
 	
 	public void setListaEventos(ArrayList<Evento> listaEventos) {

@@ -35,6 +35,9 @@ public class EventoFimRecepReforco extends Evento{
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		
+		//Com o fim da recepção o meio foi detectado livre, portanto este tempo deve ser setado na Estação
+		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
+		
 		//testa o estado em que se encontra a Estação
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO)
 		{
@@ -79,6 +82,9 @@ public class EventoFimRecepReforco extends Evento{
 			if(isColisaoPendente())
 			{
 				//Caso haja:
+				//muda o Estado para Tratando Colisão Ocioso, pois o fim do sinal de Reforço
+				//indica exatamente que o meio está livre
+				this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 				//Gera o Evento de Colisão, que começará a ser tratado neste instante
 				EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
 

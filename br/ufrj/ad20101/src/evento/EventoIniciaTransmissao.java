@@ -22,20 +22,20 @@ public class EventoIniciaTransmissao extends Evento{
 	/*
 	 * Esta classe simula a transmissão de um quadro, depois do intervalo entre quadros terminado
 	 * Caso esteja no Estado Preparando para transferir, transmissão inicia normalmente e o estado muda para transmitindo
-	 * Caso esteja no Estado Recebendo, significa que foi detectada uma colisão
-	 * 
+	 * Caso ele esteja recebendo, significa que o meio ficou ocupado neste instante, pois neste caso a Estação que gerou a última
+	 * transmissão no meio, enviou outro quadro, portanto a Estação transmitirá
 	 */
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
+		simulador.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		
 		//testa o estado em que se encontra a Estação
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//não foi detectada colisão, portanto o estado muda para transmitindo
 			this.getEstacao().setEstado(Estacao.ESTADO_TRANSFERINDO);
 			
@@ -56,7 +56,7 @@ public class EventoIniciaTransmissao extends Evento{
 					listaEventos.add(eventoFimTransmissao);
 				}
 			}
-		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+		}/*else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//colisão foi detectada
 			//altera Estado da Estação para Tratando Colisão Ocupado
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
@@ -67,7 +67,7 @@ public class EventoIniciaTransmissao extends Evento{
 			eventoIniciaTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);
 			//adiciona à lista de Eventos
 			listaEventos.add(eventoIniciaTransReforco);
-		}else{
+		}*/else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
 		}
