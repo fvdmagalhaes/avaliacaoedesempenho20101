@@ -22,8 +22,11 @@ public class SimuladorDebug {
 	//portanto pode demorar demais para terminar a simulação. 
 	private Double tempoSimulacao = 4000.0;
 	
+	// Define o arquivo de texto aonde sera gravado o resultado do log
 	static File arquivoLog = new File("logSimulador.txt");
 	static FileOutputStream fos;
+	
+	// Flag que indica a classe simulador se o modo de gravação de log está ativo ou não
 	private static boolean isDebbuging = false;
 
 	public static boolean isDebbuging() {
@@ -59,7 +62,9 @@ public class SimuladorDebug {
 		return listaEventos;
 	}
 	
-		
+	/* Cria um buffer responsável pela escrita no arquivo de log. O parâmetro false indica que o arquivo de 
+	 * texto, se existir, será sobrescrito ao gerar um novo log
+	 * */		
 	public SimuladorDebug() 
 	{
 		try {
@@ -69,6 +74,11 @@ public class SimuladorDebug {
 		}		
 	}
 
+	/*
+	 * Cada evento chama esta função EscreveLog passando a mensagem que deverá ser inserida no log.
+	 * Simplesmente utiliza o buffer "fos" de escrita do arquivo criado anteriormente e escreve a mensagem
+	 * no arquivo.
+	 */
 	public static void escreveLog(String mensagem)
 	{		
 		try 
@@ -83,6 +93,10 @@ public class SimuladorDebug {
 		}
 	}
 	
+	/*
+	 * A função encerraLog é responsável apenas por fechar o arquivo. É invocada no final da simulação,
+	 * quando não há mais nada a ser escrito no arquivo.
+	 */
 	public void encerraLog()
 	{
 		try {
