@@ -9,7 +9,18 @@ import java.util.Collections;
 
 import br.ufrj.ad20101.src.evento.Evento;
 
+/*
+ * Esta Classe representa o simulador no modo Debug.
+ * Utilizada para as correções.
+ * Log em arquivo de texto (logSimulador.txt) na pasta raíz do projeto.
+ * */
+
 public class SimuladorDebug {
+	
+	//Esta variável informa o tempo que durará a simulação em miliSegundos.
+	//Ela não deve ter um valor muito alto, pois esta classe usa escrita em arquivo,
+	//portanto pode demorar demais para terminar a simulação. 
+	private Double tempoSimulacao = 4000.0;
 	
 	static File arquivoLog = new File("logSimulador.txt");
 	static FileOutputStream fos;
@@ -25,12 +36,18 @@ public class SimuladorDebug {
 
 	private ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 	
+	//Método que inicia o simulador
 	public void start(){
-		while(this.listaEventos.get(0).getTempoInicial() < 15000){
+		//Simulador funcionará por um determinado tempo indicado na variável "tempoSimulacao"
+		while(this.listaEventos.get(0).getTempoInicial() < tempoSimulacao){
+			//A lista de Eventos é ordenada por tempo do menor para o maior
 			Collections.sort(this.listaEventos);
+			//O primeiro Evento da lista, ou seja, aquele que deve acontecer antes de todos os outros é executado
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
+			//em seguida ele é retirado da lista de Eventos
 			this.listaEventos.remove(0);
 		}
+		//apenas informa que a simulação chegou ao fim
 		System.out.println("Fim da simulação");
 	}
 	
