@@ -40,6 +40,8 @@ public class Ncm {
 			//calcula-se novamente a amostra
 			amostra = amostra*(quantidadeMensagens-1) + numeroColisoesPorQuadro;
 			amostra = amostra/quantidadeMensagens;
+			//zera a somaColisoes, pois começará uma nova mensagem
+			somaColisoes = 0;
 		}
 	}
 }
