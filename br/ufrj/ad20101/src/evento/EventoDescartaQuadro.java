@@ -25,8 +25,8 @@ public class EventoDescartaQuadro extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO DESCARTA QUADRO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
+		if(SimuladorDebug.isDebbuging())
+			SimuladorDebug.escreveLog("EVENTO DESCARTA QUADRO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
 		
 		return listaEventos;
 	}

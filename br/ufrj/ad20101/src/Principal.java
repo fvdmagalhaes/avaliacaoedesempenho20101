@@ -7,6 +7,7 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.evento.Evento;
 import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
+import br.ufrj.ad20101.src.simulador.Simulador;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class Principal {
@@ -29,8 +30,7 @@ public class Principal {
 		ArrayList <Estacao> estacoes = new ArrayList<Estacao>(4);
 		
 		// Cria um objeto da classe simulador, responsável pelo loop principal de envio de mensagens 
-		// pelas estações e pela coleta das estatísticas
-		SimuladorDebug simulador = new SimuladorDebug();//TODO lembrar de voltar para o original depois
+		// pelas estações e pela coleta das estatísticas		
 		
 		// Cria a variável leTeclado para ler os dados fornecidos pelo usuário no inicio da simulação
 		Scanner leTeclado = new Scanner(System.in);
@@ -99,8 +99,30 @@ public class Principal {
 		
 		/* Envia para o objeto simulador a lista de eventos montada com o primeiro evento apenas, que é a chegada da primeira mensagem
 		 * programada dependendo do tipo de chegada (determinística ou exponencial) e inicia a simulação. Novos eventos serão gerados
-		 * e adicionados a lista de eventos conforme necessário																		*/
-		simulador.setListaEventos(listaEventos);
-		simulador.start();
+		 * e adicionados a lista de eventos conforme necessário.
+		 * Pergunta ao usuário se deseja gerar o log da simulação. Em caso positivo, cria o arquivo logSimulador.txt na raiz do projeto */
+		do
+		{
+			System.out.println("Deseja gerar o arquivo de log da simulação? (S / N) ");
+			opcaoChar = leTeclado.next();
+			if(opcaoChar.equalsIgnoreCase("S"))
+			{
+				SimuladorDebug simulador = new SimuladorDebug();//TODO lembrar de voltar para o original depois
+				simulador.setListaEventos(listaEventos);
+				simulador.setDebbuging(true);
+				simulador.start();
+			}
+			else if(opcaoChar.equalsIgnoreCase("N"))
+			{
+				Simulador simulador = new Simulador();
+				simulador.setListaEventos(listaEventos);
+				simulador.start();
+			}
+			else
+			{
+				System.out.println("Opção inválida! Digite S ou N");
+				opcaoChar = "Erro";
+			}
+		} while(opcaoChar.equalsIgnoreCase("Erro"));
 	}
 }

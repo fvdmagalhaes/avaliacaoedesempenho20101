@@ -11,9 +11,18 @@ import br.ufrj.ad20101.src.evento.Evento;
 
 public class SimuladorDebug {
 	
-	File arquivoLog = new File("logSimulador.txt");
-	FileOutputStream fos;
-	
+	static File arquivoLog = new File("logSimulador.txt");
+	static FileOutputStream fos;
+	private static boolean isDebbuging = false;
+
+	public static boolean isDebbuging() {
+		return isDebbuging;
+	}
+
+	public void setDebbuging(boolean isDebbuging) {
+		SimuladorDebug.isDebbuging = isDebbuging;
+	}
+
 	private ArrayList<Evento> listaEventos = new ArrayList<Evento>();
 	
 	public void start(){
@@ -33,11 +42,20 @@ public class SimuladorDebug {
 		return listaEventos;
 	}
 	
-	public void escreveLog(String mensagem)
+		
+	public SimuladorDebug() 
+	{
+		try {
+			fos = new FileOutputStream(arquivoLog,false);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public static void escreveLog(String mensagem)
 	{		
 		try 
 		{
-			fos = new FileOutputStream(arquivoLog,true);
 			fos.write(mensagem.getBytes());			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

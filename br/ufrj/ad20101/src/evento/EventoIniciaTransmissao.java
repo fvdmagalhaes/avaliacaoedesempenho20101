@@ -28,8 +28,8 @@ public class EventoIniciaTransmissao extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
+		if(SimuladorDebug.isDebbuging())
+			SimuladorDebug.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();

@@ -24,8 +24,8 @@ public class EventoFimRecepcao extends Evento{
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
-		SimuladorDebug simulador = new SimuladorDebug();
-		simulador.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
+		if(SimuladorDebug.isDebbuging())
+			SimuladorDebug.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		//Com o fim da recepção o meio foi detectado livre, portanto este tempo deve ser setado na Estação
 		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
