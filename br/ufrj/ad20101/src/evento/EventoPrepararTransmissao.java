@@ -9,6 +9,8 @@ import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoPrepararTransmissao extends Evento{
 	
+	private int quantidadeQuadro;
+	
 	public EventoPrepararTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
@@ -19,7 +21,7 @@ public class EventoPrepararTransmissao extends Evento{
 	/*
 	 * Esta classe simula a chegada do primeiro quadro de uma mensagem em uma determinada Estação
 	 * Caso a Estação esteja ociosa, o quadro poderá começar a ser transmitido em 9.6 microSegundos
-	 * Caso esteja recebendo, a estação deve continuar observando o meio
+	 * Caso esteja recebendo, a estação deve continuar observando o meio (TODO isso deve ser retirado se o TODO de baixo se manter) 
 	 * Caso contrário, se estiver ainda transmitindo a mensagem anterior ou tratando uma possível colisão, 
 	 * a mensagem entrará na fila de espera de mensagens da Estação
 	 * */
@@ -43,8 +45,8 @@ public class EventoPrepararTransmissao extends Evento{
 				//caso ainda nao tenha terminado o tempo, aguardar até o final
 				eventoIniciaTransmissao.setTempoInicial(this.getEstacao().getTempoUltimaRecepcao() + Constantes.INTERVALO_ENTRE_QUADROS);
 			}
-			//chama um serviço para gerar a quantidade desejada de quadros por mensagem
-			eventoIniciaTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
+			//seta quantidade quadros
+			eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 			//1 pois será a primeira tentativa de enviar o primeiro quadro
 			//tentativa é importante para saber se o quadro deve ou não ser descartado
 			eventoIniciaTransmissao.setQuantidadeTentativas(1);
@@ -63,5 +65,13 @@ public class EventoPrepararTransmissao extends Evento{
 			this.getEstacao().setMensagensPendentes(mensagensPendentes);
 		}
 		return listaEventos;
+	}
+
+	public void setQuantidadeQuadro(int quantidadeQuadro) {
+		this.quantidadeQuadro = quantidadeQuadro;
+	}
+
+	public int getQuantidadeQuadro() {
+		return quantidadeQuadro;
 	}
 }

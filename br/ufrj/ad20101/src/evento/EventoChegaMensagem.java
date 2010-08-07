@@ -36,6 +36,8 @@ public class EventoChegaMensagem extends Evento{
 		Servicos servicos = new Servicos();
 		//gerando o início da transmissão da mensagem
 		EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao)servicos.geraEvento(PREPARA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+		//chama um serviço para gerar a quantidade desejada de quadros por mensagem
+		eventoPrepararTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 		//adiciona a lista de Eventos
 		listaEventos.add(eventoPrepararTransmissao);
 		//gerando a chegada da próxima mensagem para esta Estação
