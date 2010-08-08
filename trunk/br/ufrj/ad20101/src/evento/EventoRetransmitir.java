@@ -3,6 +3,7 @@ package br.ufrj.ad20101.src.evento;
 import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
+import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
@@ -28,24 +29,29 @@ public class EventoRetransmitir extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
+			SimuladorDebug.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
 
 		//cria a classe de serviço
 		Servicos servicos = new Servicos();
 		
 		//testa o estado em que se encontra a Estação
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO || this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO /*|| this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO*/){
 			//meio está desocupado, quadro será retransmitido imediatamente
 			//altera Estado da Estação, pois este é o fim do tratamento da Colisão
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera o Evento que inicia a transmissão do quadro pendente 
 			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, getTempoInicial(), this.getEstacao(), getEstacoes());
+			//antes deve-se testar se o intervalo entre quadros já foi respeitado ou não
+			if(this.getTempoInicial() - this.getEstacao().getTempoUltimaRecepcao() < Constantes.INTERVALO_ENTRE_QUADROS){
+				//caso ainda nao tenha terminado o tempo, aguardar até o final
+				eventoIniciaTransmissao.setTempoInicial(this.getEstacao().getTempoUltimaRecepcao() + Constantes.INTERVALO_ENTRE_QUADROS);
+			}
 			//seta as informações deste quadro
 			eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 			eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);
 			//adiciona à lista de Eventos
 			listaEventos.add(eventoIniciaTransmissao);
-		}/*else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
+		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			//meio está ocupado, Estação continua sentindo o meio até que ele dique livre
 			//altera o Estado da Estação, pois este é o fim do tratamento da Colisão 
 			this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
@@ -56,7 +62,7 @@ public class EventoRetransmitir extends Evento{
 			eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);
 			//quadro passa a sentir o meio até que desocupe
 			this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
-		}*/else{
+		}else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
 		}

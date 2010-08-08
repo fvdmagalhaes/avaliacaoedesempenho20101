@@ -35,6 +35,9 @@ public class Servicos {
 	public Double binaryBackoff(int quantidadeColisoes){
 		Double random = Math.random();
 		int i=1;
+		if(quantidadeColisoes > 10){
+			quantidadeColisoes = 10;
+		}
 		for(; random > i/Math.pow(2,quantidadeColisoes); i++);
 		return (i-1)*Constantes.TEMPO_BINARY_BACKOFF;
 	}
