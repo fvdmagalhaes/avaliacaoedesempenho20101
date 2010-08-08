@@ -42,6 +42,9 @@ public class EventoFimTransReforco extends Evento{
 		if(eventoFimRecepReforco != null){
 			//se não estiver, o tempo inicial da colisao será quando o meio estiver livre 
 			eventoColisao.setTempoInicial(eventoFimRecepReforco.getTempoInicial());
+		}else{
+			//se o meio estiver livre e a estação estiver tratando colisão, muda o Estado para tratando colisao ocioso
+			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 		}
 		//adiciona o Evento de Colisão à lista de Eventos
 		listaEventos.add(eventoColisao);

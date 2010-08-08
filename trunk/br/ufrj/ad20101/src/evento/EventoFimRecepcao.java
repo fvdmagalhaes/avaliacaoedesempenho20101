@@ -61,7 +61,11 @@ public class EventoFimRecepcao extends Evento{
 			}
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			//Caso a estação esteja tratando colisão, o meio agora esta desocupado
-			this.getEstacoes().get(this.getEstacao().getIdentificador()-1).setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
+			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
+		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
+			//a única forma de acontecer isso é se a estação esta retransmitindo algo após o intervalo
+			//estipulado pelo algoritmo Binary Backoff e, nesse caso, ela transmite independente do meio,
+			//portanto, nessa situação, nada muda para a estação
 		}else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
