@@ -39,13 +39,11 @@ public class EventoFimRecepReforco extends Evento{
 		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
 		
 		//testa o estado em que se encontra a Estação
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO)
-		{
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//Pelo Estado da Estação, nota-se que ela não tem colisões para tratar, então
 			//resta ver se há alguma transmissão pendente
 			EventoIniciaTransmissao eventoIniciaTransmissão = this.getEstacao().getQuadroSentindoMeio();
-			if(eventoIniciaTransmissão != null)
-			{
+			if(eventoIniciaTransmissão != null){
 				//caso a Estação esteja aguardando o meio ficar livre para transmitir um quadro
 				//será transmitido agora
 				//setando o tempo
@@ -55,8 +53,7 @@ public class EventoFimRecepReforco extends Evento{
 				//altera o Estado da Estação
 				this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			}
-			else if(!this.getEstacao().getMensagensPendentes().isEmpty())
-			{
+			else if(!this.getEstacao().getMensagensPendentes().isEmpty()){
 				//caso contrário, se houver uma mensagem na fila de mensagens, ela será transmitida
 				//recupera a mensagem da lista
 				EventoPrepararTransmissao pegaEvPrepTransm = (EventoPrepararTransmissao)this.getEstacao().getMensagensPendentes().get(0);
@@ -69,18 +66,15 @@ public class EventoFimRecepReforco extends Evento{
 				//altera o Estado da Estação
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
-			else
-			{
+			else{
 				//Caso não haja nada para ser transmitido, Estação vai apra o Estado Ocioso e aguarda novos eventos
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
 			
 		}
-		else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO)
-		{
+		else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			//testa se a geração do Evento de Colisão está pendente ou não
-			if(isColisaoPendente())
-			{
+			if(isColisaoPendente()){
 				//Caso haja:
 				//muda o Estado para Tratando Colisão Ocioso, pois o fim do sinal de Reforço
 				//indica exatamente que o meio está livre
@@ -95,15 +89,16 @@ public class EventoFimRecepReforco extends Evento{
 				listaEventos.add(eventoColisao);
 				return listaEventos;
 			}
-			else
-			{
+			else{
 				//caso contrário, apenas muda para o Estado Ocioso e Tratando Colisão, pois o Evento
 				//de Colisão será tratado logo
 				this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 			}
-		}
-		else
-		{
+		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
+			//a única forma de acontecer isso é se a estação esta retransmitindo algo após o intervalo
+			//estipulado pelo algoritmo Binary Backoff e, nesse caso, ela transmite independente do meio,
+			//portanto, nessa situação, nada muda para a estação
+		}else{
 			System.out.println("ERRO: Estação se encontra em um estado inexistente!");
 		}
 		

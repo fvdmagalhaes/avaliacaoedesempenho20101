@@ -21,7 +21,7 @@ public class SimuladorDebug {
 	//Esta variável informa o tempo que durará a simulação em miliSegundos.
 	//Ela não deve ter um valor muito alto, pois esta classe usa escrita em arquivo,
 	//portanto pode demorar demais para terminar a simulação. 
-	private Double tempoSimulacao = 10000000.0;
+	private Double tempoSimulacao = 1000000.0;
 	
 	// Define o arquivo de texto aonde sera gravado o resultado do log
 	static File arquivoLog = new File("logSimulador.txt");

@@ -59,5 +59,8 @@ public class Utilizacao {
 				utilizacao = tempoOcupado/(tempoOcupado + tempoOcioso);
 			}
 		}
+		if(tempoAtual > 800000){
+			tempoAtual = tempoAtual;
+		}
 	}
 }
