@@ -28,7 +28,7 @@ public class Utilizacao {
 	
 	//Este método calcula tudo referente à Utilização do Ethernet
 	public void coletar (Estacao estacao, Double tempoAtual){
-		if((estacao.getEstado() == Estacao.ESTADO_RECEBENDO || estacao.getEstado() == Estacao.ESTADO_TRANSFERINDO || estacao.getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO || estacao.getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR)){
+		if((estacao.getEstado() == Estacao.ESTADO_RECEBENDO || estacao.getEstado() == Estacao.ESTADO_TRANSFERINDO || estacao.getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO)){
 			//caso entre aqui o meio está ocupado
 			//este if testa se o meio não estava ocupado antes
 			if(!ocupado){
@@ -58,9 +58,6 @@ public class Utilizacao {
 				//calcula-se a utilização
 				utilizacao = tempoOcupado/(tempoOcupado + tempoOcioso);
 			}
-		}
-		if(tempoAtual > 800000){
-			utilizacao = utilizacao;
 		}
 	}
 }
