@@ -27,7 +27,7 @@ public class EventoFimTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
+			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro()+" COM ESTADO: "+this.getEstacao().getEstado() + "\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();

@@ -29,13 +29,13 @@ public class EventoIniciaTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() + "\n");
+			SimuladorDebug.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() +" COM ESTADO: "+this.getEstacao().getEstado()+ "\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		
 		//testa o estado em que se encontra a Estação
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR || this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_PREPARANDO_TRANSFERIR/* || this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO*/){
 			//não foi detectada colisão, portanto o estado muda para transmitindo
 			this.getEstacao().setEstado(Estacao.ESTADO_TRANSFERINDO);
 			
@@ -56,7 +56,7 @@ public class EventoIniciaTransmissao extends Evento{
 					listaEventos.add(eventoFimTransmissao);
 				}
 			}
-		}/*else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
+		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
 			//colisão foi detectada
 			//altera Estado da Estação para Tratando Colisão Ocupado
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
@@ -67,7 +67,7 @@ public class EventoIniciaTransmissao extends Evento{
 			eventoIniciaTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);
 			//adiciona à lista de Eventos
 			listaEventos.add(eventoIniciaTransReforco);
-		}*/else{
+		}else{
 			System.out.println("ERRO: Estação se encontra num estado não existente");
 			System.exit(0);
 		}
