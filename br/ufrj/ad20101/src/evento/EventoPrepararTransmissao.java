@@ -60,8 +60,10 @@ public class EventoPrepararTransmissao extends Evento{
 		}*/else{
 			//adiciona a mensagem à lista de espera da Estação
 			ArrayList<Evento> mensagensPendentes = this.getEstacao().getMensagensPendentes();
-			// Tempo do evento criado é nulo pois só será setado de fato ao sair da lista de espera  
-			mensagensPendentes.add(servicos.geraEvento(PREPARA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes()));
+			// Tempo do evento criado é nulo pois só será setado de fato ao sair da lista de espera 
+			EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao)servicos.geraEvento(PREPARA_TRANSMISSAO, null, this.getEstacao(), this.getEstacoes());
+			eventoPrepararTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
+			mensagensPendentes.add(eventoPrepararTransmissao);
 			this.getEstacao().setMensagensPendentes(mensagensPendentes);
 		}
 		return listaEventos;

@@ -10,6 +10,8 @@ import br.ufrj.ad20101.src.evento.EventoPrepararTransmissao;
 
 public class Ncm {
 	
+	//este flag indica que uma mensagem já foi iniciada e não foi finalizada
+	boolean coletando = false;
 	//guarda a quantidade de quadros da mensagem atual
 	int quantidadeQuadros;
 	//guarda a soma das colisões que aconteceram de cada quadro da mensagem atual
@@ -18,14 +20,16 @@ public class Ncm {
 	int quantidadeMensagens = 0;
 	//total de colisoes dividido pela quantidade de quadros da mensagem atual
 	Double numeroColisoesPorQuadro;
-	//guarda a amostra gerada até o momento da esperança do número médio de colisões por quadro
+	//guarda a amostra, gerada até o momento, da esperança do número médio de colisões por quadro
 	Double amostra = 0.0;
 	
 	//Este método calcula tudo referente ao número médio de colisões
 	public void coletar (Evento evento){
-		if(evento.getTipoEvento() == Evento.PREPARA_TRANSMISSAO){
+		if(evento.getTipoEvento() == Evento.PREPARA_TRANSMISSAO && !coletando){
 			//Se este evento está gerando uma nova mensagem, pegar a quantidade de quadros dessa nova mensagem
 			quantidadeQuadros = ((EventoPrepararTransmissao)evento).getQuantidadeQuadro();
+			//seta o flag
+			coletando = true;
 		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
 			//Se o quadro foi transmitido com sucesso, então a quantidade de tentativas de transmiti-lo informa a quantidade de colisões
 			somaColisoes += ((EventoFimTransmissao)evento).getQuantidadeTentativas() - 1; // menos 1, pois na primeira tentativa ainda não ocorreu uma colisão
@@ -42,6 +46,8 @@ public class Ncm {
 			amostra = amostra/quantidadeMensagens;
 			//zera a somaColisoes, pois começará uma nova mensagem
 			somaColisoes = 0;
+			//desabilitao flag novamente
+			coletando = false;
 		}
 	}
 }

@@ -37,7 +37,9 @@ public class ColetaEstatistica {
 		ncm[indice].coletar(evento);
 		tam[indice].coletar(evento);
 		tap[indice].coletar(evento);
-		utilizacao.coletar(evento);
+		if(evento.getEstacao().getIdentificador() == 1){
+			utilizacao.coletar(evento.getEstacao(), evento.getTempoInicial());
+		}
 		vazao[indice].coletar(evento);
 	}
 	
