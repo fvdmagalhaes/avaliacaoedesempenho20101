@@ -2,8 +2,7 @@ package br.ufrj.ad20101.src.estatisticas;
 
 import br.ufrj.ad20101.src.evento.Evento;
 import br.ufrj.ad20101.src.evento.EventoDescartaQuadro;
-import br.ufrj.ad20101.src.evento.EventoFimTransmissao;
-import br.ufrj.ad20101.src.servicos.Constantes;
+import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
 
 /*
  * Esta classe é responsável por calcular o Tempo de Acesso de uma Mensagem
@@ -34,10 +33,10 @@ public class Tam {
 			//seta o flag de descartado para false e o de coletando para true
 			descartado = false;
 			coletando = true;
-		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
+		}else if(evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
 			//testa se este é o último quadro da mensagem
-			if (((EventoFimTransmissao)evento).getQuantidadeQuadro() == 1){
-				tempoUltimoQuadro = evento.getTempoInicial() - Constantes.TEMPO_QUADRO_ENLACE;
+			if (((EventoIniciaTransmissao)evento).getQuantidadeQuadro() == 1){
+				tempoUltimoQuadro = evento.getTempoInicial();
 			}
 		}else if(evento.getTipoEvento() == Evento.DESCARTA_QUADRO){
 			//testa se este é o último quadro da mensagem

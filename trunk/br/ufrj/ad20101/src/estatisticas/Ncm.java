@@ -22,6 +22,7 @@ public class Ncm {
 	Double numeroColisoesPorQuadro;
 	//guarda a amostra, gerada até o momento, da esperança do número médio de colisões por quadro
 	Double amostra = 0.0;
+	int totalColisoes = 0;
 	
 	//Este método calcula tudo referente ao número médio de colisões
 	public void coletar (Evento evento){
@@ -44,6 +45,7 @@ public class Ncm {
 			//calcula-se novamente a amostra
 			amostra = amostra*(quantidadeMensagens-1) + numeroColisoesPorQuadro;
 			amostra = amostra/quantidadeMensagens;
+			totalColisoes += somaColisoes;
 			//zera a somaColisoes, pois começará uma nova mensagem
 			somaColisoes = 0;
 			//desabilitao flag novamente

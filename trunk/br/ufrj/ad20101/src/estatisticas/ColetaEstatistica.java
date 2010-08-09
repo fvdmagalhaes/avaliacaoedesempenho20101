@@ -41,6 +41,9 @@ public class ColetaEstatistica {
 			utilizacao.coletar(evento.getEstacao(), evento.getTempoInicial());
 		}
 		vazao[indice].coletar(evento);
+		if(evento.getTempoInicial() > 800000){
+			System.out.println("Hora de Coletar!");
+		}
 	}
 	
 	public Ncm[] getNcm() {
