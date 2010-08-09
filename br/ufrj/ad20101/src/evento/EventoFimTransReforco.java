@@ -3,6 +3,7 @@ package br.ufrj.ad20101.src.evento;
 import java.util.ArrayList;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
+import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
@@ -45,6 +46,8 @@ public class EventoFimTransReforco extends Evento{
 		}else{
 			//se o meio estiver livre e a estação estiver tratando colisão, muda o Estado para tratando colisao ocioso
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
+			//e seta o tempo inicial do tratamento de colisão para depois que ele terminar de receber o próprio sinal de reforço
+			eventoColisao.setTempoInicial(this.getTempoInicial() + 2*(this.getEstacao().getDistancia()*Constantes.PROPAGACAO_ELETRICA));
 		}
 		//adiciona o Evento de Colisão à lista de Eventos
 		listaEventos.add(eventoColisao);

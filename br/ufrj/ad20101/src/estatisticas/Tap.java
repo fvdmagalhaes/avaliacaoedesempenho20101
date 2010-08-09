@@ -1,7 +1,6 @@
 package br.ufrj.ad20101.src.estatisticas;
 
 import br.ufrj.ad20101.src.evento.Evento;
-import br.ufrj.ad20101.src.servicos.Constantes;
 
 /*
  * Esta classe é responsável por calcular o Tempo de Acesso de um Quadro
@@ -24,15 +23,20 @@ public class Tap {
 	
 	//Este método calcula tudo referente ao Tempo de Acesso de um Quadro
 	public void coletar (Evento evento){
-		if((evento.getTipoEvento() == Evento.PREPARA_TRANSMISSAO || evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO)&& !coletando){
-			//Momento em que o quadro é considerado para transmissão
-			tempoInicioQuadro = evento.getTempoInicial();
-			//seta o flag de coletando para true
-			coletando = true;
+		if( evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
+			if(!coletando){
+				//Momento em que o quadro é considerado para transmissão
+				tempoInicioQuadro = evento.getTempoInicial();
+				//no melhor caso, não vai haver colisão
+				tempoFimQuadro = evento.getTempoInicial();
+				//seta o flag de coletando para true
+				coletando = true;
+			}else{
+				//caso haja colisão, atualiza o tempo final
+				tempoFimQuadro = evento.getTempoInicial();
+			}
 		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
-			//quadro transmitido com sucesso, subtrai o tempo do tempo do quadro no enlace e descobre-se o 
-			//tempo em que ele começou a ser transmitido com sucesso
-			tempoFimQuadro = evento.getTempoInicial() - Constantes.TEMPO_QUADRO_ENLACE;
+			//quadro transmitido com sucesso
 			//mais um quadro pode ser contabilizada
 			quantidadeQuadros ++;
 			//calcula o intervalo entre o primeiro quadro e o último
