@@ -17,7 +17,7 @@ public class Vazao {
 	//guarda a quantidade de quadros transmitidos com sucesso
 	int quantidadeQuadros = 0;
 	//guarda uma amostra da vazao
-	Double amostra;
+	public Double amostra;
 	
 	//Este método calcula tudo referente à Vazão
 	public void coletar (Evento evento){

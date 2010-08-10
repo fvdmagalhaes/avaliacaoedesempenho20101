@@ -10,10 +10,11 @@ public class EventoIniciaRecepcao extends Evento{
 	
 	private Double tempoRecepcao;
 	
-	public EventoIniciaRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoIniciaRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(INICIA_RECEPCAO);
 	}
 	
@@ -42,7 +43,7 @@ public class EventoIniciaRecepcao extends Evento{
 			//Estação passa para o Estado tratando colisão
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
 			//gera o Evento que interrompe a transmissão
-			EventoInterrompeTransmissao eventoInterrompeTransmissao = (EventoInterrompeTransmissao)servicos.geraEvento(INTERROMPE_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			EventoInterrompeTransmissao eventoInterrompeTransmissao = (EventoInterrompeTransmissao)servicos.geraEvento(INTERROMPE_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(), this.getRodada());
 			listaEventos.add(eventoInterrompeTransmissao);
 		}else if (this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
 			//Estado tratando colisão com meio ocioso, agora o meio esta ocupado

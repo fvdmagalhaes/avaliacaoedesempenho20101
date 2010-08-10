@@ -8,10 +8,11 @@ import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoIniciaRecepReforco extends Evento{
-	public EventoIniciaRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoIniciaRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(INICIA_RECEP_REFORCO);
 	}
 	
@@ -58,7 +59,7 @@ public class EventoIniciaRecepReforco extends Evento{
 			}else{
 				//nesse caso, a Estação mantém o mesmo Estado, pois o meio continua ocupado
 				//devido à transmissão de outra Estação
-				EventoFimRecepReforco novoEvFimRecepRef = (EventoFimRecepReforco)servicos.geraEvento(FIM_RECEP_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes());
+				EventoFimRecepReforco novoEvFimRecepRef = (EventoFimRecepReforco)servicos.geraEvento(FIM_RECEP_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes(), this.getRodada());
 				//adiciona o fim da recepção à lista de Eventos
 				listaEventos.add(novoEvFimRecepRef);
 			}
@@ -81,7 +82,7 @@ public class EventoIniciaRecepReforco extends Evento{
 			//o estado deve ser alterado para Tratando Colisão Ocupado, pois de fato uma colisão acabou de ser detectada por esta Estação
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
 			//gera o Evento de fim de recepção do Reforço
-			EventoFimRecepReforco novoEvFimRecepRef = (EventoFimRecepReforco)servicos.geraEvento(FIM_RECEP_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes());
+			EventoFimRecepReforco novoEvFimRecepRef = (EventoFimRecepReforco)servicos.geraEvento(FIM_RECEP_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes(),this.getRodada());
 			//recupera da lista de Eventos o FimTransmissão
 			EventoFimTransmissao evFimTransmissao = (EventoFimTransmissao)servicos.retornaEvento(listaEventos,Evento.FIM_TRANSMISSAO,this.getEstacao());
 			//guarda as informações que serão necessárias para o Evento de Colisão

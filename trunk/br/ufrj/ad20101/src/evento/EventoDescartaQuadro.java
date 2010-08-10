@@ -9,10 +9,11 @@ public class EventoDescartaQuadro extends Evento{
 	
 	private int quantidadeQuadro;
 	
-	public EventoDescartaQuadro(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoDescartaQuadro(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(DESCARTA_QUADRO);
 	}
 	

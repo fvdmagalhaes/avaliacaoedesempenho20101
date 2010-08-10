@@ -21,8 +21,7 @@ public class Ncm {
 	//total de colisoes dividido pela quantidade de quadros da mensagem atual
 	Double numeroColisoesPorQuadro;
 	//guarda a amostra, gerada até o momento, da esperança do número médio de colisões por quadro
-	Double amostra = 0.0;
-	int totalColisoes = 0;
+	public Double amostra = 0.0;
 	
 	//Este método calcula tudo referente ao número médio de colisões
 	public void coletar (Evento evento){
@@ -31,13 +30,13 @@ public class Ncm {
 			quantidadeQuadros = ((EventoPrepararTransmissao)evento).getQuantidadeQuadro();
 			//seta o flag
 			coletando = true;
-		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
+		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO && coletando){
 			//Se o quadro foi transmitido com sucesso, então a quantidade de tentativas de transmiti-lo informa a quantidade de colisões
 			somaColisoes += ((EventoFimTransmissao)evento).getQuantidadeTentativas() - 1; // menos 1, pois na primeira tentativa ainda não ocorreu uma colisão
-		}else if (evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
+		}else if (evento.getTipoEvento() == Evento.FIM_TRANSMISSAO && coletando){
 			//Se o quadro foi descartado, então ele também entra na conta
 			somaColisoes += 16;
-		}else if (evento.getTipoEvento() == Evento.FIM_MENSAGEM){
+		}else if (evento.getTipoEvento() == Evento.FIM_MENSAGEM && coletando){
 			//mais uma mensagem pode ser contabilizada
 			quantidadeMensagens ++;
 			//tira-se o número de colisões por quadro desta mensagem
@@ -45,7 +44,6 @@ public class Ncm {
 			//calcula-se novamente a amostra
 			amostra = amostra*(quantidadeMensagens-1) + numeroColisoesPorQuadro;
 			amostra = amostra/quantidadeMensagens;
-			totalColisoes += somaColisoes;
 			//zera a somaColisoes, pois começará uma nova mensagem
 			somaColisoes = 0;
 			//desabilitao flag novamente

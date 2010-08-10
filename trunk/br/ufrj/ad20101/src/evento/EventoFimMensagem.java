@@ -6,10 +6,11 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoFimMensagem extends Evento{
-	public EventoFimMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoFimMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(FIM_MENSAGEM);
 	}
 	

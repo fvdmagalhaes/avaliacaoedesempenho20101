@@ -12,10 +12,11 @@ public class EventoFimTransReforco extends Evento{
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 	
-	public EventoFimTransReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoFimTransReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(FIM_TRANS_REFORCO);
 	}
 	
@@ -35,7 +36,7 @@ public class EventoFimTransReforco extends Evento{
 		//primeiramente deve ser testado se o meio está de fato livre para que o tratamento da colisão possa ser feito
 		EventoFimRecepReforco eventoFimRecepReforco = (EventoFimRecepReforco)servicos.retornaEvento(listaEventos, FIM_RECEP_REFORCO, this.getEstacao());
 		//gera o Evento de Colisão, que começará a ser tratado neste instante
-		EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+		EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada());
 		//passa as informações necessárias para o Evento de Colisão
 		eventoColisao.setQuantidadeQuadro(this.quantidadeQuadro);
 		eventoColisao.setQuantidadeTentativas(this.quantidadeTentativas);
