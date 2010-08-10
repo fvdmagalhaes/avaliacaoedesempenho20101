@@ -9,6 +9,8 @@ import br.ufrj.ad20101.src.evento.EventoIniciaTransmissao;
  * */
 
 public class Tam {
+	//este flag indica que o tempo inicial do primeiro quadro já foi pego, caso haja colisão não pegar o tempo do primeiro quadro duas vezes
+	boolean primeiroQuadroCapturado = false;
 	//este flag indica que uma mensagem já foi iniciada e não foi finalizada
 	boolean coletando = false;
 	//este flag serve para indicar o último quadro da mensagem foi descartado e 
@@ -24,6 +26,8 @@ public class Tam {
 	int quantidadeMensagens = 0;
 	//guarda a amostra, gerada até o momento, da esperança do tempo de acesso de uma Mensagem
 	Double amostra = 0.0;
+	//guarda o valor do primeiro quadro
+	int primeiroQuadro = 0;
 	
 	//Este método calcula tudo referente ao Tempo de Acesso de uma Mensagem
 	public void coletar (Evento evento){
@@ -43,14 +47,19 @@ public class Tam {
 			if (((EventoDescartaQuadro)evento).getQuantidadeQuadro() == 1){
 				descartado = true;
 			}
-		}else if(evento.getTipoEvento() == Evento.FIM_MENSAGEM && !descartado){
-			//mais uma mensagem pode ser contabilizada
-			quantidadeMensagens ++;
-			//calcula o intervalo entre o primeiro quadro e o último
-			intervaloPrimeiroUltimo = tempoUltimoQuadro - tempoPrimeiroQuadro;
-			//calcula-se novamente a amostra
-			amostra = amostra*(quantidadeMensagens-1) + intervaloPrimeiroUltimo;
-			amostra = amostra/quantidadeMensagens;
+		}else if(evento.getTipoEvento() == Evento.FIM_MENSAGEM /*&& !descartado*/){
+			if(!descartado){
+				//mais uma mensagem pode ser contabilizada
+				quantidadeMensagens ++;
+				//calcula o intervalo entre o primeiro quadro e o último
+				intervaloPrimeiroUltimo = tempoUltimoQuadro - tempoPrimeiroQuadro;
+				//calcula-se novamente a amostra
+				amostra = amostra*(quantidadeMensagens-1) + intervaloPrimeiroUltimo;
+				amostra = amostra/quantidadeMensagens;
+			}else{
+				descartado = false;
+			}
+			//independente do quadro ter sido descartado, com o fim da mensagem coletando vai para false
 			coletando = false;
 		}
 	}

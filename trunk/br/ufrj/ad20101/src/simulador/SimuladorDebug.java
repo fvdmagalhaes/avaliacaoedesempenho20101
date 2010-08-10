@@ -19,9 +19,9 @@ import br.ufrj.ad20101.src.evento.Evento;
 public class SimuladorDebug {
 	
 	//Esta variável informa o tempo que durará a simulação em miliSegundos.
-	//Ela não deve ter um valor muito alto, pois esta classe usa escrita em arquivo,
+	//Ela não deve ter um valor muito alto, pois esta classe pode usar escrita em arquivo,
 	//portanto pode demorar demais para terminar a simulação. 
-	private Double tempoSimulacao = 1000000.0;
+	private Double tempoSimulacao = 3610000.0;
 	
 	// Define o arquivo de texto aonde sera gravado o resultado do log
 	static File arquivoLog = new File("logSimulador.txt");
@@ -42,19 +42,22 @@ public class SimuladorDebug {
 	
 	//Método que inicia o simulador
 	public void start(){
-		//TODO ISSO NÂO VAI FICAR AQUI!!!!
+		//instancia a classe que vai calcular todas as estatísticas solicitadas
 		ColetaEstatistica coletaEstatistica = new ColetaEstatistica();
+		//armazena o evento atual
+		Evento eventoCorrente;
+		
 		//Simulador funcionará por um determinado tempo indicado na variável "tempoSimulacao"
-		while(this.listaEventos.get(0).getTempoInicial() < tempoSimulacao){
+		do{
 			//A lista de Eventos é ordenada por tempo do menor para o maior
 			Collections.sort(this.listaEventos);
 			//O primeiro Evento da lista, ou seja, aquele que deve acontecer antes de todos os outros é executado
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
-			//TODO ISSO NÂO VAI FICAR AQUI!!!!
-			coletaEstatistica.coletar(listaEventos.get(0));
 			//em seguida ele é retirado da lista de Eventos
-			this.listaEventos.remove(0);
-		}
+			eventoCorrente = this.listaEventos.remove(0);
+			//e, por último, usado no cálculo das estatísticas
+			coletaEstatistica.coletar(eventoCorrente);
+		}while(eventoCorrente.getTempoInicial() < tempoSimulacao);
 		//apenas informa que a simulação chegou ao fim
 		System.out.println("Fim da simulação");
 	}
