@@ -19,7 +19,7 @@ public class Tap {
 	//guarda a quantidade de mensagens
 	int quantidadeQuadros = 0;
 	//guarda a amostra, gerada até o momento, da esperança do tempo de acesso de uma Mensagem
-	Double amostra = 0.0;
+	public Double amostra = 0.0;
 	
 	//Este método calcula tudo referente ao Tempo de Acesso de um Quadro
 	public void coletar (Evento evento){
@@ -31,11 +31,11 @@ public class Tap {
 				tempoFimQuadro = evento.getTempoInicial();
 				//seta o flag de coletando para true
 				coletando = true;
-			}else if (evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
+			}else if (evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO && coletando){
 				//caso haja colisão, atualiza o tempo final
 				tempoFimQuadro = evento.getTempoInicial();
 			}
-		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO){
+		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO && coletando){
 			//quadro transmitido com sucesso
 			//mais um quadro pode ser contabilizada
 			quantidadeQuadros ++;
@@ -45,7 +45,7 @@ public class Tap {
 			amostra = amostra*(quantidadeQuadros-1) + intervaloInicioFim;
 			amostra = amostra/quantidadeQuadros;
 			coletando = false;
-		}else if(evento.getTipoEvento() == Evento.DESCARTA_QUADRO){
+		}else if(evento.getTipoEvento() == Evento.DESCARTA_QUADRO && coletando){
 			//se o quadro foi descartado, então não coleta mais nada dele
 			coletando = false;
 		}

@@ -25,7 +25,7 @@ public class Tam {
 	//guarda a quantidade de mensagens
 	int quantidadeMensagens = 0;
 	//guarda a amostra, gerada até o momento, da esperança do tempo de acesso de uma Mensagem
-	Double amostra = 0.0;
+	public Double amostra = 0.0;
 	//guarda o valor do primeiro quadro
 	int primeiroQuadro = 0;
 	
@@ -37,7 +37,7 @@ public class Tam {
 			//seta o flag de descartado para false e o de coletando para true
 			descartado = false;
 			coletando = true;
-		}else if(evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
+		}else if(evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO && coletando){
 			//testa se este é o último quadro da mensagem
 			if (((EventoIniciaTransmissao)evento).getQuantidadeQuadro() == 1){
 				tempoUltimoQuadro = evento.getTempoInicial();
@@ -47,7 +47,7 @@ public class Tam {
 			if (((EventoDescartaQuadro)evento).getQuantidadeQuadro() == 1){
 				descartado = true;
 			}
-		}else if(evento.getTipoEvento() == Evento.FIM_MENSAGEM /*&& !descartado*/){
+		}else if(evento.getTipoEvento() == Evento.FIM_MENSAGEM && coletando){
 			if(!descartado){
 				//mais uma mensagem pode ser contabilizada
 				quantidadeMensagens ++;

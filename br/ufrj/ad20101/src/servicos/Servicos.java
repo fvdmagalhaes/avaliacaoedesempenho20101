@@ -22,8 +22,17 @@ import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
 public class Servicos {
 	
+	//Este método calcula a média de um conjunto de valores dado o conjunto e a quantidade
+	public Double media(Double[] elementos, int quantidade){
+		Double soma = 0.0;
+		for(int i = 0; i < quantidade; i ++){
+			soma += elementos[i];
+		}
+		return soma/quantidade;
+	}
+	
 	//Este metodo calcula o desvio padrao dado a quantidade de elementos, os elementos em um vetor e a media
-	public double desvioPadrao(Double[] elementos, int quantidade, double media){
+	public Double desvioPadrao(Double[] elementos, int quantidade, double media){
 		Double desvioPadrao = 0.0;
 		for(int i = 0; i < quantidade; i++){
 			desvioPadrao += Math.pow(elementos[i] - media, 2);
@@ -108,37 +117,37 @@ public class Servicos {
 	}
 	
 	//Este método gera um evento de qualquer tipo
-	public Evento geraEvento(int tipoEvento, Double tempoInicial, Estacao estacao, ArrayList<Estacao> estacoes){
+	public Evento geraEvento(int tipoEvento, Double tempoInicial, Estacao estacao, ArrayList<Estacao> estacoes, int rodada){
 		if(tipoEvento == Evento.RETRANSMITIR){
-			return new EventoRetransmitir(tempoInicial,estacoes, estacao);
+			return new EventoRetransmitir(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.INICIA_TRANSMISSAO){
-			return new EventoIniciaTransmissao(tempoInicial,estacoes, estacao);
+			return new EventoIniciaTransmissao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.FIM_TRANSMISSAO){
-			return new EventoFimTransmissao(tempoInicial,estacoes, estacao);
+			return new EventoFimTransmissao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.INICIA_RECEPCAO){
-			return new EventoIniciaRecepcao(tempoInicial,estacoes, estacao);
+			return new EventoIniciaRecepcao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.FIM_RECEPCAO){
-			return new EventoFimRecepcao(tempoInicial,estacoes, estacao);
+			return new EventoFimRecepcao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.CHEGA_MENSAGEM){
-			return new EventoChegaMensagem(tempoInicial,estacoes, estacao);
+			return new EventoChegaMensagem(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.FIM_MENSAGEM){
-			return new EventoFimMensagem(tempoInicial,estacoes, estacao);
+			return new EventoFimMensagem(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.COLISAO){
-			return new EventoColisao(tempoInicial,estacoes, estacao);
+			return new EventoColisao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.DESCARTA_QUADRO){
-			return new EventoDescartaQuadro(tempoInicial,estacoes, estacao);
+			return new EventoDescartaQuadro(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.PREPARA_TRANSMISSAO){
-			return new EventoPrepararTransmissao(tempoInicial,estacoes, estacao);
+			return new EventoPrepararTransmissao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.INTERROMPE_TRANSMISSAO){
-			return new EventoInterrompeTransmissao(tempoInicial,estacoes, estacao);
+			return new EventoInterrompeTransmissao(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.INICIA_TRANS_REFORCO){
-			return new EventoIniciaTransReforco(tempoInicial,estacoes, estacao);
+			return new EventoIniciaTransReforco(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.FIM_TRANS_REFORCO){
-			return new EventoFimTransReforco(tempoInicial,estacoes, estacao);
+			return new EventoFimTransReforco(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.INICIA_RECEP_REFORCO){
-			return new EventoIniciaRecepReforco(tempoInicial,estacoes, estacao);
+			return new EventoIniciaRecepReforco(tempoInicial,estacoes, estacao, rodada);
 		}else if(tipoEvento == Evento.FIM_RECEP_REFORCO){
-			return new EventoFimRecepReforco(tempoInicial,estacoes, estacao);
+			return new EventoFimRecepReforco(tempoInicial,estacoes, estacao, rodada);
 		}else{
 			System.out.println("ERRO: O tipo de evento especificado para geração não existe.");
 			System.exit(0);

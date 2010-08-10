@@ -7,10 +7,11 @@ import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoFimRecepcao extends Evento{
-	public EventoFimRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoFimRecepcao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(FIM_RECEPCAO);
 	}
 	

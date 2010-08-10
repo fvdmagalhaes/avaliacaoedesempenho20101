@@ -27,11 +27,13 @@ public class Evento implements Comparable<Evento> {
 	/* Declara variáveis comuns a todos os eventos existentes na simulação.
 	 *  - Tempo em que ocorre o evento
 	 *  - Tipo do evento que ocorreu
+	 *  - A rodada que o evento pertence (Código de cores do método batch)
 	 *  - Estação em que ocorreu o evento
 	 *  - Lista de Estações (passado como parâmetro caso alguma informação de uma estação seja necessária para o 
 	 *  						tratamento do evento)
 	 */
 	private Double tempoInicial;
+	private int rodada;
 	private int tipoEvento;
 	private Estacao estacao;
 	private ArrayList<Estacao> estacoes;
@@ -50,6 +52,14 @@ public class Evento implements Comparable<Evento> {
 	
 	public void setTipoEvento(int tipoEvento) {
 		this.tipoEvento = tipoEvento;
+	}
+
+	public void setRodada(int rodada) {
+		this.rodada = rodada;
+	}
+
+	public int getRodada() {
+		return rodada;
 	}
 
 	public Estacao getEstacao() {

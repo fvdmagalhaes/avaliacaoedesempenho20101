@@ -12,10 +12,11 @@ public class EventoIniciaTransmissao extends Evento{
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 
-	public EventoIniciaTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoIniciaTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(INICIA_TRANSMISSAO);
 	}
 	
@@ -46,11 +47,11 @@ public class EventoIniciaTransmissao extends Evento{
 					//testa se a Estação está ou não participando da simulação
 					if(this.getEstacoes().get(i).getTipoChegada() != 0){
 						//adiciona à lista de Eventos o início da recepção de um quadro da Estação selecionada
-						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes()));
+						listaEventos.add(servicos.geraEvento(INICIA_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes(), this.getRodada()));
 					}
 				}else{
 					//gera um Evento de fim de transmissão e o adiciona à lista de Eventos
-					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacao(), this.getEstacoes());
+					EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.geraEvento(FIM_TRANSMISSAO, this.getTempoInicial() + Constantes.TEMPO_QUADRO_ENLACE, this.getEstacao(), this.getEstacoes(), this.getRodada());
 					eventoFimTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro());
 					eventoFimTransmissao.setQuantidadeTentativas(this.getQuantidadeTentativas());
 					listaEventos.add(eventoFimTransmissao);
@@ -61,7 +62,7 @@ public class EventoIniciaTransmissao extends Evento{
 			//altera Estado da Estação para Tratando Colisão Ocupado
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO);
 			//gera Evento que inicia transmissao do reforço de colisão
-			EventoIniciaTransReforco eventoIniciaTransReforco = (EventoIniciaTransReforco)servicos.geraEvento(INICIA_TRANS_REFORCO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			EventoIniciaTransReforco eventoIniciaTransReforco = (EventoIniciaTransReforco)servicos.geraEvento(INICIA_TRANS_REFORCO, getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada());
 			//guarda as informações que serão necessárias para o Evento de Colisão 
 			eventoIniciaTransReforco.setQuantidadeQuadro(this.quantidadeQuadro);
 			eventoIniciaTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);

@@ -13,10 +13,11 @@ public class EventoFimRecepReforco extends Evento{
 	 private int quantidadeTentativas;
 	 private boolean colisaoPendente=false;
 
-	public EventoFimRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoFimRecepReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(FIM_RECEP_REFORCO);
 	}
 	
@@ -80,7 +81,7 @@ public class EventoFimRecepReforco extends Evento{
 				//indica exatamente que o meio está livre
 				this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 				//Gera o Evento de Colisão, que começará a ser tratado neste instante
-				EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+				EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(), this.getRodada());
 
 				//passa as informações necessárias para o Evento de Colisão
 				eventoColisao.setQuantidadeQuadro(this.quantidadeQuadro);

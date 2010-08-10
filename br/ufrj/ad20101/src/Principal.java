@@ -7,7 +7,6 @@ import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.evento.Evento;
 import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
-import br.ufrj.ad20101.src.simulador.Simulador;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class Principal {
@@ -89,7 +88,7 @@ public class Principal {
 							opcaoDouble = -1.0;
 						}
 					}while(opcaoDouble.equals(-1.0));
-					listaEventos.add(servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(estacoes.get(i), 0.0), estacoes.get(i), estacoes));
+					listaEventos.add(servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(estacoes.get(i), 0.0), estacoes.get(i), estacoes, 0));
 				}else if(opcaoInt != 0){
 					System.out.print("Opção inválida.\nEstação " + (i+1) + " - Sem tráfego (0) ou Com tráfego (1) ?\n");
 					opcaoInt = -1;

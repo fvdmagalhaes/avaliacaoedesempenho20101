@@ -15,10 +15,11 @@ public class EventoChegaMensagem extends Evento{
 	 * Recebe como parâmetro a estação em que ocorre o evento. 
 	 * A necessidade da lista de estações do segundo parâmetro apenas auxilia a geração de eventos futuros.
 	 *  																									*/
-	public EventoChegaMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoChegaMensagem(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(CHEGA_MENSAGEM);
 	}
 	
@@ -35,13 +36,13 @@ public class EventoChegaMensagem extends Evento{
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		//gerando o início da transmissão da mensagem
-		EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao)servicos.geraEvento(PREPARA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+		EventoPrepararTransmissao eventoPrepararTransmissao = (EventoPrepararTransmissao)servicos.geraEvento(PREPARA_TRANSMISSAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(), this.getRodada());
 		//chama um serviço para gerar a quantidade desejada de quadros por mensagem
 		eventoPrepararTransmissao.setQuantidadeQuadro(servicos.geraQuantidadeQuadros(this.getEstacao()));
 		//adiciona a lista de Eventos
 		listaEventos.add(eventoPrepararTransmissao);
 		//gerando a chegada da próxima mensagem para esta Estação
-		EventoChegaMensagem eventoChegaMensagem = (EventoChegaMensagem) servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(this.getEstacao(), this.getTempoInicial()), this.getEstacao(), this.getEstacoes());
+		EventoChegaMensagem eventoChegaMensagem = (EventoChegaMensagem) servicos.geraEvento(Evento.CHEGA_MENSAGEM, servicos.geraProximaMensagem(this.getEstacao(), this.getTempoInicial()), this.getEstacao(), this.getEstacoes(), this.getRodada());
 		//adicionando a nova chegada à lista de Eventos
 		listaEventos.add(eventoChegaMensagem);
 		

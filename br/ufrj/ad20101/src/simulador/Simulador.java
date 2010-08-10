@@ -16,7 +16,7 @@ public class Simulador {
 		do{
 			Collections.sort(this.listaEventos);
 			this.listaEventos = this.listaEventos.get(0).acao(this.listaEventos);
-			coletaEstatistica.coletar(listaEventos.get(0));
+			coletaEstatistica.coletar(listaEventos.get(0), 1);
 			eventoCorrente = this.listaEventos.remove(0);
 		}while(eventoCorrente.getTempoInicial() < 3600000);
 	}

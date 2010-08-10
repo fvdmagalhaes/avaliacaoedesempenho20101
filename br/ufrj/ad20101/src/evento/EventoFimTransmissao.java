@@ -12,10 +12,11 @@ public class EventoFimTransmissao extends Evento{
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 
-	public EventoFimTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoFimTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(FIM_TRANSMISSAO);
 	}
 	
@@ -48,7 +49,7 @@ public class EventoFimTransmissao extends Evento{
 						EventoFimRecepcao eventoFimRecepcao = (EventoFimRecepcao)servicos.retornaEvento(listaEventos, FIM_RECEPCAO, this.getEstacao());
 						if(eventoFimRecepcao == null){
 							//caso não exista, gera um Evento de fim de recepção
-							listaEventos.add(servicos.geraEvento(FIM_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes()));
+							listaEventos.add(servicos.geraEvento(FIM_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes(), this.getRodada()));
 						}else{
 							//caso exista, a única coisa que deve ser feita é alterar o tempo do Evento que já está lá
 							//deleta o Evento antigo
@@ -64,14 +65,14 @@ public class EventoFimTransmissao extends Evento{
 					if(this.quantidadeQuadro > 1){
 						//caso haja, aguardar o intervalo entre quadros e começar a transmitir
 						this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
-						EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+						EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes(),this.getRodada());
 						eventoIniciaTransmissao.setQuantidadeQuadro(this.getQuantidadeQuadro()-1);
 						eventoIniciaTransmissao.setQuantidadeTentativas(1);
 						listaEventos.add(eventoIniciaTransmissao);
 					}else{
 						//caso não haja mais quadros chama o Evento que indica o fim da transmissão de uma mensagem
 						this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
-						listaEventos.add(servicos.geraEvento(FIM_MENSAGEM, getTempoInicial(), this.getEstacao(), this.getEstacoes()));
+						listaEventos.add(servicos.geraEvento(FIM_MENSAGEM, getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada()));
 					}
 				}
 			}

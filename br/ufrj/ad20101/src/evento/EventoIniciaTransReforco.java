@@ -12,10 +12,11 @@ public class EventoIniciaTransReforco extends Evento{
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 	
-	public EventoIniciaTransReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoIniciaTransReforco(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(INICIA_TRANS_REFORCO);
 	}
 	
@@ -40,12 +41,12 @@ public class EventoIniciaTransReforco extends Evento{
 			if(i + 1 != this.getEstacao().getIdentificador()){
 				//as demais Estações receberão o reforço de colisão
 				if(this.getEstacoes().get(i).getTipoChegada() != 0){
-					EventoIniciaRecepReforco eventoIniciaRecepReforco = (EventoIniciaRecepReforco) servicos.geraEvento(INICIA_RECEP_REFORCO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes());
+					EventoIniciaRecepReforco eventoIniciaRecepReforco = (EventoIniciaRecepReforco) servicos.geraEvento(INICIA_RECEP_REFORCO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes(), this.getRodada());
 					listaEventos.add(eventoIniciaRecepReforco);
 				}
 			}else{
 				//gera o Evento de fim de Transmissão do Reforço
-				EventoFimTransReforco eventoFimTransReforco = (EventoFimTransReforco) servicos.geraEvento(FIM_TRANS_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes());
+				EventoFimTransReforco eventoFimTransReforco = (EventoFimTransReforco) servicos.geraEvento(FIM_TRANS_REFORCO, this.getTempoInicial() + Constantes.TEMPO_REFORCO_ENLACE, this.getEstacao(), this.getEstacoes(), this.getRodada());
 				//guarda as informações que serão necessárias para o Evento de Colisão
 				eventoFimTransReforco.setQuantidadeQuadro(this.quantidadeQuadro);
 				eventoFimTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);

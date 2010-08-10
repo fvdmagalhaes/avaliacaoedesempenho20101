@@ -12,10 +12,11 @@ public class EventoColisao extends Evento {
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 	
-	public EventoColisao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoColisao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(COLISAO);
 	}
 	
@@ -44,7 +45,7 @@ public class EventoColisao extends Evento {
 					//altera o Estado para preparando transmissão
 					this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 					//gera o evento de início de transmissão do quadro que colidiu
-					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(),this.getEstacoes());
+					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(),this.getEstacoes(), this.getRodada());
 					//o quadro deve ser exatamente o mesmo, pois não houve descarte
 					eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 					//incrementa o número de tentativas
@@ -55,7 +56,7 @@ public class EventoColisao extends Evento {
 					//caso o quadro seja retransmitido no futuro:
 					//um Evento de retransmissão é gerado
 					//o Estado se mantém em Tratando Colisão, pois ele não pode transmitir nada antes de retransmitir este quadro
-					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
+					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes(), this.getRodada());
 					//o quadro deve ser exatamente o mesmo, pois não houve descarte
 					eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
 					//incrementa o número de tentativas
@@ -74,7 +75,7 @@ public class EventoColisao extends Evento {
 					//o Estado da Estação muda para recebendo e ao fim da recepção retransmitirá este quadro
 					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 					//gera o evento de início de transmissão do quadro que colidiu
-					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes());
+					EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes(), this.getRodada());
 					//o quadro deve ser exatamente o mesmo, pois não houve descarte
 					eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 					//incrementa o número de tentativas
@@ -85,7 +86,7 @@ public class EventoColisao extends Evento {
 					//nessa situação o tratamento será exatamente o mesmo que se o meio estivesse ocioso:
 					//um Evento de retransmissão é gerado
 					//o Estado se mantém em Tratando Colisão, pois ele não pode transmitir nada antes de retransmitir este quadro
-					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes());
+					EventoRetransmitir eventoRetransmitir = (EventoRetransmitir)servicos.geraEvento(RETRANSMITIR, this.getTempoInicial() + tempoRetransmissao, this.getEstacao(), this.getEstacoes(), this.getRodada());
 					//o quadro deve ser exatamente o mesmo, pois não houve descarte
 					eventoRetransmitir.setQuantidadeQuadro(this.getQuantidadeQuadro());
 					//incrementa o número de tentativas
@@ -99,7 +100,7 @@ public class EventoColisao extends Evento {
 			}
 		}else{
 			//cria o evento que descarta quadro
-			EventoDescartaQuadro eventoDescartaQuadro = (EventoDescartaQuadro)servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes());
+			EventoDescartaQuadro eventoDescartaQuadro = (EventoDescartaQuadro)servicos.geraEvento(DESCARTA_QUADRO, getTempoInicial(), this.getEstacao(), this.getEstacoes(), this.getRodada());
 			//informa o quadro que foi descartado
 			eventoDescartaQuadro.setQuantidadeQuadro(this.getQuantidadeQuadro());
 			//adiciona Evento à lista de Eventos
@@ -108,7 +109,7 @@ public class EventoColisao extends Evento {
 			//testa se o quadro é o último da mensagem
 			if(this.quantidadeQuadro > 1){	
 				//gera o evento de transmissão do próximo quadro
-				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes());
+				EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS, this.getEstacao(), this.getEstacoes(),this.getRodada());
 				//pega o próximo quadro
 				eventoIniciaTransmissao.setQuantidadeQuadro(getQuantidadeQuadro()-1);
 				//número de tentativas volta para 1, pois este já é um novo quadro
@@ -135,7 +136,7 @@ public class EventoColisao extends Evento {
 					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 				}
 				//o quadro descartado foi o último da mensage, portanto a mensagem acabou 
-				EventoFimMensagem eventoFimMensagem = (EventoFimMensagem)servicos.geraEvento(FIM_MENSAGEM, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+				EventoFimMensagem eventoFimMensagem = (EventoFimMensagem)servicos.geraEvento(FIM_MENSAGEM, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada());
 				//adicionar o Evento à lista de Eventos
 				listaEventos.add(eventoFimMensagem);
 			}

@@ -12,10 +12,11 @@ public class EventoRetransmitir extends Evento{
 	private int quantidadeQuadro;
 	private int quantidadeTentativas;
 	
-	public EventoRetransmitir(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoRetransmitir(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(RETRANSMITIR);
 	}
 	
@@ -40,7 +41,7 @@ public class EventoRetransmitir extends Evento{
 			//altera Estado da Estação, pois este é o fim do tratamento da Colisão
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
 			//gera o Evento que inicia a transmissão do quadro pendente 
-			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, getTempoInicial(), this.getEstacao(), getEstacoes());
+			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao)servicos.geraEvento(INICIA_TRANSMISSAO, getTempoInicial(), this.getEstacao(), getEstacoes(), this.getRodada());
 			//antes deve-se testar se o intervalo entre quadros já foi respeitado ou não
 			if(this.getTempoInicial() - this.getEstacao().getTempoUltimaRecepcao() < Constantes.INTERVALO_ENTRE_QUADROS){
 				//caso ainda nao tenha terminado o tempo, aguardar até o final
@@ -56,7 +57,7 @@ public class EventoRetransmitir extends Evento{
 			//altera o Estado da Estação, pois este é o fim do tratamento da Colisão 
 			this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 			//gera o evento de início de transmissão do quadro que colidiu
-			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes());
+			EventoIniciaTransmissao eventoIniciaTransmissao = (EventoIniciaTransmissao) servicos.geraEvento(INICIA_TRANSMISSAO, null, this.getEstacao(),this.getEstacoes(), this.getRodada());
 			//seta as informações deste quadro
 			eventoIniciaTransmissao.setQuantidadeQuadro(this.quantidadeQuadro);
 			eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);

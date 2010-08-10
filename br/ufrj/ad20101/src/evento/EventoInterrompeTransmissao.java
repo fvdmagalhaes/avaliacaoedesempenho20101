@@ -7,10 +7,11 @@ import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
 public class EventoInterrompeTransmissao extends Evento{
-	public EventoInterrompeTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao){
+	public EventoInterrompeTransmissao(Double tempoInicio, ArrayList<Estacao> estacoes, Estacao estacao, int rodada){
 		this.setTempoInicial(tempoInicio);
 		this.setEstacao(estacao);
 		this.setEstacoes(estacoes);
+		this.setRodada(rodada);
 		this.setTipoEvento(INTERROMPE_TRANSMISSAO);
 	}
 	
@@ -28,7 +29,7 @@ public class EventoInterrompeTransmissao extends Evento{
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		//gera o Evento que iniciará a transmissão do sinal de reforço
-		EventoIniciaTransReforco eventoIniciaTransReforco = (EventoIniciaTransReforco) servicos.geraEvento(INICIA_TRANS_REFORCO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes());
+		EventoIniciaTransReforco eventoIniciaTransReforco = (EventoIniciaTransReforco) servicos.geraEvento(INICIA_TRANS_REFORCO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(), this.getRodada());
 		//recupera da lista de Eventos o FimTransmissão
 		EventoFimTransmissao eventoFimTransmissao = (EventoFimTransmissao) servicos.retornaEvento(listaEventos, FIM_TRANSMISSAO, this.getEstacao());
 		//guarda as informações que serão necessárias para o Evento de Colisão
