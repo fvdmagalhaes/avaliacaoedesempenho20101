@@ -114,8 +114,9 @@ public class Principal {
 			}
 			else if(opcaoChar.equalsIgnoreCase("N"))
 			{
-				Simulador simulador = new Simulador();
+				SimuladorDebug simulador = new SimuladorDebug();
 				simulador.setListaEventos(listaEventos);
+				simulador.setDebbuging(false);
 				simulador.start();
 			}
 			else

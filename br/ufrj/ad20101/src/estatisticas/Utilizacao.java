@@ -24,7 +24,7 @@ public class Utilizacao {
 	boolean ocupado = false;
 	//guarda a utilização de fato
 	//Sempre atualizada ao fim de um intervalo (ocupado ou ocioso)
-	Double utilizacao;
+	Double amostra;
 	
 	//Este método calcula tudo referente à Utilização do Ethernet
 	public void coletar (Estacao estacao, Double tempoAtual){
@@ -41,7 +41,7 @@ public class Utilizacao {
 				//seta o flag de meio ocupado
 				ocupado = true;
 				//calcula-se a utilização
-				utilizacao = tempoOcupado/(tempoOcupado + tempoOcioso);
+				amostra = tempoOcupado/(tempoOcupado + tempoOcioso);
 			}
 		}else{
 			//caso entre aqui o meio está ocioso
@@ -56,7 +56,7 @@ public class Utilizacao {
 				//seta o flag de meio ocupado
 				ocupado = false;
 				//calcula-se a utilização
-				utilizacao = tempoOcupado/(tempoOcupado + tempoOcioso);
+				amostra = tempoOcupado/(tempoOcupado + tempoOcioso);
 			}
 		}
 	}

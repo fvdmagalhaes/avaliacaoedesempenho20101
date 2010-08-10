@@ -23,7 +23,7 @@ public class Tap {
 	
 	//Este método calcula tudo referente ao Tempo de Acesso de um Quadro
 	public void coletar (Evento evento){
-		if( evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
+		if( evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO || evento.getTipoEvento() == Evento.PREPARA_TRANSMISSAO){
 			if(!coletando){
 				//Momento em que o quadro é considerado para transmissão
 				tempoInicioQuadro = evento.getTempoInicial();
@@ -31,7 +31,7 @@ public class Tap {
 				tempoFimQuadro = evento.getTempoInicial();
 				//seta o flag de coletando para true
 				coletando = true;
-			}else{
+			}else if (evento.getTipoEvento() == Evento.INICIA_TRANSMISSAO){
 				//caso haja colisão, atualiza o tempo final
 				tempoFimQuadro = evento.getTempoInicial();
 			}
