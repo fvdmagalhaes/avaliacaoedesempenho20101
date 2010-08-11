@@ -24,7 +24,7 @@ public class EventoInterrompeTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO INTERROMPE TRANSMISSÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO INTERROMPE TRANSMISSÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();

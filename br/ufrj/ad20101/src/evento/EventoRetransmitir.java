@@ -30,13 +30,13 @@ public class EventoRetransmitir extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO RETRANSMITIR OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//cria a classe de serviço
 		Servicos servicos = new Servicos();
 		
 		//testa o estado em que se encontra a Estação
-		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO /*|| this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO*/){
+		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
 			//meio está desocupado, quadro será retransmitido imediatamente
 			//altera Estado da Estação, pois este é o fim do tratamento da Colisão
 			this.getEstacao().setEstado(Estacao.ESTADO_PREPARANDO_TRANSFERIR);
@@ -63,9 +63,6 @@ public class EventoRetransmitir extends Evento{
 			eventoIniciaTransmissao.setQuantidadeTentativas(this.quantidadeTentativas);
 			//quadro passa a sentir o meio até que desocupe
 			this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
-		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		return listaEventos;
 	}

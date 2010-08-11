@@ -24,8 +24,8 @@ public class SimuladorDebug {
 	static File arquivoLog = new File("logSimulador.txt");
 	static FileOutputStream fos;
 	
-	//tamanho da rodada foi definido como 3 minutos (180 segundos)
-	final static Double tamanhoRodada = 60000.0; 
+	//tamanho da rodada foi definido como 1 minutos e meio (90 segundos)
+	final static Double tamanhoRodada = 90000.0; 
 	
 	// Flag que indica a classe simulador se o modo de gravação de log está ativo ou não
 	private static boolean isDebbuging = false;
@@ -113,14 +113,120 @@ public class SimuladorDebug {
 			amostrasUtilizacao[rodada-1] = coletaEstatistica.getUtilizacao().amostra;
 			
 			//testa se deve calcular o intervalo de confiança para ver se está de acordo com o pedido
-			if(rodada >= 30){
+			if(rodada >= 10){
 				
 				fimSimulacao = calculaIntervalo (rodada, eventoCorrente.getEstacoes());
 			
 			}
 		}
-		//apenas informa que a simulação chegou ao fim
-		System.out.println("Fim da simulação");
+		//chama o método que imprime as estatísticas no console
+		imprimeResultado(rodada, eventoCorrente.getEstacoes());
+	}
+	
+	
+	//este método imprime na tela todas as informações coletada
+	private void imprimeResultado(int rodadas, ArrayList<Estacao> estacoes){
+		
+		//instancia a classe de serviços
+		Servicos servicos = new Servicos();
+		//variável que guarda a média das amostras
+		Double media;
+		//variável que guarda o desvio padrao das amostras
+		Double desvioPadrao;
+		//variável que guarda o limite superior do intervalo de confiança
+		Double limiteSuperior;
+		//variável que guarda o limite inferior do intervalo de confiança
+		Double limiteInferior;
+		//variavel que guarda o maior valor entre as amostras
+		Double maiorAmostra;
+		//variavel que guarda o menos valor entre as amostras
+		Double menorAmostra;
+		
+		//primeiro imprimir a utilização que é única para o cenário
+		System.out.println("\nDADOS ESTATÍSTICOS\n");
+		System.out.println(">>Quantidade de Rodadas: " + rodadas + "\n");
+		System.out.println("Utilização do Ethernet:");
+		media = servicos.media(amostrasUtilizacao, rodadas);
+		System.out.printf("-> Média: %.10f\n", media);
+		desvioPadrao = servicos.desvioPadrao(amostrasUtilizacao, rodadas, media);
+		System.out.printf("-> Desvio Padrão: %.10f\n", desvioPadrao);
+		System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
+		limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
+		limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
+		System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+		maiorAmostra = servicos.maior(amostrasUtilizacao, rodadas);
+		System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
+		menorAmostra = servicos.menor(amostrasUtilizacao, rodadas);
+		System.out.printf("-> Menor Amostra: %.10f\n\n", menorAmostra);
+		
+		//percorrer todas as estações que tiveram participação no cenário criado
+		for(int i = 0; i <4; i ++){
+			if(estacoes.get(i).getTipoChegada() != 0){
+				System.out.println("Estação " + (i+1));
+				
+				//imprimir dados das amostras de TAp
+				System.out.println("TAp:");
+				media = servicos.media(amostrasTap[i], rodadas);
+				System.out.printf("-> Média: %.10f\n", media);
+				desvioPadrao = servicos.desvioPadrao(amostrasTap[i], rodadas, media);
+				System.out.printf("-> Desvio Padrão: %.10f\n", desvioPadrao);
+				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
+				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
+				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
+				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				maiorAmostra = servicos.maior(amostrasTap[i], rodadas);
+				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
+				menorAmostra = servicos.menor(amostrasTap[i], rodadas);
+				System.out.printf("-> Menor Amostra: %.10f\n\n", menorAmostra);
+				
+				//imprimir dados das amostras de TAm
+				System.out.println("TAm:");
+				media = servicos.media(amostrasTam[i], rodadas);
+				System.out.printf("-> Média: %.10f\n", media);
+				desvioPadrao = servicos.desvioPadrao(amostrasTam[i], rodadas, media);
+				System.out.printf("-> Desvio Padrão: %.10f\n", desvioPadrao);
+				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
+				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
+				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
+				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				maiorAmostra = servicos.maior(amostrasTam[i], rodadas);
+				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
+				menorAmostra = servicos.menor(amostrasTam[i], rodadas);
+				System.out.printf("-> Menor Amostra: %.10f\n\n", menorAmostra);
+				
+				//imprimir dados das amostras de NCm
+				System.out.println("NCm:");
+				media = servicos.media(amostrasNcm[i], rodadas);
+				System.out.printf("-> Média: %.10f\n", media);
+				desvioPadrao = servicos.desvioPadrao(amostrasNcm[i], rodadas, media);
+				System.out.printf("-> Desvio Padrão: %.10f\n", desvioPadrao);
+				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
+				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
+				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
+				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				maiorAmostra = servicos.maior(amostrasNcm[i], rodadas);
+				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
+				menorAmostra = servicos.menor(amostrasNcm[i], rodadas);
+				System.out.printf("-> Menor Amostra: %.10f\n\n", menorAmostra);
+				
+				//imprimir dados das amostras de Vazão
+				System.out.println("Vazão:");
+				media = servicos.media(amostrasVazao[i], rodadas);
+				System.out.printf("-> Média: %.10f\n", media);
+				desvioPadrao = servicos.desvioPadrao(amostrasVazao[i], rodadas, media);
+				System.out.printf("-> Desvio Padrão: %.10f\n", desvioPadrao);
+				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
+				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
+				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
+				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.010f ]\n", limiteInferior, limiteSuperior);
+				maiorAmostra = servicos.maior(amostrasVazao[i], rodadas);
+				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
+				menorAmostra = servicos.menor(amostrasVazao[i], rodadas);
+				System.out.printf("-> Menor Amostra: %.10f\n\n", menorAmostra);
+			}
+		}
+		System.out.println("FIM DAS ESTATÍSTICAS");
+		encerraLog();
 	}
 	
 	

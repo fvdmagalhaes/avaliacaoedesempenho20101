@@ -28,22 +28,28 @@ public class EventoFimTransReforco extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO REFORÇO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO REFORÇO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
 		
 		//primeiramente deve ser testado se o meio está de fato livre para que o tratamento da colisão possa ser feito
 		EventoFimRecepReforco eventoFimRecepReforco = (EventoFimRecepReforco)servicos.retornaEvento(listaEventos, FIM_RECEP_REFORCO, this.getEstacao());
-		//gera o Evento de Colisão, que começará a ser tratado neste instante
+		//gera o Evento de Colisão, que será tratado
 		EventoColisao eventoColisao = (EventoColisao) servicos.geraEvento(COLISAO, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada());
 		//passa as informações necessárias para o Evento de Colisão
 		eventoColisao.setQuantidadeQuadro(this.quantidadeQuadro);
 		eventoColisao.setQuantidadeTentativas(this.quantidadeTentativas);
-		//testa se o meio esta livre de fato
+		//testa se o meio está livre de fato
 		if(eventoFimRecepReforco != null){
-			//se não estiver, o tempo inicial da colisao será quando o meio estiver livre 
-			eventoColisao.setTempoInicial(eventoFimRecepReforco.getTempoInicial());
+			//se não estiver, o tempo inicial da colisao será quando o meio estiver livre
+			if(eventoFimRecepReforco.getTempoInicial() > 2*(this.getEstacao().getDistancia()*Constantes.PROPAGACAO_ELETRICA)){
+				//significa que ele vai detectar o meio livre apenas quando acabar o reforço de outra estação
+				eventoColisao.setTempoInicial(eventoFimRecepReforco.getTempoInicial());
+			}else{
+				//significa que ele vai detectar o meio livre quando acabar o reforço que ele mesmo gerou
+				eventoColisao.setTempoInicial(this.getTempoInicial() + 2*(this.getEstacao().getDistancia()*Constantes.PROPAGACAO_ELETRICA));
+			}
 		}else{
 			//se o meio estiver livre e a estação estiver tratando colisão, muda o Estado para tratando colisao ocioso
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);

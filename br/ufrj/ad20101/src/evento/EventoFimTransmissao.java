@@ -28,7 +28,7 @@ public class EventoFimTransmissao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro()+" COM ESTADO: "+this.getEstacao().getEstado() + "\n");
+			SimuladorDebug.escreveLog("EVENTO FIM TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
@@ -37,8 +37,6 @@ public class EventoFimTransmissao extends Evento{
 		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
 		
 		//testa o estado em que se encontra a Estação
-		//TODO este if não deveria ser necessário
-		//EDITADO: Este if continuará para ajudar no debug
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
 			//gera um evento indicando o fim da recepção de um quadro para as demais Estações
 			for(int i = 0; i < 4; i++){
@@ -46,7 +44,7 @@ public class EventoFimTransmissao extends Evento{
 					if(this.getEstacoes().get(i).getTipoChegada() != 0){
 						//antes de gerar um Evento do tipo Fim Recepção ele testa se já existe um Evento deste tipo
 						//para esta Estação na lista de Eventos
-						EventoFimRecepcao eventoFimRecepcao = (EventoFimRecepcao)servicos.retornaEvento(listaEventos, FIM_RECEPCAO, this.getEstacao());
+						EventoFimRecepcao eventoFimRecepcao = (EventoFimRecepcao)servicos.retornaEvento(listaEventos, FIM_RECEPCAO, this.getEstacoes().get(i));
 						if(eventoFimRecepcao == null){
 							//caso não exista, gera um Evento de fim de recepção
 							listaEventos.add(servicos.geraEvento(FIM_RECEPCAO, this.getTempoInicial() + (this.getEstacao().getDistancia() + this.getEstacoes().get(i).getDistancia())*Constantes.PROPAGACAO_ELETRICA, this.getEstacoes().get(i), this.getEstacoes(), this.getRodada()));
@@ -76,9 +74,6 @@ public class EventoFimTransmissao extends Evento{
 					}
 				}
 			}
-		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		return listaEventos;
 	}

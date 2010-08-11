@@ -22,6 +22,28 @@ import br.ufrj.ad20101.src.evento.EventoRetransmitir;
 
 public class Servicos {
 	
+	//Este método encontra o maior valor dentro de um array de Double
+	public Double maior(Double[] elementos, int quantidade){
+		Double maior = 0.0;
+		for(int i = 0; i < quantidade; i ++){
+			if(elementos[i] > maior){
+				maior = elementos[i];
+			}
+		}
+		return maior;
+	}
+	
+	//Este método encontra o menor valor dentro de um array de Double
+	public Double menor(Double[] elementos, int quantidade){
+		Double menor = elementos[0];
+		for(int i = 1; i < quantidade; i ++){
+			if(elementos[i] < menor){
+				menor = elementos[i];
+			}
+		}
+		return menor;
+	}
+	
 	//Este método calcula a média de um conjunto de valores dado o conjunto e a quantidade
 	public Double media(Double[] elementos, int quantidade){
 		Double soma = 0.0;

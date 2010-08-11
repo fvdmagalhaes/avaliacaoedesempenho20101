@@ -23,14 +23,13 @@ public class EventoIniciaTransmissao extends Evento{
 	/*
 	 * Esta classe simula a transmissão de um quadro, depois do intervalo entre quadros terminado
 	 * Caso esteja no Estado Preparando para transferir, transmissão inicia normalmente e o estado muda para transmitindo
-	 * Caso ele esteja recebendo, significa que o meio ficou ocupado neste instante, pois neste caso a Estação que gerou a última
-	 * transmissão no meio, enviou outro quadro, portanto a Estação transmitirá
+	 * Caso ele esteja recebendo, significa que uma colisão foi detectada.
 	 */
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" QUADRO: "+this.getQuantidadeQuadro() +" COM ESTADO: "+this.getEstacao().getEstado()+ "\n");
+			SimuladorDebug.escreveLog("EVENTO INICIA TRANSMISSAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
@@ -68,9 +67,6 @@ public class EventoIniciaTransmissao extends Evento{
 			eventoIniciaTransReforco.setQuantidadeTentativas(this.quantidadeTentativas);
 			//adiciona à lista de Eventos
 			listaEventos.add(eventoIniciaTransReforco);
-		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		
 		return listaEventos;
