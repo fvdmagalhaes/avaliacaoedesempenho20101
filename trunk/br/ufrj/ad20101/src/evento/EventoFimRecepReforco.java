@@ -31,7 +31,7 @@ public class EventoFimRecepReforco extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM RECEPCAO REFORCO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO FIM RECEPCAO REFORCO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
@@ -46,7 +46,7 @@ public class EventoFimRecepReforco extends Evento{
 			EventoIniciaTransmissao eventoIniciaTransmissão = this.getEstacao().getQuadroSentindoMeio();
 			if(eventoIniciaTransmissão != null){
 				//caso a Estação esteja aguardando o meio ficar livre para transmitir um quadro
-				//será transmitido agora
+				//será transmitido daqui a 9.6 microsegundos
 				//setando o tempo
 				eventoIniciaTransmissão.setTempoInicial(this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS);
 				//adiciona à lista de Eventos
@@ -68,7 +68,7 @@ public class EventoFimRecepReforco extends Evento{
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
 			else{
-				//Caso não haja nada para ser transmitido, Estação vai apra o Estado Ocioso e aguarda novos eventos
+				//Caso não haja nada para ser transmitido, Estação vai para o Estado Ocioso e aguarda novos eventos
 				this.getEstacao().setEstado(Estacao.ESTADO_OCIOSO);
 			}
 			
@@ -95,12 +95,6 @@ public class EventoFimRecepReforco extends Evento{
 				//de Colisão será tratado logo
 				this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
 			}
-		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRANSFERINDO){
-			//a única forma de acontecer isso é se a estação esta retransmitindo algo após o intervalo
-			//estipulado pelo algoritmo Binary Backoff e, nesse caso, ela transmite independente do meio,
-			//portanto, nessa situação, nada muda para a estação
-		}else{
-			System.out.println("ERRO: Estação se encontra em um estado inexistente!");
 		}
 		
 		return listaEventos;

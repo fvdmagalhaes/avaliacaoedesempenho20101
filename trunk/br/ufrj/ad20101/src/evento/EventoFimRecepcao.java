@@ -26,7 +26,7 @@ public class EventoFimRecepcao extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO FIM RECEPÇÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		//Com o fim da recepção o meio foi detectado livre, portanto este tempo deve ser setado na Estação
 		this.getEstacao().setTempoUltimaRecepcao(this.getTempoInicial());
@@ -36,7 +36,7 @@ public class EventoFimRecepcao extends Evento{
 			EventoIniciaTransmissao eventoIniciaTransmissão = this.getEstacao().getQuadroSentindoMeio();
 			if(eventoIniciaTransmissão != null){
 				//caso a Estação esteja aguardando o meio ficar livre para transmitir um quadro
-				//será transmitido agora
+				//será transmitido daqui a 9.6 microsegundos
 				//setando o tempo
 				eventoIniciaTransmissão.setTempoInicial(this.getTempoInicial() + Constantes.INTERVALO_ENTRE_QUADROS);
 				//adiciona à lista de Eventos
@@ -63,9 +63,6 @@ public class EventoFimRecepcao extends Evento{
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCUPADO){
 			//Caso a estação esteja tratando colisão, o meio agora esta desocupado
 			this.getEstacao().setEstado(Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO);
-		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
 		}
 		return listaEventos;
 	}

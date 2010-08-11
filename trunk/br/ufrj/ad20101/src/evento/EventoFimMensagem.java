@@ -22,14 +22,9 @@ public class EventoFimMensagem extends Evento{
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO FIM MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO FIM MENSAGEM OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		// testa o estado em que se encontra a Estação
-		/* TODO Esta condição não deve existir, se ele chegar com outro estado aqui,
-		 * significa que os Eventos ocorreram no mesmo instante e por esse motivo 
-		 * a mensagem pode ser encerrada sem qualquer problema
-		 * EDITADO: esta condição vai ficar por enquanto para ajudar no debug;
-		 */
 		if(this.getEstacao().getEstado() == Estacao.ESTADO_OCIOSO){
 			/*Deve-se testar se há mensagens na fila de espera, porém
 			 *não é necessário testar se há quadros aguardando o meio desocupar, pois ele seria
@@ -46,11 +41,10 @@ public class EventoFimMensagem extends Evento{
 				listaEventos.add(eventoPrepararTransmissao);
 			}
 		}else if(this.getEstacao().getEstado() == Estacao.ESTADO_RECEBENDO){
-			//nessa situação o último quadro desta mensagem foi descartado e o meio está ocupado
-			//daí este Evento não faz nada
-		}else{
-			System.out.println("ERRO: Estação se encontra num estado não existente");
-			System.exit(0);
+			/* nessa situação o último quadro desta mensagem foi descartado e o meio está ocupado
+			 * daí este Evento não faz nada, pois ao terminar de receber a próxima mensagem da fila, caso haja,
+			 * começará a ser transmitida
+			 */
 		}
 		return listaEventos;
 	}

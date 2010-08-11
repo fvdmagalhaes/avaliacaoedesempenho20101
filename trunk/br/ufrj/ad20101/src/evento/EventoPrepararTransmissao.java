@@ -23,14 +23,14 @@ public class EventoPrepararTransmissao extends Evento{
 	 * Esta classe simula a chegada do primeiro quadro de uma mensagem em uma determinada Estação
 	 * Caso a Estação esteja ociosa, ele teste se faz 9.6 mircosegundos desde a última vez em que o meio estava ocupado
 	 * em caso positivo ele programa o início da transmissão para este exato momento, caso contrário aguarda o fim do intervalo
-	 * Caso contrário, se estiver ainda transmitindo a mensagem anterior ou tratando uma possível colisão, 
+	 * Caso contrário, se estiver ainda transmitindo a mensagem anterior, tratando uma possível colisão ou recebendo alguma coisa, 
 	 * a mensagem entrará na fila de espera de mensagens da Estação
 	 * */
 	
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO PREPARAR TRANSMISSÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO PREPARAR TRANSMISSÃO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();

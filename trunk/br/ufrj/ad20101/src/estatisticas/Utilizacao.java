@@ -50,14 +50,6 @@ public class Utilizacao {
 				ocupado = true;
 				//acrescenta o intervalo ocioso ao tempo ocioso total
 				tempoOcioso += fimIntervaloOcioso - inicioIntervaloOcioso;
-				//testa se a fase transiente chegou ao fim
-				if(faseTransiente){
-					if(amostra != 0){
-						if(amostra - tempoOcupado/(tempoOcupado + tempoOcioso) < 0.01*amostra && amostra - tempoOcupado/(tempoOcupado + tempoOcioso) > -0.01*amostra){
-							faseTransiente = false;
-						}
-					}
-				}
 				//calcula-se a utilização
 				amostra = tempoOcupado/(tempoOcupado + tempoOcioso);
 			}
@@ -74,7 +66,7 @@ public class Utilizacao {
 				//acrescenta o intervalo ocupado ao tempo ocupado total
 				tempoOcupado += fimIntervaloOcupado - inicioIntervaloOcupado;
 				//testa se a fase transiente chegou ao fim
-				if(faseTransiente){
+				if(faseTransiente && tempoAtual > 1000){
 					if(amostra - tempoOcupado/(tempoOcupado + tempoOcioso) < 0.01*amostra && amostra - tempoOcupado/(tempoOcupado + tempoOcioso) > -0.01*amostra){
 						faseTransiente = false;
 					}

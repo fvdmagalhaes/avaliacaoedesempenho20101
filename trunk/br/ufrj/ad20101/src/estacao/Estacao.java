@@ -25,7 +25,7 @@ public class Estacao {
 	public static int ESTACAO4 = 4;
 	
 	
-	private int tipoChegada;
+	private int tipoChegada; //indica tipo de chegada de mensagens; Zero indica que a estação não transmite
 	private int distancia; //distancia entra a Estação e o HUB em metros
 	private int identificador; //Número da Estação (1, 2, 3 ou 4)
 	private int estado; //Indica em que estado a Estação se encontra

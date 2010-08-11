@@ -29,7 +29,7 @@ public class EventoColisao extends Evento {
 	@Override
 	public ArrayList<Evento> acao(ArrayList<Evento> listaEventos){
 		if(SimuladorDebug.isDebbuging())
-			SimuladorDebug.escreveLog("EVENTO COLISAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+" COM ESTADO: "+this.getEstacao().getEstado()+"\n");
+			SimuladorDebug.escreveLog("EVENTO COLISAO OCORREU EM " + this.getTempoInicial() + " NA ESTAÇÃO " + this.getEstacao().getIdentificador()+"\n");
 		
 		//criando a classe de serviço
 		Servicos servicos = new Servicos();
@@ -94,9 +94,6 @@ public class EventoColisao extends Evento {
 					//adiciona à lista de Eventos
 					listaEventos.add(eventoRetransmitir);
 				}
-			}else{
-				System.out.println("ERRO: Estação se encontra num estado não existente");
-				System.exit(0);
 			}
 		}else{
 			//cria o evento que descarta quadro
@@ -123,9 +120,6 @@ public class EventoColisao extends Evento {
 					//caso contrário, o estado será recebendo e continua sentindo o meio
 					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 					this.getEstacao().setQuadroSentindoMeio(eventoIniciaTransmissao);
-				}else{
-					System.out.println("ERRO: Estação se encontra num estado não existente");
-					System.exit(0);
 				}
 			}else{
 				if(this.getEstacao().getEstado() == Estacao.ESTADO_TRATANDO_COLISAO_OCIOSO){
@@ -135,7 +129,7 @@ public class EventoColisao extends Evento {
 					//Estado será alterado para Recebendo, pois o tratamento da Colisão já terminou e não há retransmissões pendentes
 					this.getEstacao().setEstado(Estacao.ESTADO_RECEBENDO);
 				}
-				//o quadro descartado foi o último da mensage, portanto a mensagem acabou 
+				//o quadro descartado foi o último da mensagem, portanto a mensagem acabou 
 				EventoFimMensagem eventoFimMensagem = (EventoFimMensagem)servicos.geraEvento(FIM_MENSAGEM, this.getTempoInicial(), this.getEstacao(), this.getEstacoes(),this.getRodada());
 				//adicionar o Evento à lista de Eventos
 				listaEventos.add(eventoFimMensagem);

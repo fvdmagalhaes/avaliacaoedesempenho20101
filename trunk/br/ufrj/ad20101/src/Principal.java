@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import br.ufrj.ad20101.src.estacao.Estacao;
 import br.ufrj.ad20101.src.evento.Evento;
-import br.ufrj.ad20101.src.servicos.Constantes;
 import br.ufrj.ad20101.src.servicos.Servicos;
 import br.ufrj.ad20101.src.simulador.SimuladorDebug;
 
@@ -68,11 +67,11 @@ public class Principal {
 							opcaoChar = "Erro";
 						}
 					}while(opcaoChar.equalsIgnoreCase("Erro"));
-					System.out.println("Digite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
+					System.out.println("Digite o intervalo médio (em milisegundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
 					do{
 						try{
 							opcaoDouble = Double.parseDouble(leTeclado.next());
-							estacoes.get(i).setIntervaloEntreChegadas(opcaoDouble*Constantes.SEGUNDO_EM_MILISSEGUNDOS);
+							estacoes.get(i).setIntervaloEntreChegadas(opcaoDouble);
 						}catch(Exception e){
 							System.out.println("Tempo inválido.\nDigite o intervalo médio (em segundos) entre as chegadas das mensagens na Estação " + (i+1) + ":");
 							opcaoDouble = -1.0;
@@ -106,7 +105,7 @@ public class Principal {
 			opcaoChar = leTeclado.next();
 			if(opcaoChar.equalsIgnoreCase("S"))
 			{
-				SimuladorDebug simulador = new SimuladorDebug();//TODO lembrar de voltar para o original depois
+				SimuladorDebug simulador = new SimuladorDebug();
 				simulador.setListaEventos(listaEventos);
 				simulador.setDebbuging(true);
 				simulador.start();
