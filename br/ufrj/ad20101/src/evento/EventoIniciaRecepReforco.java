@@ -19,8 +19,8 @@ public class EventoIniciaRecepReforco extends Evento{
 	/*
 	 * Este evento simplesmente trata a recepção de um reforço de colisão por uma estação da rede.
 	 * Estação gera um evento de Fim de Reforço de Colisão e adiciona a lista de eventos. Se a estação
-	 * estiver transmitindo na chegada deste evento, o evento Fim de Transmissão também é cancelado da lista
-	 * de eventos e uma colisão é detectada.
+	 * estiver transmitindo na chegada deste evento, uma colisão foi detectada e, por isso, um evento 
+	 * interrompe transmissao deve ser gerado
 	 * */
 	
 	@Override
