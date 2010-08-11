@@ -113,7 +113,7 @@ public class SimuladorDebug {
 			amostrasUtilizacao[rodada-1] = coletaEstatistica.getUtilizacao().amostra;
 			
 			//testa se deve calcular o intervalo de confiança para ver se está de acordo com o pedido
-			if(rodada >= 10){
+			if(rodada >= 15){
 				
 				fimSimulacao = calculaIntervalo (rodada, eventoCorrente.getEstacoes());
 			
