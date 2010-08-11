@@ -24,8 +24,8 @@ public class SimuladorDebug {
 	static File arquivoLog = new File("logSimulador.txt");
 	static FileOutputStream fos;
 	
-	//tamanho da rodada foi definido como 1 minutos e meio (90 segundos)
-	final static Double tamanhoRodada = 90000.0; 
+	//tamanho da rodada foi definido como 2 minutos (120 segundos)
+	final static Double tamanhoRodada = 120000.0; 
 	
 	// Flag que indica a classe simulador se o modo de gravação de log está ativo ou não
 	private static boolean isDebbuging = false;
