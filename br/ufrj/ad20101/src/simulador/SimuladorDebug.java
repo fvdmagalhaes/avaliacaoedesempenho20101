@@ -153,7 +153,7 @@ public class SimuladorDebug {
 		System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
 		limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
 		limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
-		System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+		System.out.printf("-> Intervalo de Confiança: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
 		maiorAmostra = servicos.maior(amostrasUtilizacao, rodadas);
 		System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
 		menorAmostra = servicos.menor(amostrasUtilizacao, rodadas);
@@ -173,7 +173,7 @@ public class SimuladorDebug {
 				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
 				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
 				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
-				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				System.out.printf("-> Intervalo de Confiança: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
 				maiorAmostra = servicos.maior(amostrasTap[i], rodadas);
 				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
 				menorAmostra = servicos.menor(amostrasTap[i], rodadas);
@@ -188,7 +188,7 @@ public class SimuladorDebug {
 				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
 				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
 				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
-				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				System.out.printf("-> Intervalo de Confiança: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
 				maiorAmostra = servicos.maior(amostrasTam[i], rodadas);
 				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
 				menorAmostra = servicos.menor(amostrasTam[i], rodadas);
@@ -203,7 +203,7 @@ public class SimuladorDebug {
 				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
 				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
 				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
-				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
+				System.out.printf("-> Intervalo de Confiança: [ %.10f , %.10f ]\n", limiteInferior, limiteSuperior);
 				maiorAmostra = servicos.maior(amostrasNcm[i], rodadas);
 				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
 				menorAmostra = servicos.menor(amostrasNcm[i], rodadas);
@@ -218,7 +218,7 @@ public class SimuladorDebug {
 				System.out.printf("-> Variância: %.10f\n", Math.pow(desvioPadrao, 2));
 				limiteSuperior = media + 1.96*desvioPadrao/Math.sqrt(rodadas);
 				limiteInferior = media - 1.96*desvioPadrao/Math.sqrt(rodadas);
-				System.out.printf("-> Intervalo de Confinaça: [ %.10f , %.010f ]\n", limiteInferior, limiteSuperior);
+				System.out.printf("-> Intervalo de Confiança: [ %.10f , %.010f ]\n", limiteInferior, limiteSuperior);
 				maiorAmostra = servicos.maior(amostrasVazao[i], rodadas);
 				System.out.printf("-> Maior Amostra: %.10f\n", maiorAmostra);
 				menorAmostra = servicos.menor(amostrasVazao[i], rodadas);
