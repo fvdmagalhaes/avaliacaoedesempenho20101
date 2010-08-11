@@ -33,7 +33,7 @@ public class Ncm {
 		}else if(evento.getTipoEvento() == Evento.FIM_TRANSMISSAO && coletando){
 			//Se o quadro foi transmitido com sucesso, então a quantidade de tentativas de transmiti-lo informa a quantidade de colisões
 			somaColisoes += ((EventoFimTransmissao)evento).getQuantidadeTentativas() - 1; // menos 1, pois na primeira tentativa ainda não ocorreu uma colisão
-		}else if (evento.getTipoEvento() == Evento.FIM_TRANSMISSAO && coletando){
+		}else if (evento.getTipoEvento() == Evento.DESCARTA_QUADRO && coletando){
 			//Se o quadro foi descartado, então ele também entra na conta
 			somaColisoes += 16;
 		}else if (evento.getTipoEvento() == Evento.FIM_MENSAGEM && coletando){
