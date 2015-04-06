@@ -1,0 +1,1 @@
+Simulador de comportamento de uma rede de computadores. Referente a disciplina Avaliação e Desempenho da Universidade Federal do Rio de Janeiro. Período 2010/1 - Prof. Paulo Aguiar
